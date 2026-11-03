@@ -1,26 +1,179 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens modelled on YouTube's own UI language: white / #0f0f0f surfaces,
+ * #f2f2f2 chips, #606060 secondary text and a red accent used sparingly.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f2f2f2;
+  --surface-3: #e5e5e5;
+  --border: #e5e5e5;
+  --text: #0f0f0f;
+  --muted: #606060;
+  --accent: #e8002d;
+  --accent-strong: #c20026;
+  --accent-soft: #fff0f2;
+  --ink: #0f0f0f;
+  --ink-2: #1f1f1f;
+  --ink-border: #2e2e2e;
+  --ink-text: #f1f1f1;
+  --ink-muted: #aaaaaa;
+  --warn: #9a5b00;
+  --warn-soft: #fff5e0;
+  --bad: #cc0000;
+  --bad-soft: #fdecec;
+  --good: #0f7b3a;
+  --good-soft: #e6f4ea;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #0f0f0f;
+    --surface: #181818;
+    --surface-2: #272727;
+    --surface-3: #3a3a3a;
+    --border: #2e2e2e;
+    --text: #f1f1f1;
+    --muted: #aaaaaa;
+    --accent: #ff3355;
+    --accent-strong: #ff5c77;
+    --accent-soft: #2a1115;
+    --ink: #000000;
+    --ink-2: #141414;
+    --warn: #f0b75a;
+    --warn-soft: #3a2a10;
+    --bad: #ff6b6b;
+    --bad-soft: #3b1618;
+    --good: #4ade80;
+    --good-soft: #10301c;
+    color-scheme: dark;
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-border: var(--ink-border);
+  --color-ink-text: var(--ink-text);
+  --color-ink-muted: var(--ink-muted);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --font-sans: var(--font-roboto);
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
+}
+
+/* Scroll-in reveal, pure CSS: only where scroll-driven animations exist and motion is welcome. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Hero background: a quiet top-down wash, no patterns. */
+.hero-surface {
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 70%),
+    linear-gradient(to bottom, var(--surface-2), var(--bg) 70%);
+}
+
+/* Long-form copy on tool, legal and methodology pages. */
+.prose-cp {
+  line-height: 1.75;
+}
+.prose-cp h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 2.5rem 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+.prose-cp h3 {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.5rem;
+}
+.prose-cp p,
+.prose-cp ul,
+.prose-cp ol {
+  margin: 0 0 1rem;
+  color: var(--text);
+}
+.prose-cp ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.prose-cp ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+}
+.prose-cp li {
+  margin: 0.25rem 0;
+}
+.prose-cp a {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-cp code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--surface-2);
+  padding: 0.1em 0.35em;
+  border-radius: 0.3em;
+}
+.prose-cp table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+.prose-cp th,
+.prose-cp td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 0.75rem 0.6rem 0;
+  text-align: left;
 }
