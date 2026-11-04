@@ -57,11 +57,19 @@ export default function Page() {
           a: "No. The handle is the @name people see and can be changed. The channel ID is permanent and is what tools and APIs use.",
         },
         {
+          q: "What's the difference between a YouTube handle and a channel name?",
+          a: "The channel name is the display title (can contain spaces, needn't be unique). The handle is the unique @name used in URLs and mentions. Both can change; only the channel ID is permanent.",
+        },
+        {
+          q: "How do I find a channel ID on mobile?",
+          a: "Share the channel (or any of its videos) from the YouTube app, copy the link, and paste it here — the ID appears instantly.",
+        },
+        {
           q: "Is this tool free?",
           a: "Yes. It's free, needs no account, and only reads public channel information.",
         },
       ]}
-      related={["/channel-analyzer", "/thumbnail-tools/thumbnail-downloader", "/seo-tools/tag-extractor"]}
+      related={["/monetization-checker", "/channel-analyzer", "/thumbnail-tools/thumbnail-downloader"]}
     >
       <ChannelIdFinder />
     </ToolPage>

@@ -2,7 +2,20 @@ import type { MetadataRoute } from "next";
 import { absoluteUrl } from "@/lib/site";
 import { hubs, liveTools, toolsInHub } from "@/lib/tools";
 
-const staticPages = ["/", "/tools", "/methodology", "/data-policy", "/about", "/contact", "/privacy-policy", "/terms", "/cookie-policy", "/changelog"];
+const staticPages = [
+  "/",
+  "/tools",
+  "/methodology",
+  "/data-policy",
+  "/about",
+  "/contact",
+  "/privacy-policy",
+  "/terms",
+  "/cookie-policy",
+  "/changelog",
+  "/compare/vidiq-alternative",
+  "/compare/social-blade-alternative",
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
