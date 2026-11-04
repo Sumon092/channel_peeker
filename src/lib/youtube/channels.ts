@@ -18,10 +18,11 @@ interface ApiChannel {
   };
   statistics?: { viewCount?: string; subscriberCount?: string; hiddenSubscriberCount?: boolean; videoCount?: string };
   contentDetails?: { relatedPlaylists?: { uploads?: string } };
+  status?: { madeForKids?: boolean };
 }
 
 const CHANNEL_FIELDS =
-  "items(id,snippet(title,description,customUrl,publishedAt,country,thumbnails),statistics(viewCount,subscriberCount,hiddenSubscriberCount,videoCount),contentDetails(relatedPlaylists(uploads)))";
+  "items(id,snippet(title,description,customUrl,publishedAt,country,thumbnails),statistics(viewCount,subscriberCount,hiddenSubscriberCount,videoCount),contentDetails(relatedPlaylists(uploads)),status(madeForKids))";
 
 function toSummary(c: ApiChannel): ChannelSummary {
   const s = c.snippet!;
@@ -40,6 +41,7 @@ function toSummary(c: ApiChannel): ChannelSummary {
     subscribersHidden: Boolean(st.hiddenSubscriberCount),
     views: Number(st.viewCount ?? 0),
     videoCount: Number(st.videoCount ?? 0),
+    madeForKids: c.status?.madeForKids ?? null,
   };
 }
 
@@ -48,7 +50,7 @@ const notFound = () => new AppError("not_found", "Channel not found. Check the @
 async function fetchChannel(filter: Record<string, string>, tool: string): Promise<ChannelSummary> {
   const res = await ytGet<{ items?: ApiChannel[] }>(
     "channels",
-    { part: "snippet,statistics,contentDetails", fields: CHANNEL_FIELDS, ...filter },
+    { part: "snippet,statistics,contentDetails,status", fields: CHANNEL_FIELDS, ...filter },
     { tool },
   );
   const item = res.items?.[0];
@@ -58,7 +60,7 @@ async function fetchChannel(filter: Record<string, string>, tool: string): Promi
 
 /** Channel stats are cached 6 h (plan 7.3); the handle → ID mapping for 30 days. */
 export async function getChannelById(id: string, tool: string) {
-  return cached(`yt:channel:${id}:v1`, 6 * TTL.hour, () => fetchChannel({ id }, tool));
+  return cached(`yt:channel:${id}:v2`, 6 * TTL.hour, () => fetchChannel({ id }, tool));
 }
 
 async function resolveChannelId(ref: ChannelRef, tool: string): Promise<string> {

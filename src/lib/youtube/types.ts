@@ -20,6 +20,7 @@ export interface ChannelSummary {
   subscribersHidden: boolean;
   views: number;
   videoCount: number;
+  madeForKids: boolean | null;
 }
 
 export interface VideoSummary {
