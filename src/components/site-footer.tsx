@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { hubs, toolsInHub } from "@/lib/tools";
+import { hubs } from "@/lib/tools";
 import { site } from "@/lib/site";
 import { Logo } from "./logo";
 
@@ -18,7 +18,7 @@ const legal = [
 ];
 
 export function SiteFooter() {
-  const live = hubs.flatMap((hub) => toolsInHub(hub.id).filter((t) => t.status === "live"));
+  const hubLinks = hubs.filter((h) => h.path).map((h) => ({ href: h.path as string, label: h.name }));
 
   return (
     <footer className="mt-auto bg-ink text-sm text-ink-text">
@@ -27,7 +27,7 @@ export function SiteFooter() {
           <Logo className="text-lg" />
           <p className="mt-4 max-w-xs leading-relaxed text-ink-muted">{site.tagline}</p>
         </div>
-        <FooterList title="Tools" items={[{ href: "/tools", label: "All tools" }, ...live.slice(0, 6).map((t) => ({ href: t.path, label: t.name }))]} />
+        <FooterList title="Tools" items={[{ href: "/tools", label: "All tools" }, ...hubLinks]} />
         <FooterList title="Company" items={company} />
         <FooterList title="Legal" items={legal} />
       </div>

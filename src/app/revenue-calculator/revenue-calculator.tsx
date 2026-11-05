@@ -31,9 +31,16 @@ export function RevenueCalculator() {
             type="text"
             inputMode="numeric"
             value={views}
+            aria-invalid={!valid && views.trim() !== ""}
+            aria-describedby={!valid && views.trim() !== "" ? `${id}-v-err` : undefined}
             onChange={(e) => setViews(e.target.value)}
             className={`mt-2 font-normal ${selectCls}`}
           />
+          {!valid && views.trim() !== "" && (
+            <p id={`${id}-v-err`} role="alert" className="mt-1 text-sm font-medium text-bad">
+              Enter views as a number, like 100,000.
+            </p>
+          )}
         </label>
         <label className="text-sm font-medium" htmlFor={`${id}-n`}>
           Niche

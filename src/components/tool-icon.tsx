@@ -92,7 +92,7 @@ const sizes = {
 export function ToolIcon({ path, size = "md", solid = false }: { path: string; hub?: HubId; size?: keyof typeof sizes; solid?: boolean }) {
   const Icon = icons[path] ?? Sparkles;
   const [box, glyph] = sizes[size];
-  const tone = solid ? "bg-accent text-white shadow-sm shadow-accent/30" : "bg-accent-soft text-accent";
+  const tone = solid ? "bg-accent-fill text-white shadow-sm shadow-accent/30" : "bg-accent-soft text-accent";
   return (
     <span className={`inline-flex shrink-0 items-center justify-center ${box} ${tone}`}>
       <Icon className={glyph} aria-hidden="true" strokeWidth={2.2} />

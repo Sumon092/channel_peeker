@@ -63,7 +63,7 @@ export default function Page() {
           a: "Yes — free, client-side, no account.",
         },
       ]}
-      related={["/monetization-checker", "/channel-analyzer", "/seo-tools/title-checker"]}
+      related={["/revenue-calculator", "/monetization-checker", "/channel-analyzer"]}
     >
       <RpmCpmCalculator />
     </ToolPage>

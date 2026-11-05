@@ -52,7 +52,7 @@ export default function Page() {
           a: "Yes — free, instant, fully in your browser.",
         },
       ]}
-      related={["/playlist-id-finder", "/channel-id-finder", "/url-cleaner"]}
+      related={["/playlist-id-finder", "/url-cleaner", "/video-analyzer"]}
     >
       <VideoIdExtractor />
     </ToolPage>

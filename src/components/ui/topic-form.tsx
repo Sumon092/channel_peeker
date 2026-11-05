@@ -2,6 +2,7 @@
 
 import { ArrowRight, LoaderCircle } from "lucide-react";
 import { useId, useState, type FormEvent } from "react";
+import { useInitialQuery } from "@/components/ui/use-initial-query";
 
 interface TopicFormProps {
   label: string;
@@ -16,6 +17,7 @@ export function TopicForm({ label, placeholder, submitLabel, loading, onSubmit }
   const id = useId();
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
+  useInitialQuery(setValue);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -42,6 +44,7 @@ export function TopicForm({ label, placeholder, submitLabel, loading, onSubmit }
           value={value}
           placeholder={placeholder}
           aria-invalid={Boolean(error)}
+          aria-describedby={error ? `${id}-err` : undefined}
           onChange={(e) => {
             setValue(e.target.value);
             if (error) setError(null);
@@ -51,7 +54,7 @@ export function TopicForm({ label, placeholder, submitLabel, loading, onSubmit }
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97] disabled:opacity-70"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent-fill px-7 py-3.5 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] disabled:opacity-70"
         >
           {loading ? (
             <>
@@ -65,7 +68,7 @@ export function TopicForm({ label, placeholder, submitLabel, loading, onSubmit }
         </button>
       </div>
       {error && (
-        <p role="alert" className="mt-2 text-sm font-medium text-bad">
+        <p id={`${id}-err`} role="alert" className="mt-2 text-sm font-medium text-bad">
           {error}
         </p>
       )}

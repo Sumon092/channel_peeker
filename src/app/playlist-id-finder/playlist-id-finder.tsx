@@ -2,11 +2,13 @@
 
 import { useId, useState } from "react";
 import { CopyButton } from "@/components/ui/copy-button";
+import { useInitialQuery } from "@/components/ui/use-initial-query";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
 export function PlaylistIdFinder() {
   const id = useId();
   const [url, setUrl] = useState("");
+  useInitialQuery(setUrl);
 
   const parsed = url.trim() ? parseYouTubeInput(url) : null;
   const value = parsed?.ok ? parsed.value : null;

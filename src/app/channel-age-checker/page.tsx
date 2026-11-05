@@ -63,7 +63,7 @@ export default function Page() {
           a: "Yes — free, no account, and it only reads public channel information.",
         },
       ]}
-      related={["/channel-analyzer", "/channel-id-finder", "/monetization-checker"]}
+      related={["/channel-analyzer", "/video-upload-date-checker", "/monetization-checker"]}
     >
       <ChannelAgeChecker />
     </ToolPage>

@@ -58,7 +58,7 @@ export function TimestampGenerator() {
           <button
             type="submit"
             disabled={state.status === "loading"}
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97] disabled:opacity-70"
+            className="inline-flex items-center gap-2 rounded-full bg-accent-fill px-7 py-3 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] disabled:opacity-70"
           >
             {state.status === "loading" ? (
               <>

@@ -69,7 +69,7 @@ export default function Home() {
             href="/thumbnail-tools/thumbnail-downloader"
             className="inline-flex items-center gap-2 rounded-full border border-border bg-surface py-1 pl-1 pr-3 text-sm shadow-sm transition hover:border-text/25"
           >
-            <span className="rounded-full bg-accent px-2 py-0.5 text-xs font-bold text-white">New</span>
+            <span className="rounded-full bg-accent-fill px-2 py-0.5 text-xs font-bold text-white">New</span>
             Download thumbnails in 1080p and 4K
             <ArrowRight className="h-3.5 w-3.5 text-muted" aria-hidden="true" />
           </Link>
@@ -178,7 +178,7 @@ export default function Home() {
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-5xl">Your next video starts with better data</h2>
           <p className="mx-auto mt-4 max-w-xl text-lg text-ink-muted">Free tools, honest numbers and no paywall on the basics.</p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
-            <Link href="/tools" className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97]">
+            <Link href="/tools" className="inline-flex items-center gap-2 rounded-full bg-accent-fill px-7 py-3.5 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97]">
               Explore all tools <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <Link href="/methodology" className="rounded-full px-7 py-3.5 font-medium text-white ring-1 ring-white/20 transition hover:ring-white/50">

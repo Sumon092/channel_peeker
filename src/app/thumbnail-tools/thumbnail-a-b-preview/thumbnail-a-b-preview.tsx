@@ -15,7 +15,7 @@ function Slot({ label, url, onFile }: { label: string; url: string | null; onFil
   return (
     <label
       htmlFor={id}
-      className="flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border-2 border-dashed border-border bg-bg px-4 py-6 text-center transition hover:border-accent"
+      className="flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border-2 border-dashed border-border bg-bg px-4 py-6 text-center transition hover:border-accent has-[:focus-visible]:border-accent has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-accent/20"
     >
       <Upload className="h-5 w-5 text-muted" aria-hidden="true" />
       <span className="text-sm font-medium">{url ? `Swap version ${label}` : `Upload version ${label}`}</span>

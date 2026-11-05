@@ -59,7 +59,7 @@ export default function Page() {
           a: "No. The tool runs entirely in your browser; nothing is sent to our servers.",
         },
       ]}
-      related={["/video-id-extractor", "/timestamp-link-generator", "/shorts-link-converter"]}
+      related={["/video-id-extractor", "/video-analyzer", "/timestamp-link-generator"]}
     >
       <UrlCleaner />
     </ToolPage>

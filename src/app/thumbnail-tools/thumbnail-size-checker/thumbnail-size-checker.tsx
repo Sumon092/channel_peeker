@@ -82,7 +82,7 @@ export function ThumbnailSizeChecker() {
     <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label
         htmlFor={id}
-        className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-bg px-6 py-10 text-center transition hover:border-accent"
+        className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-bg px-6 py-10 text-center transition hover:border-accent has-[:focus-visible]:border-accent has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-accent/20"
       >
         <Upload className="h-6 w-6 text-muted" aria-hidden="true" />
         <span className="font-medium">Choose your thumbnail image</span>
@@ -96,8 +96,9 @@ export function ThumbnailSizeChecker() {
         </p>
       )}
 
+      <div aria-live="polite">
       {checked && (
-        <div className="mt-5 grid gap-5 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]" aria-live="polite">
+        <div className="mt-5 grid gap-5 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           <div>
             <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-surface-2">
               <Image src={checked.url} alt="Your thumbnail preview" fill unoptimized className="object-contain" />
@@ -110,6 +111,7 @@ export function ThumbnailSizeChecker() {
               return (
                 <li key={c.text} className="flex items-start gap-2 text-sm">
                   <Icon className={`mt-0.5 h-4 w-4 shrink-0 ${cls}`} aria-hidden="true" />
+                  <span className="sr-only">{{ pass: "Pass", warn: "Warning", fail: "Fail" }[c.status]}: </span>
                   {c.text}
                 </li>
               );
@@ -117,6 +119,7 @@ export function ThumbnailSizeChecker() {
           </ul>
         </div>
       )}
+      </div>
     </div>
   );
 }

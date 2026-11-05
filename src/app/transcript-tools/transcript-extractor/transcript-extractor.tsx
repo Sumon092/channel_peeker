@@ -101,8 +101,9 @@ export function TranscriptExtractor() {
       />
       <p className="mt-2 text-xs text-muted">Everything runs in your browser — the transcript is never uploaded.</p>
 
+      <div aria-live="polite">
       {outputs && (
-        <div className="mt-5" aria-live="polite">
+        <div className="mt-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex gap-2" role="group" aria-label="Output format">
               {FORMATS.map((f) => (
@@ -111,7 +112,7 @@ export function TranscriptExtractor() {
                   type="button"
                   onClick={() => setFormat(f)}
                   aria-pressed={format === f}
-                  className={`rounded-full px-4 py-2 text-sm font-medium uppercase transition ${format === f ? "bg-accent text-white" : "bg-surface-2 hover:bg-surface-3"}`}
+                  className={`rounded-full px-4 py-2 text-sm font-medium uppercase transition ${format === f ? "bg-accent-fill text-white" : "bg-surface-2 hover:bg-surface-3"}`}
                 >
                   {f}
                 </button>
@@ -134,6 +135,7 @@ export function TranscriptExtractor() {
           </p>
         </div>
       )}
+      </div>
     </div>
   );
 }

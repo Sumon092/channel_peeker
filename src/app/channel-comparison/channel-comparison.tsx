@@ -4,6 +4,7 @@ import { ArrowRight, LoaderCircle, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import { useState, type FormEvent } from "react";
 import { ErrorBox, FetchedAt } from "@/components/ui/status";
+import { useInitialQuery } from "@/components/ui/use-initial-query";
 import { useToolRequest } from "@/components/ui/use-tool-request";
 import { formatCompact, formatNumber, formatSubscribers } from "@/lib/format";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
@@ -30,6 +31,7 @@ export function ChannelComparison() {
   const { state, run } = useToolRequest<Result>("/api/tools/channel-comparison");
   const [inputs, setInputs] = useState<string[]>(["", ""]);
   const [error, setError] = useState<string | null>(null);
+  useInitialQuery((q) => setInputs((prev) => [q, ...prev.slice(1)]));
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -83,7 +85,7 @@ export function ChannelComparison() {
           <button
             type="submit"
             disabled={state.status === "loading"}
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97] disabled:opacity-70"
+            className="inline-flex items-center gap-2 rounded-full bg-accent-fill px-7 py-3 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] disabled:opacity-70"
           >
             {state.status === "loading" ? (
               <>

@@ -49,7 +49,7 @@ export function RpmCpmCalculator() {
               type="button"
               onClick={() => setMode(m)}
               aria-pressed={mode === m}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${mode === m ? "bg-accent text-white" : "bg-surface-2 hover:bg-surface-3"}`}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition ${mode === m ? "bg-accent-fill text-white" : "bg-surface-2 hover:bg-surface-3"}`}
             >
               {label}
             </button>

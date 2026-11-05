@@ -2,11 +2,13 @@
 
 import { useId, useState } from "react";
 import { CopyButton } from "@/components/ui/copy-button";
+import { useInitialQuery } from "@/components/ui/use-initial-query";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
 export function EmbedCodeGenerator() {
   const id = useId();
   const [url, setUrl] = useState("");
+  useInitialQuery(setUrl);
   const [start, setStart] = useState("");
   const [privacy, setPrivacy] = useState(true);
   const [responsive, setResponsive] = useState(true);
@@ -69,15 +71,17 @@ export function EmbedCodeGenerator() {
         </label>
       </div>
 
+      <div aria-live="polite">
       {code && (
-        <div className="mt-5" aria-live="polite">
+        <div className="mt-5">
           <div className="flex items-center justify-between gap-2">
             <p className="text-sm font-medium">Embed code</p>
             <CopyButton text={code} label="Copy code" />
           </div>
-          <pre className="mt-2 overflow-x-auto rounded-xl bg-surface-2 p-4 font-mono text-xs leading-relaxed">{code}</pre>
+          <pre tabIndex={0} aria-label="Embed code" className="mt-2 overflow-x-auto rounded-xl bg-surface-2 p-4 font-mono text-xs leading-relaxed">{code}</pre>
         </div>
       )}
+      </div>
     </div>
   );
 }

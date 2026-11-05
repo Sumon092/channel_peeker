@@ -55,7 +55,7 @@ export default function Page() {
           a: "Yes — free, instant, fully in your browser.",
         },
       ]}
-      related={["/video-id-extractor", "/channel-id-finder", "/embed-code-generator"]}
+      related={["/video-id-extractor", "/embed-code-generator", "/channel-analyzer"]}
     >
       <PlaylistIdFinder />
     </ToolPage>

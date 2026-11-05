@@ -71,7 +71,7 @@ export default function Page() {
           a: "Yes, free with no account or extension.",
         },
       ]}
-      related={["/thumbnail-tools/thumbnail-downloader", "/seo-tools/title-checker", "/channel-analyzer"]}
+      related={["/thumbnail-tools/thumbnail-downloader", "/thumbnail-tools/thumbnail-tester", "/seo-tools/title-checker"]}
     >
       <ThumbnailSizeChecker />
     </ToolPage>

@@ -68,7 +68,7 @@ export default function Page() {
           a: "Results are cached briefly to stay fast and within YouTube's API quota. Every report shows exactly when its data was fetched.",
         },
       ]}
-      related={["/monetization-checker", "/channel-id-finder", "/thumbnail-tools/thumbnail-downloader"]}
+      related={["/outlier-finder", "/channel-comparison", "/monetization-checker"]}
     >
       <ChannelAnalyzer />
     </ToolPage>

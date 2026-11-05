@@ -110,7 +110,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
       {grade && (
         <div className="mt-5 rounded-2xl border border-border bg-surface-2/50 p-4 sm:p-5">
           <div className="flex items-center gap-4">
-            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-accent text-4xl font-black text-white">
+            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-accent-fill text-4xl font-black text-white">
               {grade.letter}
             </span>
             <div>
@@ -131,7 +131,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
           <div key={s.label} className="rounded-xl border border-border px-4 py-3">
             <p className="text-xs text-muted">
               {s.label}
-              {s.estimate && <span title="channelpeek estimate"> *</span>}
+              {s.estimate && <span aria-hidden="true"> *</span>}{s.estimate && <span className="sr-only"> (channelpeek estimate)</span>}
             </p>
             <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{s.value}</p>
           </div>
@@ -153,6 +153,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
                   href={`https://www.youtube.com/watch?v=${v.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`${v.title} — opens on YouTube in a new tab`}
                   className="relative h-10 w-[72px] shrink-0 overflow-hidden rounded-md bg-surface-2"
                 >
                   {v.thumbnailUrl && <Image src={v.thumbnailUrl} alt="" fill sizes="72px" className="object-cover" />}
@@ -167,7 +168,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
                     {v.isShort && " · Short"}
                   </p>
                 </div>
-                {v.outlierMultiplier !== null && <span className="text-sm font-bold text-accent">{v.outlierMultiplier}×</span>}
+                {v.outlierMultiplier !== null && <span className="text-sm font-bold text-accent">{v.outlierMultiplier}×<span className="sr-only"> the channel median</span></span>}
               </li>
             ))}
           </ul>
@@ -217,7 +218,13 @@ function ViewsChart({ series }: { series: AnalyzerReport["series"] }) {
         <span className="font-medium">Views per upload</span>
         <span className="text-muted">Newest {points.length} uploads, oldest first</span>
       </div>
-      <svg viewBox={`0 0 ${w} ${h}`} className="mt-3 h-36 w-full" preserveAspectRatio="none" role="img" aria-label="Views per upload over time">
+      <svg
+        viewBox={`0 0 ${w} ${h}`}
+        className="mt-3 h-36 w-full"
+        preserveAspectRatio="none"
+        role="img"
+        aria-label={`Views per upload for the newest ${points.length} uploads. Peak ${formatCompact(Math.max(...points.map((p) => p.views)))} views; most recent upload ${formatCompact(points[points.length - 1].views)} views.`}
+      >
         <defs>
           <linearGradient id="ca-fill" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="var(--accent)" stopOpacity="0.16" />

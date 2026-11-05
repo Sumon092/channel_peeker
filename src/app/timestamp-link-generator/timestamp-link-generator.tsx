@@ -2,11 +2,13 @@
 
 import { useId, useState } from "react";
 import { CopyButton } from "@/components/ui/copy-button";
+import { useInitialQuery } from "@/components/ui/use-initial-query";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
 export function TimestampLinkGenerator() {
   const id = useId();
   const [url, setUrl] = useState("");
+  useInitialQuery(setUrl);
   const [h, setH] = useState("0");
   const [m, setM] = useState("1");
   const [s, setS] = useState("30");

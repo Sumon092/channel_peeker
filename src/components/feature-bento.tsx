@@ -19,7 +19,7 @@ function Cell({ path, title, body, visual, className = "" }: { path: string; tit
           <p className="mt-1.5 max-w-sm text-nav leading-relaxed text-muted">{body}</p>
         </div>
         {live ? (
-          <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-text px-3 py-1 text-xs font-medium text-bg transition group-hover:bg-accent group-hover:text-white">
+          <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-text px-3 py-1 text-xs font-medium text-bg transition group-hover:bg-accent-fill group-hover:text-white">
             Open <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
           </span>
         ) : (

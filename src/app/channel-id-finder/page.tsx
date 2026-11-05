@@ -69,7 +69,7 @@ export default function Page() {
           a: "Yes. It's free, needs no account, and only reads public channel information.",
         },
       ]}
-      related={["/monetization-checker", "/channel-analyzer", "/thumbnail-tools/thumbnail-downloader"]}
+      related={["/monetization-checker", "/channel-analyzer", "/thumbnail-tools/profile-picture-downloader"]}
     >
       <ChannelIdFinder />
     </ToolPage>

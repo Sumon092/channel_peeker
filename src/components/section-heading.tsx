@@ -16,7 +16,7 @@ export function SectionHeading({
   const center = align === "center";
   return (
     <div className={center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-      {eyebrow && <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent">{eyebrow}</p>}
+      {eyebrow && <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent-strong">{eyebrow}</p>}
       <h2 id={id} className="mt-2 text-3xl font-bold tracking-[-0.02em] sm:text-4xl">
         {title}
       </h2>

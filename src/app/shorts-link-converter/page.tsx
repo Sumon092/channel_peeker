@@ -56,7 +56,7 @@ export default function Page() {
           a: "Yes — free, client-side, no account.",
         },
       ]}
-      related={["/timestamp-link-generator", "/embed-code-generator", "/thumbnail-tools/thumbnail-downloader"]}
+      related={["/timestamp-link-generator", "/video-analyzer", "/thumbnail-tools/thumbnail-downloader"]}
     >
       <ShortsLinkConverter />
     </ToolPage>

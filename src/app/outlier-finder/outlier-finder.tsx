@@ -87,7 +87,7 @@ function ResultCard({ channel: c, videos, medians, fetchedAt }: Result) {
                 type="button"
                 onClick={() => setThreshold(t)}
                 aria-pressed={threshold === t}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition ${threshold === t ? "bg-accent text-white" : "bg-surface-2 hover:bg-surface-3"}`}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition ${threshold === t ? "bg-accent-fill text-white" : "bg-surface-2 hover:bg-surface-3"}`}
               >
                 {t}×+
               </button>
@@ -115,6 +115,7 @@ function ResultCard({ channel: c, videos, medians, fetchedAt }: Result) {
                 href={`https://www.youtube.com/watch?v=${v.id}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`${v.title} — opens on YouTube in a new tab`}
                 className="relative h-12 w-[86px] shrink-0 overflow-hidden rounded-md bg-surface-2"
               >
                 {v.thumbnailUrl && <Image src={v.thumbnailUrl} alt="" fill sizes="86px" className="object-cover" />}

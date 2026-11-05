@@ -74,7 +74,7 @@ export function SmartSearch({ byKind }: Props) {
     <div className="w-full text-left">
       <form
         onSubmit={submit}
-        className="group relative flex items-center gap-3 rounded-2xl border border-border bg-surface p-2 pl-5 shadow-[0_1px_2px_rgb(0_0_0/0.04),0_12px_40px_rgb(0_0_0/0.08)] transition focus-within:border-text/30 focus-within:shadow-[0_1px_2px_rgb(0_0_0/0.04),0_16px_48px_rgb(0_0_0/0.12)] sm:rounded-full"
+        className="group relative flex items-center gap-3 rounded-2xl border border-border bg-surface p-2 pl-5 shadow-[0_1px_2px_rgb(0_0_0/0.04),0_12px_40px_rgb(0_0_0/0.08)] transition focus-within:border-accent focus-within:shadow-[0_1px_2px_rgb(0_0_0/0.04),0_16px_48px_rgb(0_0_0/0.12)] sm:rounded-full"
       >
         <Search className="h-5 w-5 shrink-0 text-muted" aria-hidden="true" />
         <label htmlFor="smart-q" className="sr-only">
@@ -108,7 +108,8 @@ export function SmartSearch({ byKind }: Props) {
         )}
         <button
           type="submit"
-          className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-white transition hover:bg-accent-strong sm:rounded-full sm:px-7"
+          aria-label={primary ? "Analyze" : "Go"}
+          className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-accent-fill px-5 py-3 font-medium text-white transition hover:bg-accent-fill-strong sm:rounded-full sm:px-7"
         >
           <span className="hidden sm:inline">{primary ? "Analyze" : "Go"}</span>
           <ArrowRight className="h-4 w-4 sm:hidden" aria-hidden="true" />
@@ -117,7 +118,14 @@ export function SmartSearch({ byKind }: Props) {
 
       <div id="smart-hint" aria-live="polite" className="mt-4 min-h-10">
         {error ? (
-          <p className="text-center text-sm font-medium text-bad">{error}</p>
+          <div className="text-center text-sm">
+            <p className="font-medium text-bad">{error}</p>
+            {value.trim().length >= 2 && !/[/.@]/.test(value) && (
+              <Link href={`/keyword-tools/keyword-research?q=${encodeURIComponent(value.trim())}`} className="mt-1 inline-block font-medium text-accent-strong hover:underline">
+                Search “{value.trim().slice(0, 40)}” as a keyword instead →
+              </Link>
+            )}
+          </div>
         ) : kind ? (
           <div className="flex flex-wrap items-center justify-center gap-2">
             {suggestions.map((t) =>
@@ -131,7 +139,7 @@ export function SmartSearch({ byKind }: Props) {
                   }`}
                 >
                   {t.name}
-                  {t === primary && <CornerDownLeft className="h-3.5 w-3.5 opacity-70" aria-label="Enter" />}
+                  {t === primary && <CornerDownLeft className="h-3.5 w-3.5 opacity-70" aria-hidden="true" />}
                 </button>
               ) : (
                 <span key={t.path} className="inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm text-muted">
@@ -158,7 +166,7 @@ export function SmartSearch({ byKind }: Props) {
               </button>
             ))}
             <span className="text-muted">or</span>
-            <Link href="/tools" className="font-medium text-accent hover:underline">
+            <Link href="/tools" className="font-medium text-accent-strong hover:underline">
               browse all tools
             </Link>
           </div>

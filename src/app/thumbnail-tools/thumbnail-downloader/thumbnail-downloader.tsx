@@ -119,7 +119,7 @@ function BulkForm({ loading, onSubmit }: { loading: boolean; onSubmit: (inputs: 
         <span className={`text-sm ${lines.length > MAX_BULK ? "font-medium text-bad" : "text-muted"}`}>
           {lines.length} / {MAX_BULK} links
         </span>
-        <button type="submit" disabled={loading} className="rounded-full bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97] disabled:opacity-70">
+        <button type="submit" disabled={loading} className="rounded-full bg-accent-fill px-7 py-3 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] disabled:opacity-70">
           {loading ? "Working…" : "Get all thumbnails"}
         </button>
       </div>
@@ -206,7 +206,7 @@ function VideoCard({ video }: { video: VideoThumbs }) {
               <div className="min-w-0">
                 <p className="font-medium">
                   {s.label}
-                  {["fhd", "qhd", "uhd"].includes(s.key) && <span className="ml-2 rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-bold text-accent">NEW</span>}
+                  {["fhd", "qhd", "uhd"].includes(s.key) && <span className="ml-2 rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-bold text-accent-strong">NEW</span>}
                 </p>
                 <p className="text-sm text-muted">
                   {s.width}×{s.height}

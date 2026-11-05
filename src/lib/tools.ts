@@ -30,7 +30,7 @@ export const hubs: Hub[] = [
   {
     id: "analytics",
     name: "Channel & video analytics",
-    path: null,
+    path: "/channel-analytics",
     summary: "Stats, benchmarks and outliers for any public channel or video.",
   },
   {
@@ -143,7 +143,6 @@ export const toolsByInput: Record<InputKind, string[]> = {
     "/embed-code-generator",
     "/shorts-link-converter",
     "/seo-tools/video-seo-score",
-    "/transcript-tools/transcript-extractor",
     "/channel-id-finder",
   ],
   channel: [

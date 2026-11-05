@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import { CopyButton } from "@/components/ui/copy-button";
+import { useInitialQuery } from "@/components/ui/use-initial-query";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
 const KEEP = new Set(["v", "list", "t", "start"]);
@@ -38,6 +39,7 @@ function clean(raw: string): { url: string; short: string | null; removed: strin
 export function UrlCleaner() {
   const id = useId();
   const [url, setUrl] = useState("");
+  useInitialQuery(setUrl);
 
   const looksLikeLink = /youtu|\//.test(url);
   const result = url.trim() && looksLikeLink ? clean(url) : null;
