@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
+import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { site } from "@/lib/site";
@@ -40,6 +41,27 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <SiteFooter />
+        <JsonLd
+          data={[
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: site.name,
+              url: site.url,
+              description: site.description,
+              publisher: { "@id": `${site.url}/#org` },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "@id": `${site.url}/#org`,
+              name: site.name,
+              url: site.url,
+              description: site.disclaimer,
+              email: site.contactEmail,
+            },
+          ]}
+        />
       </body>
     </html>
   );
