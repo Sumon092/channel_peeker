@@ -1,0 +1,72 @@
+{
+  "$description": "channelpeek design tokens, extracted from src/app/globals.css. The CSS custom properties there are the source of truth; this file mirrors them for tooling.",
+  "color": {
+    "light": {
+      "bg": "#ffffff",
+      "surface": "#ffffff",
+      "surface-2": "#f2f2f2",
+      "surface-3": "#e5e5e5",
+      "border": "#e5e5e5",
+      "text": "#0f0f0f",
+      "muted": "#606060",
+      "accent": "#e8002d",
+      "accent-strong": "#c20026",
+      "accent-soft": "#fff0f2",
+      "warn": "#9a5b00",
+      "warn-soft": "#fff5e0",
+      "bad": "#cc0000",
+      "bad-soft": "#fdecec",
+      "good": "#0f7b3a",
+      "good-soft": "#e6f4ea"
+    },
+    "dark": {
+      "bg": "#0f0f0f",
+      "surface": "#181818",
+      "surface-2": "#272727",
+      "surface-3": "#3a3a3a",
+      "border": "#2e2e2e",
+      "text": "#f1f1f1",
+      "muted": "#aaaaaa",
+      "accent": "#ff3355",
+      "accent-strong": "#ff5c77",
+      "accent-soft": "#2a1115",
+      "warn": "#f0b75a",
+      "warn-soft": "#3a2a10",
+      "bad": "#ff6b6b",
+      "bad-soft": "#3b1618",
+      "good": "#4ade80",
+      "good-soft": "#10301c"
+    },
+    "ink": {
+      "$description": "Always-dark panel tokens (used for dark UI mockups regardless of theme)",
+      "ink": "#0f0f0f",
+      "ink-2": "#1f1f1f",
+      "ink-border": "#2e2e2e",
+      "ink-text": "#f1f1f1",
+      "ink-muted": "#aaaaaa"
+    }
+  },
+  "typography": {
+    "family": { "sans": "Roboto (next/font variable)", "mono": "ui-monospace, SF Mono, Cascadia Mono, Consolas" },
+    "scale": {
+      "hero": { "size": "2.25rem/3rem (4xl → 5xl sm+)", "weight": 900, "tracking": "-0.03em", "leading": 1.08 },
+      "h2-section": { "size": "1.5rem", "weight": 700, "tracking": "-0.01em" },
+      "card-title": { "size": "1.05rem", "weight": 700 },
+      "body": { "size": "1rem", "leading": 1.75 },
+      "small": { "size": "0.875rem" },
+      "caption": { "size": "0.75rem", "color": "muted" }
+    }
+  },
+  "radius": {
+    "pill": "9999px (inputs, buttons, chips)",
+    "card": "1rem (rounded-2xl: tool cards, menus)",
+    "panel": "1.5rem (rounded-3xl: result cards, tool widgets)",
+    "inner": "0.75rem (rounded-xl: stat tiles, notices)"
+  },
+  "shadow": {
+    "card-hover": "0 8px 30px rgb(0 0 0 / 0.08)",
+    "panel": "shadow-lg shadow-slate-900/5",
+    "menu": "0 16px 48px rgb(0 0 0 / 0.14)"
+  },
+  "spacing": { "section-y": "5rem (py-20)", "card-pad": "1.25–1.75rem (p-5 sm:p-7)", "grid-gap": "1rem" }
+}
