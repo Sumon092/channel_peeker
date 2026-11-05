@@ -178,7 +178,7 @@ export default function Home() {
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-5xl">Your next video starts with better data</h2>
           <p className="mx-auto mt-4 max-w-xl text-lg text-ink-muted">Free tools, honest numbers and no paywall on the basics.</p>
           <div className="mt-9 flex flex-wrap justify-center gap-3">
-            <Link href="/tools" className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 font-medium text-white transition hover:bg-accent-strong">
+            <Link href="/tools" className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3.5 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97]">
               Explore all tools <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <Link href="/methodology" className="rounded-full px-7 py-3.5 font-medium text-white ring-1 ring-white/20 transition hover:ring-white/50">

@@ -37,7 +37,7 @@ export function ShortsRevenueCalculator() {
       {range && (
         <div className="mt-5 rounded-xl bg-surface-2 px-4 py-4 text-center" aria-live="polite">
           <p className="text-xs text-muted">Estimated monthly Shorts earnings</p>
-          <p className="mt-1 text-2xl font-black tracking-tight">{formatRange(range)}</p>
+          <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{formatRange(range)}</p>
         </div>
       )}
 

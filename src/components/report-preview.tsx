@@ -90,7 +90,7 @@ export function ReportPreview() {
               {stats.map((s) => (
                 <div key={s.label} className="rounded-xl border border-border px-4 py-3">
                   <p className="text-xs text-muted">{s.label}</p>
-                  <p className="mt-1 flex items-baseline gap-2 text-xl font-bold tracking-tight">
+                  <p className="mt-1 flex items-baseline gap-2 text-xl font-bold tabular-nums tracking-tight">
                     {s.value}
                     {s.delta && (
                       <span className="flex items-center text-xs font-medium text-good">

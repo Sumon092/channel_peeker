@@ -88,7 +88,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
   }
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex min-w-0 items-center gap-4">
           {c.avatarUrl ? (
@@ -133,7 +133,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
               {s.label}
               {s.estimate && <span title="channelpeek estimate"> *</span>}
             </p>
-            <p className="mt-1 text-xl font-bold tracking-tight">{s.value}</p>
+            <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{s.value}</p>
           </div>
         ))}
       </div>
@@ -237,7 +237,7 @@ function ViewsChart({ series }: { series: AnalyzerReport["series"] }) {
 
 function ResultSkeleton() {
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         <Skeleton className="h-16 w-16 rounded-full" />
         <div className="flex-1 space-y-2">

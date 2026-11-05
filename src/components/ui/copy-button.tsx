@@ -16,9 +16,9 @@ export function CopyButton({ text, label = "Copy", className = "" }: { text: str
           // Clipboard can be blocked; the text is still selectable on the page.
         }
       }}
-      className={`rounded-lg border border-border px-3 py-1.5 text-sm font-medium hover:border-accent ${className}`}
+      className={`rounded-lg border border-border px-3.5 py-2 text-sm font-medium transition hover:border-accent active:scale-[0.97] ${copied ? "text-good" : ""} ${className}`}
     >
-      <span aria-live="polite">{copied ? "Copied" : label}</span>
+      <span aria-live="polite">{copied ? "✓ Copied" : label}</span>
     </button>
   );
 }

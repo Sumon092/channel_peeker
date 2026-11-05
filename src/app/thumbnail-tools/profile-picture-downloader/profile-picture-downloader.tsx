@@ -58,7 +58,7 @@ function ResultCard({ channel: c, fetchedAt }: Result) {
   }
   const large = sized(c.avatarUrl, 800);
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
         <Image src={large} alt={`${c.title} profile picture`} width={176} height={176} unoptimized className="h-44 w-44 shrink-0 rounded-2xl object-cover" />
         <div className="min-w-0 flex-1 text-center sm:text-left">

@@ -36,7 +36,7 @@ export function KeywordDifficulty() {
 
 function ResultCard({ q, results, difficulty, fetchedAt }: Result) {
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <p className="font-medium">
           Who ranks for <span className="text-accent">“{q}”</span>

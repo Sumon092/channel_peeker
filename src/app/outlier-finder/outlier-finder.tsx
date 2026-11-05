@@ -64,7 +64,7 @@ function ResultCard({ channel: c, videos, medians, fetchedAt }: Result) {
   const shown = derived ? videos.filter((v) => (v.multiplier ?? 0) >= threshold) : videos.slice(0, 10);
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex min-w-0 items-center gap-3">
           {c.avatarUrl ? (
@@ -149,7 +149,7 @@ function ResultCard({ channel: c, videos, medians, fetchedAt }: Result) {
 
 function ResultSkeleton() {
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-3">
         <Skeleton className="h-12 w-12 rounded-full" />
         <div className="flex-1 space-y-2">

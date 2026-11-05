@@ -83,7 +83,7 @@ export function ChannelComparison() {
           <button
             type="submit"
             disabled={state.status === "loading"}
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong disabled:opacity-70"
+            className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97] disabled:opacity-70"
           >
             {state.status === "loading" ? (
               <>
@@ -156,7 +156,7 @@ function ComparisonTable({ channels, fetchedAt }: Result) {
   ];
 
   return (
-    <div className="overflow-x-auto rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter overflow-x-auto rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <table className="w-full min-w-[560px] border-collapse text-sm">
         <thead>
           <tr>

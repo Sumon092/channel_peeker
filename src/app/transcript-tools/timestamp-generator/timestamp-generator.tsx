@@ -58,7 +58,7 @@ export function TimestampGenerator() {
           <button
             type="submit"
             disabled={state.status === "loading"}
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong disabled:opacity-70"
+            className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97] disabled:opacity-70"
           >
             {state.status === "loading" ? (
               <>
@@ -78,7 +78,7 @@ export function TimestampGenerator() {
         {state.status === "loading" && <Skeleton className="h-56 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
         {state.status === "done" && (
-          <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+          <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
             <div className="flex items-center justify-between gap-3">
               <p className="font-medium">
                 Chapters <span className="text-sm font-normal text-muted">({state.data.chapters.length})</span>

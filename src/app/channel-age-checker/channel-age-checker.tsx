@@ -77,7 +77,7 @@ function ResultCard({ channel: c, fetchedAt }: Result) {
   const created = new Date(c.publishedAt);
   const createdText = created.toLocaleDateString("en", { dateStyle: "long" });
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         {c.avatarUrl ? (
           <Image src={c.avatarUrl} alt="" width={64} height={64} className="h-16 w-16 shrink-0 rounded-full" />
@@ -94,18 +94,18 @@ function ResultCard({ channel: c, fetchedAt }: Result) {
 
       <div className="mt-4 rounded-xl bg-surface-2 p-5 text-center">
         <p className="text-sm text-muted">This channel is</p>
-        <p className="mt-1 text-3xl font-black tracking-tight">{ageText(c.publishedAt)} old</p>
+        <p className="mt-1 text-3xl font-black tabular-nums tracking-tight">{ageText(c.publishedAt)} old</p>
         <p className="mt-1 text-sm text-muted">Created on {createdText}</p>
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-3">
         <div className="rounded-xl border border-border px-4 py-3">
           <p className="text-xs text-muted">Total views since creation</p>
-          <p className="mt-1 text-xl font-bold tracking-tight">{formatCompact(c.views)}</p>
+          <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{formatCompact(c.views)}</p>
         </div>
         <div className="rounded-xl border border-border px-4 py-3">
           <p className="text-xs text-muted">Public videos</p>
-          <p className="mt-1 text-xl font-bold tracking-tight">{formatNumber(c.videoCount)}</p>
+          <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{formatNumber(c.videoCount)}</p>
         </div>
       </div>
 
@@ -119,7 +119,7 @@ function ResultCard({ channel: c, fetchedAt }: Result) {
 
 function ResultSkeleton() {
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         <Skeleton className="h-16 w-16 rounded-full" />
         <div className="flex-1 space-y-2">

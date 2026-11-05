@@ -79,7 +79,7 @@ export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 font-medium text-white transition hover:bg-accent-strong disabled:opacity-70"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97] disabled:opacity-70"
         >
           {loading ? (
             <>
@@ -108,7 +108,7 @@ export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go
                 setValue(ex.value);
                 submit(ex.value);
               }}
-              className="rounded-lg bg-surface-2 px-3 py-1.5 font-medium transition hover:bg-surface-3"
+              className="rounded-lg bg-surface-2 px-3 py-2 font-medium transition hover:bg-surface-3"
             >
               {ex.label}
             </button>

@@ -26,7 +26,7 @@ export function DescriptionGenerator() {
         {state.status === "loading" && <Skeleton className="h-72 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
         {state.status === "done" && (
-          <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+          <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="font-medium">
                 Draft description <span className="text-sm font-normal text-muted">({state.data.description.length} characters)</span>

@@ -119,7 +119,7 @@ function BulkForm({ loading, onSubmit }: { loading: boolean; onSubmit: (inputs: 
         <span className={`text-sm ${lines.length > MAX_BULK ? "font-medium text-bad" : "text-muted"}`}>
           {lines.length} / {MAX_BULK} links
         </span>
-        <button type="submit" disabled={loading} className="rounded-full bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong disabled:opacity-70">
+        <button type="submit" disabled={loading} className="rounded-full bg-accent px-7 py-3 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97] disabled:opacity-70">
           {loading ? "Working…" : "Get all thumbnails"}
         </button>
       </div>

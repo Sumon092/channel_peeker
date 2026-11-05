@@ -51,7 +51,7 @@ export function TopicForm({ label, placeholder, submitLabel, loading, onSubmit }
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 font-medium text-white transition hover:bg-accent-strong disabled:opacity-70"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 font-medium text-white transition hover:bg-accent-strong active:scale-[0.97] disabled:opacity-70"
         >
           {loading ? (
             <>

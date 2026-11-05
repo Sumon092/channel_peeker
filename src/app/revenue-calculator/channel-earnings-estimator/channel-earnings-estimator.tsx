@@ -61,7 +61,7 @@ function ResultCard({ channel: c, views30dLong, views30dShorts, uploads30d, fetc
     "w-full field-pill px-4 py-3";
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         {c.avatarUrl ? (
           <Image src={c.avatarUrl} alt="" width={56} height={56} className="h-14 w-14 shrink-0 rounded-full" />
@@ -119,13 +119,13 @@ function ResultCard({ channel: c, views30dLong, views30dShorts, uploads30d, fetc
           {longRange && (
             <div className="rounded-xl bg-surface-2 px-4 py-4 text-center">
               <p className="text-xs text-muted">Est. monthly long-form ad earnings</p>
-              <p className="mt-1 text-2xl font-black tracking-tight">{formatRange(longRange)}</p>
+              <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{formatRange(longRange)}</p>
             </div>
           )}
           {shortsRange && (
             <div className="rounded-xl bg-surface-2 px-4 py-4 text-center">
               <p className="text-xs text-muted">Est. monthly Shorts earnings</p>
-              <p className="mt-1 text-2xl font-black tracking-tight">{formatRange(shortsRange)}</p>
+              <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{formatRange(shortsRange)}</p>
             </div>
           )}
         </div>

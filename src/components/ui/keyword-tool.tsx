@@ -29,7 +29,7 @@ export function KeywordTool({ mode, placeholder, emptyNote }: { mode: "research"
         {state.status === "loading" && <Skeleton className="h-56 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
         {state.status === "done" && (
-          <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+          <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="font-medium">
                 {state.data.keywords.length} phrases <span className="text-sm font-normal text-muted">for “{state.data.seed}”</span>

@@ -29,11 +29,11 @@ export function SponsorshipRateCalculator() {
         <div className="mt-5 grid gap-3 sm:grid-cols-2" aria-live="polite">
           <div className="rounded-xl bg-surface-2 px-4 py-4 text-center">
             <p className="text-xs text-muted">Dedicated integration (60–90s)</p>
-            <p className="mt-1 text-2xl font-black tracking-tight">{formatRange(dedicated)}</p>
+            <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{formatRange(dedicated)}</p>
           </div>
           <div className="rounded-xl bg-surface-2 px-4 py-4 text-center">
             <p className="text-xs text-muted">Short mention (~30s)</p>
-            <p className="mt-1 text-2xl font-black tracking-tight">{formatRange({ low: dedicated.low * 0.4, high: dedicated.high * 0.5 })}</p>
+            <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{formatRange({ low: dedicated.low * 0.4, high: dedicated.high * 0.5 })}</p>
           </div>
         </div>
       )}

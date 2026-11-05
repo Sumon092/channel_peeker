@@ -74,11 +74,11 @@ export function RevenueCalculator() {
         <div className="mt-5 grid gap-3 sm:grid-cols-2" aria-live="polite">
           <div className="rounded-xl bg-surface-2 px-4 py-4 text-center">
             <p className="text-xs text-muted">Estimated monthly ad earnings</p>
-            <p className="mt-1 text-2xl font-black tracking-tight">{formatRange(monthly)}</p>
+            <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{formatRange(monthly)}</p>
           </div>
           <div className="rounded-xl bg-surface-2 px-4 py-4 text-center">
             <p className="text-xs text-muted">Estimated yearly ad earnings</p>
-            <p className="mt-1 text-2xl font-black tracking-tight">{formatRange({ low: monthly.low * 12, high: monthly.high * 12 })}</p>
+            <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{formatRange({ low: monthly.low * 12, high: monthly.high * 12 })}</p>
           </div>
         </div>
       )}

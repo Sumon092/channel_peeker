@@ -100,15 +100,15 @@ export function RpmCpmCalculator() {
         <div className="mt-5 grid gap-3 sm:grid-cols-3" aria-live="polite">
           <div className="rounded-xl border border-border px-4 py-3">
             <p className="text-xs text-muted">Ad CPM</p>
-            <p className="mt-1 text-xl font-bold tracking-tight">{money(cpm)}</p>
+            <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{money(cpm)}</p>
           </div>
           <div className="rounded-xl border border-border px-4 py-3">
             <p className="text-xs text-muted">Your RPM (ads only)</p>
-            <p className="mt-1 text-xl font-bold tracking-tight">{money(rpm)}</p>
+            <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{money(rpm)}</p>
           </div>
           <div className="rounded-xl border border-border px-4 py-3">
             <p className="text-xs text-muted">Ad earnings {Number.isFinite(viewCount) && viewCount > 0 ? "for those views" : "per 100K views"}</p>
-            <p className="mt-1 text-xl font-bold tracking-tight">{money(((Number.isFinite(viewCount) && viewCount > 0 ? viewCount : 100_000) / 1000) * rpm)}</p>
+            <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{money(((Number.isFinite(viewCount) && viewCount > 0 ? viewCount : 100_000) / 1000) * rpm)}</p>
           </div>
         </div>
       )}

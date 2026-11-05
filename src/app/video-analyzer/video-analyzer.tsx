@@ -74,7 +74,7 @@ function ResultCard({ video: v, channel: c, derived, fetchedAt }: Result) {
   }
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <a
           href={`https://www.youtube.com/watch?v=${v.id}`}
@@ -121,7 +121,7 @@ function ResultCard({ video: v, channel: c, derived, fetchedAt }: Result) {
               {s.label}
               {s.estimate && <span title="channelpeek estimate"> *</span>}
             </p>
-            <p className="mt-1 text-xl font-bold tracking-tight">{s.value}</p>
+            <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{s.value}</p>
           </div>
         ))}
       </div>
@@ -138,7 +138,7 @@ function ResultCard({ video: v, channel: c, derived, fetchedAt }: Result) {
 
 function ResultSkeleton() {
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
+    <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex flex-col gap-4 sm:flex-row">
         <Skeleton className="aspect-video w-full sm:w-56" />
         <div className="flex-1 space-y-2">
