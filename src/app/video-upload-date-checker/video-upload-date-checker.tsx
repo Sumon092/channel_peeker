@@ -59,7 +59,7 @@ function ResultCard({ video: v, channel: c, fetchedAt }: Result) {
   const utc = published.toLocaleString("en", { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" });
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-lg shadow-slate-900/5 sm:p-7">
+    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         <span className="relative h-14 w-[100px] shrink-0 overflow-hidden rounded-lg bg-surface-2">
           {v.thumbnailUrl && <Image src={v.thumbnailUrl} alt="" fill sizes="100px" className="object-cover" />}

@@ -102,7 +102,7 @@ function BulkForm({ loading, onSubmit }: { loading: boolean; onSubmit: (inputs: 
   }
 
   return (
-    <form onSubmit={submit} className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <form onSubmit={submit} className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label htmlFor="bulk" className="text-sm font-medium">
         Video links, one per line
       </label>
@@ -177,7 +177,7 @@ function VideoCard({ video }: { video: VideoThumbs }) {
   }
 
   return (
-    <article className="overflow-hidden rounded-3xl border border-border bg-surface shadow-[0_8px_30px_rgb(0_0_0/0.06)]">
+    <article className="overflow-hidden rounded-3xl border border-border bg-surface shadow-panel">
       <div className="grid gap-0 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
         <div className="bg-surface-2 p-4 sm:p-5">
           <div className="relative aspect-video overflow-hidden rounded-xl bg-surface-3">

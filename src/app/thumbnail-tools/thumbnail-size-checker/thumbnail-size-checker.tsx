@@ -79,7 +79,7 @@ export function ThumbnailSizeChecker() {
   }
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label
         htmlFor={id}
         className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-bg px-6 py-10 text-center transition hover:border-accent"

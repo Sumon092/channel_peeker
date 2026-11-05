@@ -26,7 +26,7 @@ export function TitleGenerator() {
         {state.status === "loading" && <Skeleton className="h-72 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
         {state.status === "done" && (
-          <div className="rounded-3xl border border-border bg-surface p-5 shadow-lg shadow-slate-900/5 sm:p-7">
+          <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
             <ul className="divide-y divide-border">
               {state.data.titles.map((t) => (
                 <li key={t} className="flex items-center justify-between gap-3 py-3">

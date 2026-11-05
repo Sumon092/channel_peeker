@@ -29,7 +29,7 @@ export function TopicForm({ label, placeholder, submitLabel, loading, onSubmit }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <form onSubmit={handleSubmit} className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label htmlFor={id} className="text-sm font-medium">
         {label}
       </label>
@@ -46,7 +46,7 @@ export function TopicForm({ label, placeholder, submitLabel, loading, onSubmit }
             setValue(e.target.value);
             if (error) setError(null);
           }}
-          className="min-w-0 flex-1 rounded-full border border-border bg-bg px-5 py-3.5 text-base outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12"
+          className="min-w-0 flex-1 field-pill px-5 py-3.5"
         />
         <button
           type="submit"

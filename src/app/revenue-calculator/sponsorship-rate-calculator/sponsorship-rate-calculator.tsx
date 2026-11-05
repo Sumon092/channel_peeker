@@ -12,7 +12,7 @@ export function SponsorshipRateCalculator() {
   const dedicated = valid ? estimateSponsorshipRate(expectedViews) : null;
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label className="text-sm font-medium" htmlFor={id}>
         Average views per video (first 30 days)
       </label>
@@ -22,7 +22,7 @@ export function SponsorshipRateCalculator() {
         inputMode="numeric"
         value={views}
         onChange={(e) => setViews(e.target.value)}
-        className="mt-2 w-full max-w-sm rounded-full border border-border bg-bg px-4 py-3 text-base outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/12"
+        className="mt-2 w-full max-w-sm field-pill px-4 py-3"
       />
 
       {dedicated && (

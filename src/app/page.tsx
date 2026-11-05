@@ -162,7 +162,7 @@ export default function Home() {
         <div className="reveal mt-12 divide-y divide-border rounded-3xl border border-border bg-surface">
           {faq.map((item) => (
             <details key={item.q} className="group">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-[1.05rem] font-medium [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-card-title font-medium [&::-webkit-details-marker]:hidden">
                 {item.q}
                 <ChevronDown className="h-5 w-5 shrink-0 text-muted transition group-open:rotate-180" aria-hidden="true" />
               </summary>

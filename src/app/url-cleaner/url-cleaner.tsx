@@ -43,7 +43,7 @@ export function UrlCleaner() {
   const result = url.trim() && looksLikeLink ? clean(url) : null;
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label htmlFor={id} className="text-sm font-medium">
         YouTube link to clean
       </label>
@@ -56,7 +56,7 @@ export function UrlCleaner() {
         value={url}
         placeholder="https://youtu.be/…?si=AbC123… or any YouTube link"
         onChange={(e) => setUrl(e.target.value)}
-        className="mt-2 w-full rounded-full border border-border bg-bg px-5 py-3.5 text-base outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12"
+        className="mt-2 w-full field-pill px-5 py-3.5"
       />
       {url.trim() && looksLikeLink && !result && (
         <p role="alert" className="mt-2 text-sm font-medium text-bad">

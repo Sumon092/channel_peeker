@@ -13,7 +13,7 @@ export function PlaylistIdFinder() {
   const playlistId = value?.kind === "playlist" ? value.id : value?.kind === "video" && value.playlistId ? value.playlistId : null;
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label htmlFor={id} className="text-sm font-medium">
         Playlist link (or a video link opened from a playlist)
       </label>
@@ -26,7 +26,7 @@ export function PlaylistIdFinder() {
         value={url}
         placeholder="https://www.youtube.com/playlist?list=… or watch?v=…&list=…"
         onChange={(e) => setUrl(e.target.value)}
-        className="mt-2 w-full rounded-full border border-border bg-bg px-5 py-3.5 text-base outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12"
+        className="mt-2 w-full field-pill px-5 py-3.5"
       />
       {url.trim() && !playlistId && (
         <p role="alert" className="mt-2 text-sm font-medium text-bad">

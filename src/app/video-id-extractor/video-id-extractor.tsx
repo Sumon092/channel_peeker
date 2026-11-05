@@ -12,7 +12,7 @@ export function VideoIdExtractor() {
   const videoId = parsed?.ok && parsed.value.kind === "video" ? parsed.value.id : null;
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label htmlFor={id} className="text-sm font-medium">
         Any YouTube video link
       </label>
@@ -25,7 +25,7 @@ export function VideoIdExtractor() {
         value={url}
         placeholder="watch?v=…, youtu.be/…, /shorts/…, /embed/… — all work"
         onChange={(e) => setUrl(e.target.value)}
-        className="mt-2 w-full rounded-full border border-border bg-bg px-5 py-3.5 text-base outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12"
+        className="mt-2 w-full field-pill px-5 py-3.5"
       />
       {url.trim() && !videoId && (
         <p role="alert" className="mt-2 text-sm font-medium text-bad">

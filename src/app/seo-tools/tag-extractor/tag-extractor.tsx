@@ -55,7 +55,7 @@ function ChipList({ items }: { items: string[] }) {
 
 function ResultCard({ video: v, tags, hashtags, fetchedAt }: Result) {
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-lg shadow-slate-900/5 sm:p-7">
+    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         <span className="relative h-14 w-[100px] shrink-0 overflow-hidden rounded-lg bg-surface-2">
           {v.thumbnailUrl && <Image src={v.thumbnailUrl} alt="" fill sizes="100px" className="object-cover" />}
@@ -107,7 +107,7 @@ function ResultCard({ video: v, tags, hashtags, fetchedAt }: Result) {
 
 function ResultSkeleton() {
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-lg shadow-slate-900/5 sm:p-7">
+    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         <Skeleton className="h-14 w-[100px] rounded-lg" />
         <div className="flex-1 space-y-2">

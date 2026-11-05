@@ -16,7 +16,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
           </span>
           <span className="rounded-full bg-surface-2 px-2.5 py-1 text-xs font-medium text-muted">Coming soon</span>
         </div>
-        <h3 className="mt-5 text-[1.05rem] font-bold text-muted">{tool.name}</h3>
+        <h3 className="mt-5 text-card-title font-bold text-muted">{tool.name}</h3>
         <p className="mt-2 text-sm leading-relaxed text-muted">{tool.summary}</p>
       </div>
     );
@@ -25,15 +25,15 @@ export function ToolCard({ tool }: { tool: Tool }) {
   return (
     <Link
       href={tool.path}
-      className="group flex flex-col rounded-2xl border border-border bg-surface p-6 transition hover:border-accent/40 hover:shadow-[0_8px_30px_rgb(0_0_0/0.08)] focus-visible:border-accent"
+      className="group flex flex-col rounded-2xl border border-border bg-surface p-6 transition hover:border-accent/40 hover:shadow-panel focus-visible:border-accent"
     >
       <div className="flex items-start justify-between gap-3">
         <ToolIcon path={tool.path} solid />
         <span className="rounded-full bg-good-soft px-2.5 py-1 text-xs font-medium text-good">Free</span>
       </div>
-      <h3 className="mt-5 text-[1.05rem] font-bold">{tool.name}</h3>
+      <h3 className="mt-5 text-card-title font-bold">{tool.name}</h3>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{tool.summary}</p>
-      <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
+      <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent-strong">
         Use tool <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" aria-hidden="true" />
       </span>
     </Link>

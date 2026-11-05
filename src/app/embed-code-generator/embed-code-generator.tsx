@@ -24,7 +24,7 @@ export function EmbedCodeGenerator() {
   }
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label htmlFor={id} className="text-sm font-medium">
         Video link
       </label>
@@ -37,7 +37,7 @@ export function EmbedCodeGenerator() {
         value={url}
         placeholder="https://www.youtube.com/watch?v=… or youtu.be/…"
         onChange={(e) => setUrl(e.target.value)}
-        className="mt-2 w-full rounded-full border border-border bg-bg px-5 py-3 text-base outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12"
+        className="mt-2 w-full field-pill px-5 py-3"
       />
       {url.trim() && !videoId && (
         <p role="alert" className="mt-2 text-sm font-medium text-bad">
@@ -63,7 +63,7 @@ export function EmbedCodeGenerator() {
             value={start}
             placeholder="0"
             onChange={(e) => setStart(e.target.value)}
-            className="w-20 rounded-full border border-border bg-bg px-3 py-1.5 text-center outline-none transition focus:border-accent"
+            className="w-20 field-pill px-3 py-1.5 text-center text-sm"
           />
           seconds
         </label>

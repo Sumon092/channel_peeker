@@ -40,25 +40,22 @@ wash is a 5% accent radial. The restraint is the personality — keep it. The on
 slop-adjacent habit to watch: every new tool copying the "Free tool · No
 signup" pill means the claim must stay true everywhere.
 
-## Fix list (by value)
+## Fix list — all applied November 5, 2026
 
-1. **Unify shadows** — result panels use `shadow-lg shadow-slate-900/5` (an
-   off-palette Tailwind slate) while cards use
-   `shadow-[0_8px_30px_rgb(0_0_0/0.08)]`. Pick one, define `--shadow-panel` in
-   `globals.css`, use everywhere.
-2. **Extract the input class** — the pill-input class string is duplicated in
-   ~10 client components (e.g. `src/app/url-cleaner/url-cleaner.tsx`,
-   `src/app/revenue-calculator/revenue-calculator.tsx`). Export a shared
-   constant or `<PillInput>` from `src/components/ui/`.
-3. **Menu semantics** — `src/components/site-header.tsx:30-53`: the CSS-only
-   dropdown works with hover/focus-within but announces nothing; add
-   `aria-expanded` via a small client component, or accept the tradeoff
-   knowingly (it is keyboard-reachable today).
-4. **Accent contrast** — #e8002d on white is ≈4.5:1, borderline AA for the
-   small "Use tool" links; `--accent-strong` (#c20026, ≈5.9:1) passes
-   comfortably — consider it for small accent text.
-5. **Name the odd sizes** — promote `text-[1.05rem]` (card titles) and
-   `text-[0.95rem]` (nav) into the `@theme` block so they're deliberate steps.
+1. ✅ **Shadows unified** — `--shadow-panel` and `--shadow-menu` tokens in
+   `globals.css`; `shadow-panel`/`shadow-menu` used everywhere (the hero
+   smart-search keeps its bespoke layered shadow deliberately).
+2. ✅ **Shared field style** — `.field-pill` / `.field-area` utilities in
+   `globals.css`; every tool input/select/textarea composes them with only
+   spacing classes at the call site.
+3. ✅ **Menu semantics** — `src/components/tools-menu.tsx`: state-driven
+   dropdown with `aria-expanded`, `aria-haspopup` and Escape-to-close;
+   hover/focus behavior unchanged.
+4. ✅ **Accent contrast** — small accent text (card "Use tool" links, step
+   eyebrows, related-tools link) uses `text-accent-strong` (≈5.9:1); `--accent`
+   remains for buttons and large text.
+5. ✅ **Named sizes** — `text-card-title` (1.05rem) and `text-nav` (0.95rem)
+   are theme steps.
 
 ## Rules for new components
 

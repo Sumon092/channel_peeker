@@ -27,7 +27,7 @@ export function TitleChecker() {
     : [];
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <div className="flex items-center justify-between gap-3">
         <label htmlFor={id} className="text-sm font-medium">
           Your video title
@@ -43,7 +43,7 @@ export function TitleChecker() {
         value={title}
         placeholder="The title you plan to publish…"
         onChange={(e) => setTitle(e.target.value)}
-        className="mt-2.5 w-full rounded-full border border-border bg-bg px-5 py-3.5 text-base outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12"
+        className="mt-2.5 w-full field-pill px-5 py-3.5"
       />
 
       {title.trim() && (

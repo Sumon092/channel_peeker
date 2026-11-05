@@ -87,7 +87,7 @@ export function TranscriptExtractor() {
   const current = outputs ? outputs[format] : "";
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label htmlFor={id} className="text-sm font-medium">
         Paste the transcript (on YouTube: description → “Show transcript” → select all → copy)
       </label>
@@ -97,7 +97,7 @@ export function TranscriptExtractor() {
         value={raw}
         onChange={(e) => setRaw(e.target.value)}
         placeholder={"0:00\nhey everyone welcome back\n0:04\ntoday we're looking at…"}
-        className="mt-2.5 w-full rounded-2xl border border-border bg-bg px-4 py-3 font-mono text-sm outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12"
+        className="mt-2.5 w-full field-area px-4 py-3 font-mono text-sm"
       />
       <p className="mt-2 text-xs text-muted">Everything runs in your browser — the transcript is never uploaded.</p>
 

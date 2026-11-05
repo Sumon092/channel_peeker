@@ -87,7 +87,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
         <ol className={`mt-12 grid gap-5 ${howTo.length >= 4 ? "md:grid-cols-4" : "md:grid-cols-3"}`}>
           {howTo.map((step, i) => (
             <li key={step} className="rounded-2xl border border-border bg-surface p-6">
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent">Step 0{i + 1}</p>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent-strong">Step 0{i + 1}</p>
               <p className="mt-3 leading-relaxed">{step}</p>
             </li>
           ))}
@@ -127,7 +127,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <SectionHeading eyebrow="Keep going" title="Related tools" />
-              <Link href={hub.path ?? "/tools"} className="inline-flex items-center gap-1 text-sm font-medium text-accent hover:underline">
+              <Link href={hub.path ?? "/tools"} className="inline-flex items-center gap-1 text-sm font-medium text-accent-strong hover:underline">
                 All {hub.path ? hub.name.toLowerCase() : "tools"} <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>

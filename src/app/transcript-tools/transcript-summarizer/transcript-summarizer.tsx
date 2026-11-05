@@ -29,7 +29,7 @@ export function TranscriptSummarizer() {
 
   return (
     <div className="space-y-4">
-      <form onSubmit={handleSubmit} className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+      <form onSubmit={handleSubmit} className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
         <label htmlFor={id} className="text-sm font-medium">
           Paste the transcript (on YouTube: description → “Show transcript” → copy)
         </label>
@@ -42,7 +42,7 @@ export function TranscriptSummarizer() {
             if (error) setError(null);
           }}
           placeholder="Paste the full transcript here…"
-          className="mt-2.5 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12"
+          className="mt-2.5 w-full field-area px-4 py-3 text-sm"
         />
         {error && (
           <p role="alert" className="mt-2 text-sm font-medium text-bad">
@@ -73,7 +73,7 @@ export function TranscriptSummarizer() {
         {state.status === "loading" && <Skeleton className="h-64 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
         {state.status === "done" && (
-          <div className="rounded-3xl border border-border bg-surface p-5 shadow-lg shadow-slate-900/5 sm:p-7">
+          <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
             <div className="flex items-center justify-between gap-3">
               <p className="font-medium">Summary</p>
               <CopyButton text={`${state.data.summary}\n\n${state.data.keyPoints.map((p) => `• ${p}`).join("\n")}`} label="Copy all" />

@@ -16,7 +16,7 @@ function Cell({ path, title, body, visual, className = "" }: { path: string; tit
       <div className="flex items-start justify-between gap-3 p-6 pb-0 sm:p-7 sm:pb-0">
         <div>
           <h3 className="text-lg font-bold tracking-tight">{title}</h3>
-          <p className="mt-1.5 max-w-sm text-[0.95rem] leading-relaxed text-muted">{body}</p>
+          <p className="mt-1.5 max-w-sm text-nav leading-relaxed text-muted">{body}</p>
         </div>
         {live ? (
           <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-text px-3 py-1 text-xs font-medium text-bg transition group-hover:bg-accent group-hover:text-white">
@@ -166,7 +166,7 @@ export function FeatureBento() {
             ].map(([label, shown, cut]) => (
               <div key={label} className="rounded-xl border border-border bg-bg px-4 py-3">
                 <p className="text-[11px] font-medium uppercase tracking-wider text-muted">{label}</p>
-                <p className="mt-1 truncate text-[0.95rem] font-medium">
+                <p className="mt-1 truncate text-nav font-medium">
                   {shown}
                   <span className="text-muted line-through decoration-accent decoration-2">{cut}</span>
                 </p>

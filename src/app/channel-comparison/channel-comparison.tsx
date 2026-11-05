@@ -51,7 +51,7 @@ export function ChannelComparison() {
 
   return (
     <div className="space-y-4">
-      <form onSubmit={handleSubmit} className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+      <form onSubmit={handleSubmit} className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
         <p className="text-sm font-medium">Channels to compare (2–4)</p>
         <div className="mt-2.5 grid gap-2.5 sm:grid-cols-2">
           {inputs.map((value, i) => (
@@ -70,7 +70,7 @@ export function ChannelComparison() {
                 setInputs(next);
                 if (error) setError(null);
               }}
-              className="min-w-0 rounded-full border border-border bg-bg px-5 py-3 text-base outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12"
+              className="min-w-0 field-pill px-5 py-3"
             />
           ))}
         </div>
@@ -156,7 +156,7 @@ function ComparisonTable({ channels, fetchedAt }: Result) {
   ];
 
   return (
-    <div className="overflow-x-auto rounded-3xl border border-border bg-surface p-5 shadow-lg shadow-slate-900/5 sm:p-7">
+    <div className="overflow-x-auto rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <table className="w-full min-w-[560px] border-collapse text-sm">
         <thead>
           <tr>

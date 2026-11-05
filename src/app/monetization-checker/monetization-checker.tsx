@@ -88,7 +88,7 @@ const statusIcon: Record<SignalStatus, { Icon: typeof CircleCheck; cls: string; 
 function ResultCard({ channel: c, verdict, signals, fetchedAt }: Result) {
   const v = verdictCopy[verdict];
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-lg shadow-slate-900/5 sm:p-7">
+    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         {c.avatarUrl ? (
           <Image src={c.avatarUrl} alt="" width={64} height={64} className="h-16 w-16 shrink-0 rounded-full" />
@@ -136,7 +136,7 @@ function ResultCard({ channel: c, verdict, signals, fetchedAt }: Result) {
 
 function ResultSkeleton() {
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-lg shadow-slate-900/5 sm:p-7">
+    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         <Skeleton className="h-16 w-16 rounded-full" />
         <div className="flex-1 space-y-2">

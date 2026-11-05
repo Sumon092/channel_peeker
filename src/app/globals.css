@@ -76,6 +76,39 @@
   --color-good-soft: var(--good-soft);
   --font-sans: var(--font-roboto);
   --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+  /* One shadow idiom per surface kind (DESIGN.md fix 1). */
+  --shadow-panel: 0 8px 30px rgb(0 0 0 / 0.08);
+  --shadow-menu: 0 16px 48px rgb(0 0 0 / 0.14);
+  /* Named steps for the two sizes that were arbitrary values (DESIGN.md fix 5). */
+  --text-card-title: 1.05rem;
+  --text-nav: 0.95rem;
+}
+
+/* Shared pill field (inputs/selects) — one source for the style duplicated across tools (DESIGN.md fix 2). */
+.field-pill,
+.field-area {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  font-size: 1rem;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.field-pill {
+  border-radius: 9999px;
+}
+.field-area {
+  border-radius: 1rem;
+}
+.field-pill::placeholder,
+.field-area::placeholder {
+  color: var(--muted);
+}
+.field-pill:focus,
+.field-area:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 body {

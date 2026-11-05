@@ -41,7 +41,7 @@ export function ThumbnailAbPreview() {
   };
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <Slot label="A" url={a} onFile={make(setA)} />
         <Slot label="B" url={b} onFile={make(setB)} />

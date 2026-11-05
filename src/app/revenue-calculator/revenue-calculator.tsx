@@ -4,7 +4,7 @@ import { useId, useState } from "react";
 import { COUNTRY_TIERS, DEFAULT_MONETIZED_SHARE, estimateLongFormEarnings, formatRange, NICHES } from "@/lib/revenue-data";
 
 const selectCls =
-  "w-full rounded-full border border-border bg-bg px-4 py-3 text-base outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/12";
+  "w-full field-pill px-4 py-3";
 
 export function RevenueCalculator() {
   const id = useId();
@@ -22,7 +22,7 @@ export function RevenueCalculator() {
   const monthly = valid ? estimateLongFormEarnings(monthlyViews, niche, tier, share) : null;
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <label className="text-sm font-medium" htmlFor={`${id}-v`}>
           Monthly long-form views

@@ -19,12 +19,12 @@ export function TimestampLinkGenerator() {
   const watchLink = videoId ? `https://www.youtube.com/watch?v=${videoId}&t=${seconds}s` : null;
 
   const inputCls =
-    "w-full rounded-full border border-border bg-bg px-5 py-3 text-base outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12";
+    "w-full field-pill px-5 py-3";
   const timeCls =
-    "w-full rounded-full border border-border bg-bg px-4 py-3 text-center text-base outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/12";
+    "w-full field-pill px-4 py-3 text-center";
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <label htmlFor={id} className="text-sm font-medium">
         Video link
       </label>

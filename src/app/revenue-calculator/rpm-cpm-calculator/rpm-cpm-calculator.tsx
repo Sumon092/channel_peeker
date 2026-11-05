@@ -31,10 +31,10 @@ export function RpmCpmCalculator() {
   }
 
   const inputCls =
-    "w-full rounded-full border border-border bg-bg px-5 py-3 text-base outline-none transition placeholder:text-muted focus:border-accent focus:ring-4 focus:ring-accent/12";
+    "w-full field-pill px-5 py-3";
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-[0_8px_30px_rgb(0_0_0/0.08)] sm:p-6">
+    <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <fieldset>
         <legend className="text-sm font-medium">What do you know?</legend>
         <div className="mt-2.5 flex gap-2">

@@ -58,10 +58,10 @@ function ResultCard({ channel: c, views30dLong, views30dShorts, uploads30d, fetc
   const shortsRange = views30dShorts > 0 ? estimateShortsEarnings(views30dShorts, tier) : null;
 
   const selectCls =
-    "w-full rounded-full border border-border bg-bg px-4 py-3 text-base outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/12";
+    "w-full field-pill px-4 py-3";
 
   return (
-    <div className="rounded-3xl border border-border bg-surface p-5 shadow-lg shadow-slate-900/5 sm:p-7">
+    <div className="rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         {c.avatarUrl ? (
           <Image src={c.avatarUrl} alt="" width={56} height={56} className="h-14 w-14 shrink-0 rounded-full" />
