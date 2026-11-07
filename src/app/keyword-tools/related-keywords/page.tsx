@@ -6,7 +6,7 @@ import { getTool } from "@/lib/tools";
 const tool = getTool("/keyword-tools/related-keywords");
 
 export const metadata = pageMetadata({
-  title: "Related YouTube Keywords: terms around your topic",
+  title: "Related YouTube Keywords Finder",
   description:
     "Find related YouTube search terms around any topic, from real search suggestions — sibling topics, comparisons and adjacent phrases. Free, no signup.",
   path: tool.path,

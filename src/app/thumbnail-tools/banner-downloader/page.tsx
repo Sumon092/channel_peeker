@@ -6,7 +6,7 @@ import { BannerDownloader } from "./banner-downloader";
 const tool = getTool("/thumbnail-tools/banner-downloader");
 
 export const metadata = pageMetadata({
-  title: "YouTube Banner Downloader: any channel's banner in HD",
+  title: "YouTube Banner Downloader: channel art in HD",
   description:
     "Download any YouTube channel's banner in full resolution — TV (2120px), desktop 2× (2560px), tablet and mobile crops. Free, official YouTube data.",
   path: tool.path,

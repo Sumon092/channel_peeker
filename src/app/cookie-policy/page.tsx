@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Cookie policy",
-  description: "Which cookies channelpeek uses and why.",
+  description: "What cookies channelpeek sets (almost none), what each one does, and how to clear or block them in your browser.",
   path: "/cookie-policy",
 });
 

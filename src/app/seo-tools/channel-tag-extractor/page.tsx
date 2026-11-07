@@ -6,7 +6,7 @@ import { ChannelTagExtractor } from "./channel-tag-extractor";
 const tool = getTool("/seo-tools/channel-tag-extractor");
 
 export const metadata = pageMetadata({
-  title: "YouTube Channel Tag Extractor: see any channel's keywords",
+  title: "YouTube Channel Tags & Keywords Extractor",
   description:
     "See the channel keywords (channel tags) any YouTube channel has set — the topic hints competitors give YouTube. Free, official YouTube data.",
   path: tool.path,

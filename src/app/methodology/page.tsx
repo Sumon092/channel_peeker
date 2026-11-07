@@ -4,7 +4,7 @@ import { COUNTRY_TIERS, NICHES, SHORTS_RPM_HIGH, SHORTS_RPM_LOW } from "@/lib/re
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Methodology: how channelpeek calculates every number",
+  title: "Methodology & data sources",
   description: "Where channelpeek's data comes from, which numbers are YouTube's and which are our estimates, and exactly how each estimate is calculated.",
   path: "/methodology",
 });

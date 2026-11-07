@@ -2,7 +2,7 @@ import { HubPage, hubMetadata } from "@/components/hub-page";
 
 export const metadata = hubMetadata(
   "transcript-tools",
-  "YouTube transcript tools: text, summaries and chapters",
+  "YouTube transcript tools: text & chapters",
   "Turn YouTube captions into text, TXT/SRT/VTT files, AI summaries and chapter timestamps.",
 );
 

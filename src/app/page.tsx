@@ -57,6 +57,8 @@ function Mark({ value }: { value: boolean | "partial" }) {
   return <Minus className="mx-auto h-5 w-5 text-surface-3" aria-label="No" strokeWidth={2.5} />;
 }
 
+export const metadata = { alternates: { canonical: "/" } };
+
 export default function Home() {
   const byKind = { video: byKindFor("video"), channel: byKindFor("channel"), playlist: byKindFor("playlist") };
 

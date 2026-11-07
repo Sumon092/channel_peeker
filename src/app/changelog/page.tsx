@@ -2,8 +2,8 @@ import { ProsePage } from "@/components/prose-page";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Changelog",
-  description: "New tools and changes on channelpeek.",
+  title: "Changelog: new tools & updates",
+  description: "Every new tool and change on channelpeek, newest first — 46 free YouTube tools and counting, all official-API and signup-free.",
   path: "/changelog",
 });
 

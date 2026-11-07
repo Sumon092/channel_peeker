@@ -6,7 +6,7 @@ import { TagExtractor } from "./tag-extractor";
 const tool = getTool("/seo-tools/tag-extractor");
 
 export const metadata = pageMetadata({
-  title: "YouTube Tag Extractor: see any video's tags",
+  title: "YouTube Tag Extractor: any video's tags",
   description:
     "Extract the tags and hashtags of any public YouTube video. Free, instant, no signup and no extension — straight from the official YouTube API.",
   path: tool.path,
@@ -66,7 +66,7 @@ export default function Page() {
           a: "Yes — free, no account, no extension. It only reads public video metadata.",
         },
       ]}
-      related={["/seo-tools/title-checker", "/channel-analyzer", "/thumbnail-tools/thumbnail-downloader"]}
+      related={["/seo-tools/channel-tag-extractor", "/seo-tools/title-checker", "/thumbnail-tools/thumbnail-downloader"]}
     >
       <TagExtractor />
     </ToolPage>

@@ -5,9 +5,9 @@ import { pageMetadata } from "@/lib/seo";
 import { liveTools } from "@/lib/tools";
 
 export const metadata = pageMetadata({
-  title: "Free vidIQ alternative: no extension, no signup",
+  title: "Free vidIQ alternative: no extension",
   description:
-    "Looking for a free vidIQ alternative? channelpeek offers channel analytics, a monetization checker and more with no browser extension, no account and no upsells.",
+    "Looking for a free vidIQ alternative? channelpeek offers channel analytics, a monetization checker and more — no extension, no account, no upsells.",
   path: "/compare/vidiq-alternative",
 });
 

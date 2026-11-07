@@ -6,7 +6,7 @@ import { TranscriptExtractor } from "./transcript-extractor";
 const tool = getTool("/transcript-tools/transcript-extractor");
 
 export const metadata = pageMetadata({
-  title: "YouTube Transcript to Text, SRT & VTT converter",
+  title: "YouTube Transcript to Text, SRT & VTT",
   description:
     "Turn a YouTube transcript into clean text, SRT or VTT subtitle files. Paste from YouTube's transcript panel — converted in your browser, nothing uploaded.",
   path: tool.path,

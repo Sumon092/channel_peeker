@@ -6,9 +6,9 @@ import { MonetizationChecker } from "./monetization-checker";
 const tool = getTool("/monetization-checker");
 
 export const metadata = pageMetadata({
-  title: "YouTube Monetization Checker: is a channel eligible?",
+  title: "YouTube Monetization Checker: eligibility",
   description:
-    "Check which YouTube Partner Program requirements any channel meets: subscribers, country, activity and kids-content limits. Honest signals, no fake yes/no. Free, no signup.",
+    "Check which YouTube Partner Program requirements any channel meets: subscribers, country, activity and kids-content limits. Honest signals, no fake yes/no.",
   path: tool.path,
 });
 
@@ -76,7 +76,7 @@ export default function Page() {
           a: "Yes. It's free, needs no account, and only reads public channel information from the official YouTube Data API.",
         },
       ]}
-      related={["/channel-analyzer", "/revenue-calculator/channel-earnings-estimator", "/channel-id-finder"]}
+      related={["/watch-time-calculator", "/channel-analyzer", "/revenue-calculator/channel-earnings-estimator"]}
     >
       <MonetizationChecker />
     </ToolPage>

@@ -6,7 +6,7 @@ import { TagGenerator } from "./tag-generator";
 const tool = getTool("/seo-tools/tag-generator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Tag Generator: AI tags under the 500-char limit",
+  title: "YouTube Tag Generator: AI, under 500 chars",
   description:
     "Generate a YouTube tag list with AI: exact phrase, long-tail variations and category terms, automatically kept under the 500-character limit. Free, no signup.",
   path: tool.path,

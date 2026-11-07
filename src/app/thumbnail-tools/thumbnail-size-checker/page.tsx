@@ -6,9 +6,9 @@ import { ThumbnailSizeChecker } from "./thumbnail-size-checker";
 const tool = getTool("/thumbnail-tools/thumbnail-size-checker");
 
 export const metadata = pageMetadata({
-  title: "YouTube Thumbnail Size Checker: dimensions & file size",
+  title: "YouTube Thumbnail Size Checker",
   description:
-    "Check your thumbnail against YouTube's rules before uploading: 1280×720 recommended, 16:9 ratio, 2 MB limit. Runs in your browser — the image is never uploaded.",
+    "Check your thumbnail against YouTube's rules: 1280×720, 16:9 ratio, 2 MB limit. Runs in your browser — the image is never uploaded.",
   path: tool.path,
 });
 

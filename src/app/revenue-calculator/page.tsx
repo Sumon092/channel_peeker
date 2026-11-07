@@ -6,7 +6,7 @@ import { RevenueCalculator } from "./revenue-calculator";
 const tool = getTool("/revenue-calculator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Revenue Calculator: honest earnings ranges",
+  title: "YouTube Revenue Calculator: honest ranges",
   description:
     "Estimate YouTube ad earnings by views, niche and audience country — shown as honest ranges with the formula and CPM table published. Free, no signup.",
   path: tool.path,

@@ -6,7 +6,7 @@ import { TitleGenerator } from "./title-generator";
 const tool = getTool("/seo-tools/title-generator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Title Generator: AI ideas with length checks",
+  title: "YouTube Title Generator: AI title ideas",
   description:
     "Generate YouTube title ideas with AI — 8 styles per topic, each checked against the 70-character truncation limit. Free, no signup.",
   path: tool.path,

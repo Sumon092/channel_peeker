@@ -6,7 +6,7 @@ import { RegionRestrictionChecker } from "./region-restriction-checker";
 const tool = getTool("/region-restriction-checker");
 
 export const metadata = pageMetadata({
-  title: "YouTube Region Restriction Checker: where is a video blocked?",
+  title: "YouTube Region Restriction Checker",
   description:
     "Check which countries a YouTube video is blocked or allowed in, and whether embedding is enabled — straight from the official YouTube API.",
   path: tool.path,

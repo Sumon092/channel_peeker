@@ -6,7 +6,7 @@ import { getTool } from "@/lib/tools";
 const tool = getTool("/keyword-tools/long-tail-finder");
 
 export const metadata = pageMetadata({
-  title: "Long-tail YouTube Keywords: easier phrases to rank",
+  title: "Long-tail YouTube Keyword Finder",
   description:
     "Find long-tail YouTube keywords — specific 4+ word phrases from real search suggestions that small channels can actually rank for. Free, no signup.",
   path: tool.path,

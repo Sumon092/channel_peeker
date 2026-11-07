@@ -6,7 +6,7 @@ import { KeywordDifficulty } from "./keyword-difficulty";
 const tool = getTool("/keyword-tools/keyword-difficulty");
 
 export const metadata = pageMetadata({
-  title: "YouTube Keyword Difficulty: who ranks and how big",
+  title: "YouTube Keyword Difficulty Checker",
   description:
     "Check how hard a YouTube keyword is: see the channels currently ranking in the top 10 and their subscriber counts. Free, official YouTube data.",
   path: tool.path,

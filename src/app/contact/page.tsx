@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "Contact",
+  title: "Contact & feedback",
   description: "Contact the channelpeek team with questions, bug reports, tool ideas or data deletion requests.",
   path: "/contact",
 });

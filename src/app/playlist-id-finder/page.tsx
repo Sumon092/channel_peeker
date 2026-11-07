@@ -6,7 +6,7 @@ import { PlaylistIdFinder } from "./playlist-id-finder";
 const tool = getTool("/playlist-id-finder");
 
 export const metadata = pageMetadata({
-  title: "YouTube Playlist ID Finder: extract the list ID",
+  title: "YouTube Playlist ID Finder",
   description:
     "Get the playlist ID from any YouTube playlist link — including videos opened from a playlist. Plus a clean shareable playlist URL. Free, in-browser.",
   path: tool.path,

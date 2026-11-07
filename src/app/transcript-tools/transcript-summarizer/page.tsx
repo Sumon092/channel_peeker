@@ -6,7 +6,7 @@ import { TranscriptSummarizer } from "./transcript-summarizer";
 const tool = getTool("/transcript-tools/transcript-summarizer");
 
 export const metadata = pageMetadata({
-  title: "YouTube Transcript Summarizer: AI summary & key points",
+  title: "YouTube Transcript Summarizer (AI)",
   description:
     "Summarize any YouTube video from its transcript: a short AI summary plus key points. Paste from YouTube's transcript panel. Free, no signup.",
   path: tool.path,

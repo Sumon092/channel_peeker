@@ -6,7 +6,7 @@ import { ThumbnailTester } from "./thumbnail-tester";
 const tool = getTool("/thumbnail-tools/thumbnail-tester");
 
 export const metadata = pageMetadata({
-  title: "YouTube Thumbnail Tester: preview before you publish",
+  title: "YouTube Thumbnail Tester: preview mockups",
   description:
     "Preview your thumbnail exactly where viewers see it: home feed, search results, suggested sidebar and mobile. Free, in-browser, nothing uploaded.",
   path: tool.path,

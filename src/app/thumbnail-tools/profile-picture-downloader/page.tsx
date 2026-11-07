@@ -6,7 +6,7 @@ import { ProfilePictureDownloader } from "./profile-picture-downloader";
 const tool = getTool("/thumbnail-tools/profile-picture-downloader");
 
 export const metadata = pageMetadata({
-  title: "YouTube Profile Picture Downloader: full size avatar",
+  title: "YouTube Profile Picture Downloader: full size",
   description:
     "View and save any YouTube channel's profile picture in full resolution — up to 800×800 pixels. Free, instant, official YouTube data.",
   path: tool.path,
@@ -59,7 +59,7 @@ export default function Page() {
           a: "Yes — free, no account, one API lookup per channel.",
         },
       ]}
-      related={["/thumbnail-tools/thumbnail-downloader", "/channel-id-finder", "/channel-analyzer"]}
+      related={["/thumbnail-tools/banner-downloader", "/thumbnail-tools/thumbnail-downloader", "/channel-analyzer"]}
     >
       <ProfilePictureDownloader />
     </ToolPage>

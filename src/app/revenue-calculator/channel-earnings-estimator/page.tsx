@@ -6,7 +6,7 @@ import { ChannelEarningsEstimator } from "./channel-earnings-estimator";
 const tool = getTool("/revenue-calculator/channel-earnings-estimator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Channel Earnings Estimator: from real recent views",
+  title: "YouTube Channel Earnings Estimator",
   description:
     "Estimate any YouTube channel's monthly ad earnings from its real last-30-days views — honest ranges with a published CPM table, long-form and Shorts split.",
   path: tool.path,

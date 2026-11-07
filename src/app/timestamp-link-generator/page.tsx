@@ -6,7 +6,7 @@ import { TimestampLinkGenerator } from "./timestamp-link-generator";
 const tool = getTool("/timestamp-link-generator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Timestamp Link Generator: start at an exact time",
+  title: "YouTube Timestamp Link Generator",
   description:
     "Create a YouTube link that starts playing at an exact time. Paste a video, set hours, minutes and seconds, copy the timestamped link. Free, in-browser.",
   path: tool.path,

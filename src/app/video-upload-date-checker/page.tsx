@@ -6,7 +6,7 @@ import { VideoUploadDateChecker } from "./video-upload-date-checker";
 const tool = getTool("/video-upload-date-checker");
 
 export const metadata = pageMetadata({
-  title: "YouTube Video Upload Date Checker: exact publish time",
+  title: "YouTube Upload Date Checker: to the minute",
   description:
     "Find the exact date and time any YouTube video was published — in your timezone and UTC — plus how old it is. Free, official YouTube data.",
   path: tool.path,

@@ -6,9 +6,9 @@ import { ChannelAnalyzer } from "./channel-analyzer";
 const tool = getTool("/channel-analyzer");
 
 export const metadata = pageMetadata({
-  title: "YouTube Channel Analyzer: free stats for any channel",
+  title: "YouTube Channel Analyzer: free channel stats",
   description:
-    "Analyze any YouTube channel free: subscribers, views per upload, recent activity, top videos and a shareable report. No signup, no extension, official YouTube data.",
+    "Analyze any YouTube channel free: subscribers, views per upload, recent activity, top videos and a shareable report. No signup, official YouTube data.",
   path: tool.path,
 });
 

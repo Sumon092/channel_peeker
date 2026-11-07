@@ -2,7 +2,7 @@ import { HubPage, hubMetadata } from "@/components/hub-page";
 
 export const metadata = hubMetadata(
   "keyword-tools",
-  "YouTube keyword tools: research, difficulty and long-tail ideas",
+  "YouTube keyword tools: research & difficulty",
   "Free YouTube keyword research: search suggestions, related and long-tail keywords, and a difficulty indicator based on who ranks.",
 );
 

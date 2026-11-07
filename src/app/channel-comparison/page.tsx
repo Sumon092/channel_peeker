@@ -6,7 +6,7 @@ import { ChannelComparison } from "./channel-comparison";
 const tool = getTool("/channel-comparison");
 
 export const metadata = pageMetadata({
-  title: "YouTube Channel Comparison: compare 2–4 channels",
+  title: "Compare YouTube Channels side by side",
   description:
     "Compare up to 4 YouTube channels side by side: subscribers, total views, video count, age and country. Free, official YouTube data, no signup.",
   path: tool.path,

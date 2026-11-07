@@ -6,7 +6,7 @@ import { HashtagGenerator } from "./hashtag-generator";
 const tool = getTool("/seo-tools/hashtag-generator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Hashtag Generator: relevant tags for your topic",
+  title: "YouTube Hashtag Generator",
   description:
     "Generate relevant YouTube hashtags with AI — a mix of broad and specific tags, correctly formatted. Free, no signup, 10 generations a day.",
   path: tool.path,

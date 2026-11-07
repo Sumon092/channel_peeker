@@ -6,7 +6,7 @@ import { OutlierFinder } from "./outlier-finder";
 const tool = getTool("/outlier-finder");
 
 export const metadata = pageMetadata({
-  title: "YouTube Outlier Finder: videos that beat the median",
+  title: "YouTube Outlier Finder: beat-the-median videos",
   description:
     "Find a channel's outlier videos — the ones that beat its typical views by 2×, 5× or 10×. Free, official YouTube data, no signup.",
   path: tool.path,

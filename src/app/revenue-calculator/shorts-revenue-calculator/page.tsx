@@ -6,7 +6,7 @@ import { ShortsRevenueCalculator } from "./shorts-revenue-calculator";
 const tool = getTool("/revenue-calculator/shorts-revenue-calculator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Shorts Revenue Calculator: honest estimates",
+  title: "YouTube Shorts Revenue Calculator",
   description:
     "Estimate YouTube Shorts earnings from monthly views — honest ranges based on typical Shorts RPM and your audience's region. Free, no signup.",
   path: tool.path,

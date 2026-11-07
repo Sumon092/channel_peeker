@@ -6,7 +6,7 @@ import { DescriptionGenerator } from "./description-generator";
 const tool = getTool("/seo-tools/description-generator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Description Generator: hook, chapters, links",
+  title: "YouTube Description Generator (AI)",
   description:
     "Generate a structured YouTube description with AI: a strong 2-sentence hook, keyword paragraph, chapter placeholders, link slots and hashtags. Free, no signup.",
   path: tool.path,

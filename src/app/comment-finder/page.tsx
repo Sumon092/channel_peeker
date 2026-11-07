@@ -6,7 +6,7 @@ import { CommentFinder } from "./comment-finder";
 const tool = getTool("/comment-finder");
 
 export const metadata = pageMetadata({
-  title: "YouTube Comment Finder: search comments on any video",
+  title: "YouTube Comment Finder: search video comments",
   description:
     "Search the comments of any YouTube video for a word, name or phrase. Sort by top or newest, and export matches to CSV. Free, official YouTube data.",
   path: tool.path,
@@ -60,7 +60,7 @@ export default function Page() {
           a: "If a creator disables comments (or the video is made for kids), YouTube's API returns no comment data, and we say so instead of guessing.",
         },
       ]}
-      related={["/video-analyzer", "/video-upload-date-checker", "/channel-analyzer"]}
+      related={["/comment-picker", "/video-analyzer", "/video-upload-date-checker"]}
     >
       <CommentFinder />
     </ToolPage>

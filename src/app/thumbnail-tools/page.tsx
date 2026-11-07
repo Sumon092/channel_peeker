@@ -2,7 +2,7 @@ import { HubPage, hubMetadata } from "@/components/hub-page";
 
 export const metadata = hubMetadata(
   "thumbnail-tools",
-  "YouTube thumbnail tools: download, test and check sizes",
+  "YouTube thumbnail tools: download & test",
   "Free YouTube thumbnail tools: download every size up to 4K, preview in feed mockups, check dimensions and compare two versions.",
 );
 

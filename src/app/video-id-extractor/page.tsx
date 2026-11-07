@@ -6,7 +6,7 @@ import { VideoIdExtractor } from "./video-id-extractor";
 const tool = getTool("/video-id-extractor");
 
 export const metadata = pageMetadata({
-  title: "YouTube Video ID Extractor: get the ID from any link",
+  title: "YouTube Video ID Extractor",
   description:
     "Extract the 11-character video ID from any YouTube URL — watch, youtu.be, Shorts, embed or live links. Instant, in your browser, free.",
   path: tool.path,

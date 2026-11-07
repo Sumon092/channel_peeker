@@ -6,7 +6,7 @@ import { RpmCpmCalculator } from "./rpm-cpm-calculator";
 const tool = getTool("/revenue-calculator/rpm-cpm-calculator");
 
 export const metadata = pageMetadata({
-  title: "YouTube RPM & CPM Calculator: convert and understand",
+  title: "YouTube RPM & CPM Calculator",
   description:
     "Convert between YouTube CPM and RPM, see the 55% creator share and estimate ad earnings per view count. Free calculator with the formula shown.",
   path: tool.path,
@@ -63,7 +63,7 @@ export default function Page() {
           a: "Yes — free, client-side, no account.",
         },
       ]}
-      related={["/revenue-calculator", "/monetization-checker", "/channel-analyzer"]}
+      related={["/revenue-calculator", "/revenue-calculator/live-stream-earnings-calculator", "/monetization-checker"]}
     >
       <RpmCpmCalculator />
     </ToolPage>

@@ -6,7 +6,7 @@ import { UrlCleaner } from "./url-cleaner";
 const tool = getTool("/url-cleaner");
 
 export const metadata = pageMetadata({
-  title: "YouTube URL Cleaner: remove si= and tracking parameters",
+  title: "YouTube URL Cleaner: strip tracking params",
   description:
     "Clean YouTube links before sharing: strip the si= share identifier and other tracking parameters, keep only the video, playlist and timestamp. Free, in-browser.",
   path: tool.path,

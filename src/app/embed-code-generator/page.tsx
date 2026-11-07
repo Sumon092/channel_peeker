@@ -6,7 +6,7 @@ import { EmbedCodeGenerator } from "./embed-code-generator";
 const tool = getTool("/embed-code-generator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Embed Code Generator: responsive iframe",
+  title: "YouTube Embed Code Generator",
   description:
     "Generate clean, responsive YouTube iframe embed code with privacy-enhanced mode and a custom start time. Free, instant, runs in your browser.",
   path: tool.path,
@@ -61,7 +61,7 @@ export default function Page() {
           a: "Yes — free, client-side, no account.",
         },
       ]}
-      related={["/timestamp-link-generator", "/shorts-link-converter", "/thumbnail-tools/thumbnail-downloader"]}
+      related={["/region-restriction-checker", "/timestamp-link-generator", "/shorts-link-converter"]}
     >
       <EmbedCodeGenerator />
     </ToolPage>

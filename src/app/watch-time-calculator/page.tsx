@@ -6,7 +6,7 @@ import { WatchTimeCalculator } from "./watch-time-calculator";
 const tool = getTool("/watch-time-calculator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Watch Time Calculator: hours from views & duration",
+  title: "YouTube Watch Time Calculator",
   description:
     "Convert views and average view duration into total watch hours, and see how many views you need for YouTube's 4,000-hour monetization threshold.",
   path: tool.path,

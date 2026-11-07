@@ -6,7 +6,7 @@ import { SponsorshipRateCalculator } from "./sponsorship-rate-calculator";
 const tool = getTool("/revenue-calculator/sponsorship-rate-calculator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Sponsorship Rate Calculator: price your integrations",
+  title: "YouTube Sponsorship Rate Calculator",
   description:
     "Calculate what to charge for a YouTube sponsorship from your average views — typical sponsor CPM ranges for integrations and mentions. Free, no signup.",
   path: tool.path,

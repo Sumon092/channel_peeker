@@ -6,7 +6,7 @@ import { getTool } from "@/lib/tools";
 const tool = getTool("/keyword-tools/keyword-research");
 
 export const metadata = pageMetadata({
-  title: "YouTube Keyword Research: real search suggestions",
+  title: "YouTube Keyword Research: real suggestions",
   description:
     "Free YouTube keyword research from real search suggestions: A–Z expansions and question phrases people actually type. No signup, no made-up volume numbers.",
   path: tool.path,

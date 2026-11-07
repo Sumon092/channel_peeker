@@ -6,7 +6,7 @@ import { TitleChecker } from "./title-checker";
 const tool = getTool("/seo-tools/title-checker");
 
 export const metadata = pageMetadata({
-  title: "YouTube Title Checker: length & truncation preview",
+  title: "YouTube Title Checker: truncation preview",
   description:
     "Check your YouTube title's character count and see exactly where it gets cut off in desktop search and on mobile. Free, instant, nothing leaves your browser.",
   path: tool.path,

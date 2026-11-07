@@ -6,7 +6,7 @@ import { ShortsLinkConverter } from "./shorts-link-converter";
 const tool = getTool("/shorts-link-converter");
 
 export const metadata = pageMetadata({
-  title: "YouTube Shorts Link Converter: Shorts to normal URL",
+  title: "YouTube Shorts Link Converter",
   description:
     "Convert a YouTube Shorts link into a normal watch URL (and back) to play a Short in the regular player with a scrubber. Free, instant, in-browser.",
   path: tool.path,

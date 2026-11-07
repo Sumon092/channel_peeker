@@ -6,9 +6,9 @@ import { CommentPicker } from "./comment-picker";
 const tool = getTool("/comment-picker");
 
 export const metadata = pageMetadata({
-  title: "YouTube Comment Picker: fair giveaway winner generator",
+  title: "YouTube Comment Picker: giveaway winners",
   description:
-    "Pick random giveaway winners from any YouTube video's comments — cryptographically fair, one entry per person, keyword filter, up to 5 winners. Free, no signup.",
+    "Pick random giveaway winners from any YouTube video's comments — cryptographically fair, one entry per person, keyword filter, up to 5 winners.",
   path: tool.path,
 });
 

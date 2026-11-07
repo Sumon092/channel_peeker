@@ -6,7 +6,7 @@ import { ChannelAgeChecker } from "./channel-age-checker";
 const tool = getTool("/channel-age-checker");
 
 export const metadata = pageMetadata({
-  title: "YouTube Channel Age Checker: creation date of any channel",
+  title: "YouTube Channel Age & Creation Date Checker",
   description:
     "Find out exactly when any YouTube channel was created and how old it is, with total views and video count. Free, instant, no signup.",
   path: tool.path,

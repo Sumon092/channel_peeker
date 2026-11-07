@@ -63,7 +63,7 @@ export default function Page() {
           a: "Yes — free, no account, official YouTube data only.",
         },
       ]}
-      related={["/channel-analyzer", "/seo-tools/video-seo-score", "/seo-tools/tag-extractor"]}
+      related={["/channel-analyzer", "/seo-tools/video-seo-score", "/region-restriction-checker", "/comment-finder"]}
     >
       <VideoAnalyzer />
     </ToolPage>

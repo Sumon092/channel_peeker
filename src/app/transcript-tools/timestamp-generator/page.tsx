@@ -6,7 +6,7 @@ import { TimestampGenerator } from "./timestamp-generator";
 const tool = getTool("/transcript-tools/timestamp-generator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Timestamp Generator: chapters from a transcript",
+  title: "YouTube Timestamp Generator: chapters",
   description:
     "Generate YouTube chapters in the 0:00 format from a timestamped transcript. AI finds the topic changes; you paste the block into your description. Free.",
   path: tool.path,

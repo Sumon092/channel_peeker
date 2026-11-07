@@ -6,7 +6,7 @@ import { ChannelIdFinder } from "./channel-id-finder";
 const tool = getTool("/channel-id-finder");
 
 export const metadata = pageMetadata({
-  title: "YouTube Channel ID Finder: find any channel's ID",
+  title: "YouTube Channel ID Finder",
   description: "Find the channel ID (UC…) of any YouTube channel from its @handle, channel URL or any video link. Free, instant, no signup.",
   path: tool.path,
 });

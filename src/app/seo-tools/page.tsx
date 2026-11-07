@@ -2,7 +2,7 @@ import { HubPage, hubMetadata } from "@/components/hub-page";
 
 export const metadata = hubMetadata(
   "seo-tools",
-  "YouTube SEO tools: tags, titles, descriptions and hashtags",
+  "YouTube SEO tools: tags, titles & hashtags",
   "Free YouTube SEO tools: extract tags from any video, check title length and truncation, and generate descriptions, tags and hashtags.",
 );
 
