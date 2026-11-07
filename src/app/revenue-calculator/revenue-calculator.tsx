@@ -91,7 +91,7 @@ export function RevenueCalculator() {
       )}
 
       <p className="mt-4 text-xs leading-relaxed text-muted">
-        The math: views ÷ 1,000 × monetized share × 55% creator split × niche CPM range × audience multiplier. A channelpeek estimate using
+        The math: views ÷ 1,000 × monetized share × 55% creator split × niche CPM range × audience multiplier. A channelpeeker estimate using
         our published CPM table (see the methodology page) — ads only, excluding memberships, sponsorships and Supers. Never an exact number,
         because nobody outside your YouTube Studio can know one.
       </p>

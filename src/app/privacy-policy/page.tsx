@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Privacy policy",
-  description: "How channelpeek handles your information when you use our free YouTube tools.",
+  description: "How channelpeeker handles your information when you use our free YouTube tools.",
   path: "/privacy-policy",
 });
 

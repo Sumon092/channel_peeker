@@ -56,7 +56,7 @@ export async function POST(req: Request) {
       };
     });
 
-    // The difficulty score is a channelpeek estimate (plan 3.2 gate).
+    // The difficulty score is a channelpeeker estimate (plan 3.2 gate).
     let difficulty: { score: number; label: string } | null = null;
     if (process.env.DERIVED_METRICS_APPROVED === "true") {
       const subs = results.map((r) => r.subscribers).filter((s): s is number => s !== null).sort((a, b) => a - b);

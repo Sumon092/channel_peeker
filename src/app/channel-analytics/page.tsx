@@ -15,7 +15,7 @@ export default function Page() {
     >
       <h2>Numbers you can check</h2>
       <p>
-        Every figure here is either YouTube&apos;s own public data or a clearly labeled channelpeek estimate with the math published on the{" "}
+        Every figure here is either YouTube&apos;s own public data or a clearly labeled channelpeeker estimate with the math published on the{" "}
         <a href="/methodology">methodology page</a>. What no tool can show — watch time, CTR, real revenue — we say so instead of guessing.
       </p>
     </HubPage>

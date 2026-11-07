@@ -45,14 +45,14 @@ function ResultCard({ q, results, difficulty, fetchedAt }: Result) {
         {difficulty && (
           <div className="text-right">
             <p className="text-3xl font-black tabular-nums tracking-tight">{difficulty.score}</p>
-            <p className="text-xs text-muted">{difficulty.label} · channelpeek estimate</p>
+            <p className="text-xs text-muted">{difficulty.label} · channelpeeker estimate</p>
           </div>
         )}
       </div>
 
       {!difficulty && (
         <p className="mt-3 rounded-xl bg-surface-2 px-4 py-3 text-sm text-muted">
-          The difficulty score is a channelpeek estimate and isn&apos;t enabled yet. The honest signal is below: the size of the channels
+          The difficulty score is a channelpeeker estimate and isn&apos;t enabled yet. The honest signal is below: the size of the channels
           currently ranking. If they&apos;re mostly millions of subscribers, the keyword is hard.
         </p>
       )}

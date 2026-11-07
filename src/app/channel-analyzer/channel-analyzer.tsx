@@ -115,7 +115,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
             </span>
             <div>
               <p className="font-semibold">Channel report card: {grade.score}/100</p>
-              <p className="text-sm text-muted">A channelpeek estimate from the newest {r.sampleSize} public uploads. The math is shown below.</p>
+              <p className="text-sm text-muted">A channelpeeker estimate from the newest {r.sampleSize} public uploads. The math is shown below.</p>
             </div>
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -131,7 +131,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
           <div key={s.label} className="rounded-xl border border-border px-4 py-3">
             <p className="text-xs text-muted">
               {s.label}
-              {s.estimate && <span aria-hidden="true"> *</span>}{s.estimate && <span className="sr-only"> (channelpeek estimate)</span>}
+              {s.estimate && <span aria-hidden="true"> *</span>}{s.estimate && <span className="sr-only"> (channelpeeker estimate)</span>}
             </p>
             <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{s.value}</p>
           </div>
@@ -177,7 +177,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-muted">
-          {r.derived ? "* channelpeek estimates, calculated from public YouTube data." : "Showing YouTube's own figures for the newest public uploads."}
+          {r.derived ? "* channelpeeker estimates, calculated from public YouTube data." : "Showing YouTube's own figures for the newest public uploads."}
         </p>
         <FetchedAt iso={fetchedAt} />
       </div>

@@ -1,7 +1,7 @@
 # The ECC Project Playbook
 
 A repeatable checklist for taking any web project from idea to deploy-ready,
-using Claude Code with the ECC plugin. Distilled from the channelpeek build
+using Claude Code with the ECC plugin. Distilled from the channelpeeker build
 (2 tools → 38 tools, deploy-ready, in two days). Run the phases in order;
 each lists the command to type and what you get back.
 
@@ -31,7 +31,7 @@ curl -s "https://suggestqueries.google.com/complete/search?client=firefox&hl=en&
 
 Checklist:
 - [ ] Competitor table: what they provide / what we lack / where we can win
-- [ ] One differentiator you can defend (channelpeek's: honest numbers, no signup)
+- [ ] One differentiator you can defend (channelpeeker's: honest numbers, no signup)
 - [ ] 50+ long-tail keywords mapped to planned pages
 - [ ] Exact volumes verified later in Google Keyword Planner (free with an Ads account)
 
@@ -225,4 +225,4 @@ run the IndexNow script, add lightweight analytics (e.g. Plausible ~1 kB).
 7. Measure performance → usually stop
 8. Screenshot evidence → commit in logical chunks → push → deploy-day list
 
-*Compiled November 5, 2026 from the channelpeek build log.*
+*Compiled November 5, 2026 from the channelpeeker build log.*

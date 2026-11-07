@@ -7,7 +7,7 @@ import { hubs, toolsInHub } from "@/lib/tools";
 
 export const metadata = pageMetadata({
   title: "All free YouTube tools",
-  description: "Every channelpeek tool for YouTube creators: analytics, thumbnails, SEO, revenue, transcripts and keywords. Free, no signup.",
+  description: "Every channelpeeker tool for YouTube creators: analytics, thumbnails, SEO, revenue, transcripts and keywords. Free, no signup.",
   path: "/tools",
 });
 

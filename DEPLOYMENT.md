@@ -1,6 +1,6 @@
 # Deployment checklist
 
-How to take channelpeek from a green local build to production, and what to verify after each deploy. Values and names mirror [.env.example](.env.example).
+How to take channelpeeker from a green local build to production, and what to verify after each deploy. Values and names mirror [.env.example](.env.example).
 
 ## 1. Pre-deploy validation (every release)
 
@@ -19,7 +19,7 @@ Copy `.env.example` and fill it in on the host. Summary of what matters in produ
 
 | Variable | Required | Production value / notes |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | yes | `https://channelpeek.com` — drives canonicals, sitemap, hreflang, JSON-LD. Wrong value here poisons every page's SEO tags. |
+| `NEXT_PUBLIC_SITE_URL` | yes | `https://channelpeeker.com` — drives canonicals, sitemap, hreflang, JSON-LD. Wrong value here poisons every page's SEO tags. |
 | `YOUTUBE_API_KEY` | yes | Key from the Google Cloud project that has YouTube Data API v3 enabled. A key from a different project fails with 403. |
 | `GEMINI_API_KEY` | yes | For the AI generator tools (default model `gemini-3.5-flash-lite`; override with `GEMINI_MODEL`). |
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | strongly recommended | Without them the app falls back to in-memory KV: the API cache and all rate-limit/quota counters reset on every restart and are not shared between instances. Fine in dev, not in production. |
@@ -54,7 +54,7 @@ Zero-downtime isn't critical at current traffic; a restart drops in-flight reque
 ## 5. Post-deploy smoke checks
 
 ```bash
-BASE=https://channelpeek.com
+BASE=https://channelpeeker.com
 curl -s -o /dev/null -w "%{http_code}\n" $BASE/                        # 200
 curl -s -o /dev/null -w "%{http_code}\n" $BASE/comment-picker          # 200
 curl -s -o /dev/null -w "%{http_code}\n" $BASE/de/comment-picker       # 200 (localized page)
@@ -78,5 +78,5 @@ Then in a browser:
 
 ## 7. Deferred switches (do not flip early)
 
-- **AdSense** — in order: (1) approval granted → (2) enable Google's certified CMP in AdSense → Privacy & messaging → (3) set `ADSENSE_PUBLISHER_ID` and redeploy (this activates the loader script and `/ads.txt` automatically) → (4) verify `https://channelpeek.com/ads.txt` returns the one-line file with HTTP 200, and plain text, not HTML.
+- **AdSense** — in order: (1) approval granted → (2) enable Google's certified CMP in AdSense → Privacy & messaging → (3) set `ADSENSE_PUBLISHER_ID` and redeploy (this activates the loader script and `/ads.txt` automatically) → (4) verify `https://channelpeeker.com/ads.txt` returns the one-line file with HTTP 200, and plain text, not HTML.
 - **Derived metrics** — only after YouTube approves the compliance amendment: set `DERIVED_METRICS_APPROVED=true` and redeploy. Medians, engagement rates, and difficulty scores appear automatically.

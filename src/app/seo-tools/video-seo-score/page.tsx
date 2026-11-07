@@ -27,7 +27,7 @@ export default function Page() {
       meaning={
         <>
           <p>
-            The score is a <strong>channelpeek assessment of metadata quality</strong>, out of 100. It checks the things you can fix in five
+            The score is a <strong>channelpeeker assessment of metadata quality</strong>, out of 100. It checks the things you can fix in five
             minutes: a title that survives truncation, a description with substance, chapters, sensible tags and hashtags, captions and a set
             language.
           </p>

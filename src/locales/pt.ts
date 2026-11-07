@@ -182,7 +182,7 @@ export const content: Record<string, LocalizedToolContent> = {
       "Leia o relatório — e compartilhe com quem quiser pelo link.",
     ],
     meaning: [
-      "O relatório combina dados reais do YouTube (inscritos, visualizações, número de vídeos, idade do canal) com análises do channelpeek, como frequência de postagem e top vídeos recentes. Tudo o que calculamos é marcado como estimativa.",
+      "O relatório combina dados reais do YouTube (inscritos, visualizações, número de vídeos, idade do canal) com análises do channelpeeker, como frequência de postagem e top vídeos recentes. Tudo o que calculamos é marcado como estimativa.",
       "Atenção: o YouTube arredonda os inscritos públicos para três algarismos significativos — por isso o sinal ≈. As visualizações são exatas.",
     ],
     faq: [

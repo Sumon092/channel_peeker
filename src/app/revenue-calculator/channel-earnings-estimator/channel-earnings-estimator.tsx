@@ -137,7 +137,7 @@ function ResultCard({ channel: c, views30dLong, views30dShorts, uploads30d, fetc
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs leading-relaxed text-muted">
-          channelpeek estimate from the last 30 days&apos; upload views and our published CPM table — assumes the channel is monetized
+          channelpeeker estimate from the last 30 days&apos; upload views and our published CPM table — assumes the channel is monetized
           (check with the Monetization Checker) and excludes memberships and sponsorships.
         </p>
         <FetchedAt iso={fetchedAt} />

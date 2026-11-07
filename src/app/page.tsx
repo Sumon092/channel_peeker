@@ -20,16 +20,16 @@ const comparison: [string, boolean | "partial", boolean | "partial"][] = [
 
 const faq = [
   {
-    q: "Is channelpeek really free?",
+    q: "Is channelpeeker really free?",
     a: "Yes. Every core tool is free and works without an account. We may add optional paid features later, such as tracking and exports, but the basics stay free.",
   },
   {
     q: "Where does the data come from?",
-    a: "Public data comes from the official YouTube Data API. Anything we calculate, like medians, outlier multipliers and earnings ranges, is labeled as a channelpeek estimate and explained on our methodology page.",
+    a: "Public data comes from the official YouTube Data API. Anything we calculate, like medians, outlier multipliers and earnings ranges, is labeled as a channelpeeker estimate and explained on our methodology page.",
   },
   {
-    q: "Is channelpeek affiliated with YouTube?",
-    a: "No. channelpeek is an independent tool for creators and is not affiliated with, endorsed by or sponsored by YouTube or Google.",
+    q: "Is channelpeeker affiliated with YouTube?",
+    a: "No. channelpeeker is an independent tool for creators and is not affiliated with, endorsed by or sponsored by YouTube or Google.",
   },
   {
     q: "How accurate are the earnings estimates?",
@@ -122,7 +122,7 @@ export default function Home() {
       {/* Comparison */}
       <section className="border-y border-border bg-surface-2/50">
         <div className="mx-auto max-w-4xl px-4 py-24 sm:px-6">
-          <SectionHeading eyebrow="Why channelpeek" title="Built differently from typical tool sites" align="center" />
+          <SectionHeading eyebrow="Why channelpeeker" title="Built differently from typical tool sites" align="center" />
           <div className="reveal mt-12 overflow-x-auto rounded-3xl border border-border bg-surface">
             <table className="w-full min-w-[520px] text-left">
               <thead>
@@ -131,7 +131,7 @@ export default function Home() {
                     Feature
                   </th>
                   <th scope="col" className="w-40 bg-accent-soft/60 px-6 py-5 text-center text-sm font-bold">
-                    channelpeek
+                    channelpeeker
                   </th>
                   <th scope="col" className="w-44 px-6 py-5 text-center text-sm font-medium text-muted">
                     Typical free tool sites

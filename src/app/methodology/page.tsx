@@ -5,7 +5,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Methodology & data sources",
-  description: "Where channelpeek's data comes from, which numbers are YouTube's and which are our estimates, and exactly how each estimate is calculated.",
+  description: "Where channelpeeker's data comes from, which numbers are YouTube's and which are our estimates, and exactly how each estimate is calculated.",
   path: "/methodology",
 });
 
@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <ProsePage title="Methodology" path="/methodology" updated="November 7, 2026">
       <p>
-        We want every number on channelpeek to be checkable. This page explains where our data comes from, which figures are ours, and how we
+        We want every number on channelpeeker to be checkable. This page explains where our data comes from, which figures are ours, and how we
         calculate them.
       </p>
 
@@ -24,8 +24,8 @@ export default function Page() {
           upload dates and subscriber counts.
         </li>
         <li>
-          <strong>channelpeek estimates:</strong> anything we calculate, such as medians, ratios, outlier multipliers, scores and earnings
-          ranges. These are always labeled as channelpeek estimates. They are not provided or approved by YouTube or Google.
+          <strong>channelpeeker estimates:</strong> anything we calculate, such as medians, ratios, outlier multipliers, scores and earnings
+          ranges. These are always labeled as channelpeeker estimates. They are not provided or approved by YouTube or Google.
         </li>
       </ul>
 
@@ -97,7 +97,7 @@ export default function Page() {
       </p>
       <h3>CPM table (long-form, USD, advertiser CPM)</h3>
       <p>
-        These are channelpeek estimates of industry-typical ranges, reviewed quarterly. Last reviewed: November 2026. They are not YouTube
+        These are channelpeeker estimates of industry-typical ranges, reviewed quarterly. Last reviewed: November 2026. They are not YouTube
         data.
       </p>
       <table>

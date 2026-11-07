@@ -7,7 +7,7 @@ import { liveTools } from "@/lib/tools";
 export const metadata = pageMetadata({
   title: "Free vidIQ alternative: no extension",
   description:
-    "Looking for a free vidIQ alternative? channelpeek offers channel analytics, a monetization checker and more — no extension, no account, no upsells.",
+    "Looking for a free vidIQ alternative? channelpeeker offers channel analytics, a monetization checker and more — no extension, no account, no upsells.",
   path: "/compare/vidiq-alternative",
 });
 
@@ -21,7 +21,7 @@ export default function Page() {
         channel without a tour of upgrade prompts.
       </p>
 
-      <h2>How channelpeek is different</h2>
+      <h2>How channelpeeker is different</h2>
       <ul>
         <li>
           <strong>No extension.</strong> Everything runs on this website. Nothing is injected into YouTube, nothing slows your browser, and
@@ -42,7 +42,7 @@ export default function Page() {
       <p>
         Honesty cuts both ways. vidIQ&apos;s paid plans include keyword research with search-volume estimates, competitor tracking over
         time, daily AI video ideas and coaching tied to your own channel&apos;s private analytics. If you want an always-on assistant inside
-        YouTube Studio and don&apos;t mind the subscription, vidIQ earns its price. channelpeek doesn&apos;t connect to your channel and
+        YouTube Studio and don&apos;t mind the subscription, vidIQ earns its price. channelpeeker doesn&apos;t connect to your channel and
         doesn&apos;t try to replace YouTube Studio.
       </p>
 
@@ -51,7 +51,7 @@ export default function Page() {
         <thead>
           <tr>
             <th></th>
-            <th>channelpeek</th>
+            <th>channelpeeker</th>
             <th>vidIQ</th>
           </tr>
         </thead>
@@ -95,7 +95,7 @@ export default function Page() {
       </table>
       <p>
         <em>
-          Comparison reflects publicly available information as of November 2026. vidIQ is a trademark of its owner; channelpeek is not
+          Comparison reflects publicly available information as of November 2026. vidIQ is a trademark of its owner; channelpeeker is not
           affiliated with vidIQ or YouTube.
         </em>
       </p>

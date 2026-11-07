@@ -31,7 +31,7 @@ export default function Page() {
           <p>
             The report covers the channel&apos;s <strong>newest 50 public uploads</strong>: how often it publishes, how views are trending
             upload by upload, and which recent videos performed best. Figures like view counts and upload dates are YouTube&apos;s own
-            numbers; anything we calculate is labeled as a channelpeek estimate.
+            numbers; anything we calculate is labeled as a channelpeeker estimate.
           </p>
           <p>
             <strong>Uploads (90 days)</strong> counts public videos published in the last three months — a quick read on whether a channel

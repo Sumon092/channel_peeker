@@ -122,7 +122,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
           ))}
         </div>
         <p className="mt-8 text-center text-xs text-muted">
-          {L ? L.lastUpdated(updated) : `Last updated ${updated} · Reviewed by the channelpeek team`} ·{" "}
+          {L ? L.lastUpdated(updated) : `Last updated ${updated} · Reviewed by the channelpeeker team`} ·{" "}
           <Link href="/methodology" className="underline">
             {L?.methodologyLink ?? "How we calculate"}
           </Link>

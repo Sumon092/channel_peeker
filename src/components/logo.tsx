@@ -27,7 +27,7 @@ export function Logo({ className = "", gid }: { className?: string; gid?: string
     <span className={`inline-flex items-center gap-2 ${className}`}>
       <LogoMark gid={gid} />
       <span className="text-[1.2rem] font-extrabold tracking-[-0.035em]">
-        channel<span className="text-accent">peek</span>
+        channel<span className="text-accent">peeker</span>
       </span>
     </span>
   );

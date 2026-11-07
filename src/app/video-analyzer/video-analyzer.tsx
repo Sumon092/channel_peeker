@@ -106,7 +106,7 @@ function ResultCard({ video: v, channel: c, derived, fetchedAt }: Result) {
       {derived?.vsMedian !== null && derived !== null && (
         <div className="mt-4 rounded-xl bg-surface-2 px-4 py-3">
           <p className="font-semibold">
-            {derived.vsMedian}× the channel&apos;s typical views <span className="font-normal text-muted">(channelpeek estimate)</span>
+            {derived.vsMedian}× the channel&apos;s typical views <span className="font-normal text-muted">(channelpeeker estimate)</span>
           </p>
           <p className="mt-0.5 text-sm text-muted">
             Compared with the median of the channel&apos;s {derived.sampleSize} most recent videos of the same format.
@@ -119,7 +119,7 @@ function ResultCard({ video: v, channel: c, derived, fetchedAt }: Result) {
           <div key={s.label} className="rounded-xl border border-border px-4 py-3">
             <p className="text-xs text-muted">
               {s.label}
-              {s.estimate && <span title="channelpeek estimate"> *</span>}
+              {s.estimate && <span title="channelpeeker estimate"> *</span>}
             </p>
             <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{s.value}</p>
           </div>
@@ -128,7 +128,7 @@ function ResultCard({ video: v, channel: c, derived, fetchedAt }: Result) {
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-muted">
-          {derived ? "* channelpeek estimates, calculated from public YouTube data." : "YouTube's own figures. Dislikes, watch time and CTR are private."}
+          {derived ? "* channelpeeker estimates, calculated from public YouTube data." : "YouTube's own figures. Dislikes, watch time and CTR are private."}
         </p>
         <FetchedAt iso={fetchedAt} />
       </div>

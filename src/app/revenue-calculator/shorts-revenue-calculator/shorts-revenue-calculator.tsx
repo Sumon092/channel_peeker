@@ -43,7 +43,7 @@ export function ShortsRevenueCalculator() {
 
       <p className="mt-4 text-xs leading-relaxed text-muted">
         Shorts pay from a shared ad pool at roughly ${SHORTS_RPM_LOW.toFixed(2)}–${SHORTS_RPM_HIGH.toFixed(2)} per 1,000 views (already
-        after the 45% creator split), adjusted for where your audience lives. A channelpeek estimate — Shorts RPM varies by month and music
+        after the 45% creator split), adjusted for where your audience lives. A channelpeeker estimate — Shorts RPM varies by month and music
         usage; your YouTube Studio has the real figure.
       </p>
     </div>

@@ -142,7 +142,7 @@ function Picker(r: Result) {
 
   const announcement =
     winners && winners.length > 0
-      ? `🎉 Giveaway result for “${r.video.title}”: ${winners.map((w) => w.author).join(", ")} — picked at random from ${entries.length.toLocaleString("en")} entries with channelpeek.com/comment-picker`
+      ? `🎉 Giveaway result for “${r.video.title}”: ${winners.map((w) => w.author).join(", ")} — picked at random from ${entries.length.toLocaleString("en")} entries with channelpeeker.com/comment-picker`
       : "";
 
   return (

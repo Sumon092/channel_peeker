@@ -20,7 +20,7 @@ export default function Page() {
         reasons: the earnings estimates feel wildly broad, and the reports say little about how a channel is doing <em>right now</em>.
       </p>
 
-      <h2>Where channelpeek takes a different approach</h2>
+      <h2>Where channelpeeker takes a different approach</h2>
       <ul>
         <li>
           <strong>Recent performance over lifetime totals.</strong> Our <Link href="/channel-analyzer">Channel Analyzer</Link> focuses on
@@ -30,7 +30,7 @@ export default function Page() {
         <li>
           <strong>Estimates with the math shown.</strong> Social Blade&apos;s earnings ranges apply one generic CPM span to every channel,
           which is why they can stretch from pocket money to a salary. We take the opposite approach: every number we calculate is labeled
-          as a channelpeek estimate, our <Link href="/methodology">methodology</Link> is public, and our upcoming revenue calculators show
+          as a channelpeeker estimate, our <Link href="/methodology">methodology</Link> is public, and our upcoming revenue calculators show
           earnings as ranges with the assumptions stated — never one fake-precise figure.
         </li>
         <li>
@@ -42,7 +42,7 @@ export default function Page() {
       <h2>Where Social Blade is the better choice</h2>
       <p>
         Social Blade has something no new tool can offer: years of recorded history. If you need a subscriber graph since 2015, grade-style
-        rankings, or stats for Twitch and Instagram alongside YouTube, use Social Blade. channelpeek is YouTube-only and doesn&apos;t keep
+        rankings, or stats for Twitch and Instagram alongside YouTube, use Social Blade. channelpeeker is YouTube-only and doesn&apos;t keep
         historical archives — we show you the present, fetched live from the official YouTube API.
       </p>
 
@@ -51,7 +51,7 @@ export default function Page() {
         <thead>
           <tr>
             <th></th>
-            <th>channelpeek</th>
+            <th>channelpeeker</th>
             <th>Social Blade</th>
           </tr>
         </thead>
@@ -90,7 +90,7 @@ export default function Page() {
       </table>
       <p>
         <em>
-          Comparison reflects publicly available information as of November 2026. Social Blade is a trademark of its owner; channelpeek is
+          Comparison reflects publicly available information as of November 2026. Social Blade is a trademark of its owner; channelpeeker is
           not affiliated with Social Blade or YouTube.
         </em>
       </p>

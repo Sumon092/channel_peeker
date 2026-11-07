@@ -53,7 +53,7 @@ export function ReportPreview() {
             <span className="h-3 w-3 rounded-full bg-surface-3" />
           </div>
           <div className="mx-auto flex w-full max-w-md items-center gap-2 rounded-md bg-surface px-3 py-1 text-xs text-muted">
-            <Search className="h-3 w-3" /> channelpeek.com/channel/@northlightstudio
+            <Search className="h-3 w-3" /> channelpeeker.com/channel/@northlightstudio
           </div>
         </div>
 

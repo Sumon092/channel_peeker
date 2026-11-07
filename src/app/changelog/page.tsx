@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Changelog: new tools & updates",
-  description: "Every new tool and change on channelpeek, newest first — 46 free YouTube tools and counting, all official-API and signup-free.",
+  description: "Every new tool and change on channelpeeker, newest first — 46 free YouTube tools and counting, all official-API and signup-free.",
   path: "/changelog",
 });
 

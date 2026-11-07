@@ -4,14 +4,14 @@ import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "About channelpeek",
-  description: "channelpeek builds free, fast YouTube analytics and SEO tools with honest, explained numbers.",
+  title: "About channelpeeker",
+  description: "channelpeeker builds free, fast YouTube analytics and SEO tools with honest, explained numbers.",
   path: "/about",
 });
 
 export default function Page() {
   return (
-    <ProsePage title="About channelpeek" path="/about">
+    <ProsePage title="About channelpeeker" path="/about">
       <p>
         {site.name} is a set of free tools for YouTube creators, especially creators with small and growing channels. You can analyze any
         public channel or video, study what works in your niche, and estimate what a channel earns, without signing up or installing an

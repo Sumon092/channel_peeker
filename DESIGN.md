@@ -1,4 +1,4 @@
-# channelpeek design system
+# channelpeeker design system
 
 Source of truth: the CSS custom properties in `src/app/globals.css` (mirrored in
 `design-tokens.json`). Audited November 5, 2026 — overall score **86/100**.
@@ -64,5 +64,5 @@ signup" pill means the claim must stay true everywhere.
 - Result panels: `rounded-3xl border border-border bg-surface p-5 sm:p-7`.
 - Every async state needs all four: skeleton, error (`ErrorBox`), empty-state
   message, and a `FetchedAt` freshness line for API data.
-- Estimates are always labeled ("channelpeek estimate"); never present a
+- Estimates are always labeled ("channelpeeker estimate"); never present a
   calculated number as YouTube data — the design system includes the honesty.

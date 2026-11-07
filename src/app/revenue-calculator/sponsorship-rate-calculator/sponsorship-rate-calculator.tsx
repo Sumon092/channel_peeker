@@ -40,7 +40,7 @@ export function SponsorshipRateCalculator() {
 
       <p className="mt-4 text-xs leading-relaxed text-muted">
         The math: expected views ÷ 1,000 × ${SPONSOR_CPM_LOW}–${SPONSOR_CPM_HIGH} (typical sponsor CPM for a dedicated integration);
-        mentions price at roughly 40–50% of that. A channelpeek estimate — niche fit, audience trust and exclusivity can move rates well
+        mentions price at roughly 40–50% of that. A channelpeeker estimate — niche fit, audience trust and exclusivity can move rates well
         outside this range, in both directions.
       </p>
     </div>

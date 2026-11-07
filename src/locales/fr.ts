@@ -182,7 +182,7 @@ export const content: Record<string, LocalizedToolContent> = {
       "Lisez le rapport — et partagez-le avec qui vous voulez grâce au lien.",
     ],
     meaning: [
-      "Le rapport combine de vraies données YouTube (abonnés, vues, nombre de vidéos, âge de la chaîne) et des analyses channelpeek comme la fréquence de publication et les top vidéos récentes. Tout ce que nous calculons est signalé comme estimation.",
+      "Le rapport combine de vraies données YouTube (abonnés, vues, nombre de vidéos, âge de la chaîne) et des analyses channelpeeker comme la fréquence de publication et les top vidéos récentes. Tout ce que nous calculons est signalé comme estimation.",
       "À noter : YouTube arrondit les nombres d'abonnés publics à trois chiffres significatifs — d'où le signe ≈. Les vues, elles, sont exactes.",
     ],
     faq: [

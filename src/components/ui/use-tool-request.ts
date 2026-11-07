@@ -30,7 +30,7 @@ export function useToolRequest<T>(endpoint: string) {
         setState({ status: "done", data: json as T });
       } catch (err) {
         if ((err as Error).name === "AbortError") return;
-        setState({ status: "error", message: "Couldn't reach channelpeek. Check your connection and try again." });
+        setState({ status: "error", message: "Couldn't reach channelpeeker. Check your connection and try again." });
       }
     },
     [endpoint],

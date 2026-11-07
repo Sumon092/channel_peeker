@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Terms of use",
-  description: "The terms that apply when you use channelpeek's free YouTube tools.",
+  description: "The terms that apply when you use channelpeeker's free YouTube tools.",
   path: "/terms",
 });
 
@@ -30,7 +30,7 @@ export default function Page() {
 
       <h2>Estimates are not guarantees</h2>
       <p>
-        Scores, ratios and earnings ranges are channelpeek estimates, explained on our <Link href="/methodology">methodology</Link> page. They
+        Scores, ratios and earnings ranges are channelpeeker estimates, explained on our <Link href="/methodology">methodology</Link> page. They
         are not provided or approved by YouTube or Google, and they are not financial advice.
       </p>
 

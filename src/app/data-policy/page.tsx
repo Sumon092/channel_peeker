@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Data policy: what we store and for how long",
-  description: "What YouTube data channelpeek stores, how long we keep it, and how channel owners can request deletion.",
+  description: "What YouTube data channelpeeker stores, how long we keep it, and how channel owners can request deletion.",
   path: "/data-policy",
 });
 
@@ -22,7 +22,7 @@ export default function Page() {
   return (
     <ProsePage title="Data policy" path="/data-policy" updated="September 29, 2026">
       <p>
-        channelpeek uses the YouTube API Services to read public channel and video data. We follow the YouTube API Services Terms of Service and
+        channelpeeker uses the YouTube API Services to read public channel and video data. We follow the YouTube API Services Terms of Service and
         Developer Policies, including their limits on how long data can be stored.
       </p>
 

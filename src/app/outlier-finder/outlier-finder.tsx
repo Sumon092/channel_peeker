@@ -98,7 +98,7 @@ function ResultCard({ channel: c, videos, medians, fetchedAt }: Result) {
 
       {!derived && (
         <p className="mt-4 rounded-xl bg-surface-2 px-4 py-3 text-sm text-muted">
-          Outlier multipliers (views vs the channel&apos;s median) are channelpeek estimates and aren&apos;t enabled yet. Until then,
+          Outlier multipliers (views vs the channel&apos;s median) are channelpeeker estimates and aren&apos;t enabled yet. Until then,
           here are the channel&apos;s top recent videos by views — YouTube&apos;s own figures.
         </p>
       )}
@@ -139,7 +139,7 @@ function ResultCard({ channel: c, videos, medians, fetchedAt }: Result) {
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-muted">
           {derived
-            ? "Multipliers are channelpeek estimates: views ÷ the median of the newest 50 uploads of the same format."
+            ? "Multipliers are channelpeeker estimates: views ÷ the median of the newest 50 uploads of the same format."
             : "Based on the channel's newest 50 public uploads."}
         </p>
         <FetchedAt iso={fetchedAt} />

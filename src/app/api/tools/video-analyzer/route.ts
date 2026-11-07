@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     if (!v) throw new AppError("not_found", "We couldn't find that video. It may be private or deleted.");
     const { data: c } = await getChannelById(v.channelId, "video-analyzer");
 
-    // Derived metrics (rates, vs-median) are channelpeek estimates, gated by plan 3.2.
+    // Derived metrics (rates, vs-median) are channelpeeker estimates, gated by plan 3.2.
     let derived: { likeRatePct: number | null; commentRatePct: number | null; vsMedian: number | null; sampleSize: number } | null = null;
     if (process.env.DERIVED_METRICS_APPROVED === "true") {
       let vsMedian: number | null = null;

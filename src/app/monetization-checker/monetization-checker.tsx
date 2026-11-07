@@ -127,7 +127,7 @@ function ResultCard({ channel: c, verdict, signals, fetchedAt }: Result) {
       </ul>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-xs text-muted">Eligibility signals are channelpeek estimates, not a statement from YouTube.</p>
+        <p className="text-xs text-muted">Eligibility signals are channelpeeker estimates, not a statement from YouTube.</p>
         <FetchedAt iso={fetchedAt} />
       </div>
     </div>

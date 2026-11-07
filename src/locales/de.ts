@@ -182,7 +182,7 @@ export const content: Record<string, LocalizedToolContent> = {
       "Lies den Report — und teile ihn über den Link mit wem du willst.",
     ],
     meaning: [
-      "Der Report zeigt echte YouTube-Daten (Abonnenten, Aufrufe, Videoanzahl, Alter des Kanals) neben channelpeek-Einordnungen wie Upload-Frequenz und Top-Videos der letzten Uploads. Alles, was wir berechnen, ist als Schätzung gekennzeichnet.",
+      "Der Report zeigt echte YouTube-Daten (Abonnenten, Aufrufe, Videoanzahl, Alter des Kanals) neben channelpeeker-Einordnungen wie Upload-Frequenz und Top-Videos der letzten Uploads. Alles, was wir berechnen, ist als Schätzung gekennzeichnet.",
       "Beachte: YouTube rundet öffentliche Abonnentenzahlen auf drei signifikante Stellen — deshalb das ≈-Zeichen. Aufrufzahlen sind exakt.",
     ],
     faq: [

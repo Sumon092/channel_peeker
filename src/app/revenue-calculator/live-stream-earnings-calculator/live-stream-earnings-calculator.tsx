@@ -167,7 +167,7 @@ export function LiveStreamEarningsCalculator() {
       <p className="mt-4 text-xs leading-relaxed text-muted">
         Ads use our published niche CPM table at a {LIVE_CPM_MULTIPLIER * 100}% live-stream rate (live CPMs run below VOD), the standard 55%
         creator share and ~60% monetized views. Super Chat, Stickers and memberships show your share after YouTube&apos;s 30% fee — mobile
-        purchases can net less after app-store fees. A channelpeek estimate; YouTube Studio has your real numbers.
+        purchases can net less after app-store fees. A channelpeeker estimate; YouTube Studio has your real numbers.
       </p>
     </div>
   );

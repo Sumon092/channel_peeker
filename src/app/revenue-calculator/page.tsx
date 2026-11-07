@@ -30,7 +30,7 @@ export default function Page() {
           <p>
             Earnings = views ÷ 1,000 × monetized-view share × the 55% creator split × your niche&apos;s CPM range × an audience-country
             multiplier. The CPM table and multipliers are published on our <a href="/methodology">methodology page</a> and reviewed
-            quarterly — they are channelpeek estimates of industry-typical ranges, not YouTube data.
+            quarterly — they are channelpeeker estimates of industry-typical ranges, not YouTube data.
           </p>
           <p>
             Why a range? Because real CPMs swing with seasonality, advertiser demand and video topic — anyone showing you one exact dollar

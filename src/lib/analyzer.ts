@@ -3,7 +3,7 @@ import type { ChannelSummary, VideoSummary } from "@/lib/youtube/types";
 /**
  * Channel Analyzer report (analytics hub). Raw YouTube figures are always
  * included; anything we calculate (medians, ratios, outlier multipliers, the
- * grade) is a channelpeek estimate and is only produced when derived metrics
+ * grade) is a channelpeeker estimate and is only produced when derived metrics
  * are enabled (DERIVED_METRICS_APPROVED, plan 3.2). See /methodology.
  */
 
@@ -58,7 +58,7 @@ export interface AnalyzerReport {
   series: { publishedAt: string; views: number | null; isShort: boolean }[];
   /** Top recent videos by views. Raw sort of YouTube figures. */
   topVideos: VideoLite[];
-  /** channelpeek estimates; null until derived metrics are enabled. */
+  /** channelpeeker estimates; null until derived metrics are enabled. */
   derived: DerivedMetrics | null;
 }
 

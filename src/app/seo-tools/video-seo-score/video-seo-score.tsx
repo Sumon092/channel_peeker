@@ -98,7 +98,7 @@ function ResultCard({ video: v, score, checks, fetchedAt }: Result) {
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <p className="text-xs text-muted">
-          A channelpeek assessment of the video&apos;s metadata — not a prediction of performance. Content and thumbnails matter more than
+          A channelpeeker assessment of the video&apos;s metadata — not a prediction of performance. Content and thumbnails matter more than
           any checklist.
         </p>
         <FetchedAt iso={fetchedAt} />

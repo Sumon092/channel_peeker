@@ -182,7 +182,7 @@ export const content: Record<string, LocalizedToolContent> = {
       "Lee el informe — y compártelo con quien quieras mediante el enlace.",
     ],
     meaning: [
-      "El informe combina datos reales de YouTube (suscriptores, vistas, número de videos, antigüedad del canal) con análisis de channelpeek como la frecuencia de subida y los top videos recientes. Todo lo que calculamos está marcado como estimación.",
+      "El informe combina datos reales de YouTube (suscriptores, vistas, número de videos, antigüedad del canal) con análisis de channelpeeker como la frecuencia de subida y los top videos recientes. Todo lo que calculamos está marcado como estimación.",
       "Ten en cuenta: YouTube redondea los suscriptores públicos a tres cifras significativas — por eso el signo ≈. Las vistas sí son exactas.",
     ],
     faq: [

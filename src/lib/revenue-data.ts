@@ -1,6 +1,6 @@
 /**
- * channelpeek's published CPM/RPM table (see /methodology). All figures are
- * channelpeek estimates: broad industry-typical ranges for long-form ad CPM in
+ * channelpeeker's published CPM/RPM table (see /methodology). All figures are
+ * channelpeeker estimates: broad industry-typical ranges for long-form ad CPM in
  * USD, NOT YouTube data. Reviewed quarterly. Last reviewed: November 2026.
  */
 
