@@ -97,6 +97,7 @@ const icons: Record<string, LucideIcon> = {
 };
 
 const sizes = {
+  xs: ["h-6 w-6 rounded-md", "h-3.5 w-3.5"],
   sm: ["h-8 w-8 rounded-lg", "h-4 w-4"],
   md: ["h-11 w-11 rounded-xl", "h-5 w-5"],
   lg: ["h-14 w-14 rounded-2xl", "h-7 w-7"],
