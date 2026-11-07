@@ -2,8 +2,8 @@
 
 A repeatable checklist for taking any web project from idea to deploy-ready,
 using Claude Code with the ECC plugin. Distilled from the channelpeeker build
-(2 tools → 38 tools, deploy-ready, in two days). Run the phases in order;
-each lists the command to type and what you get back.
+(2 tools → 46 tools, 110 pages across 7 languages, deploy-ready, in three days).
+Run the phases in order; each lists the command to type and what you get back.
 
 ---
 
@@ -34,6 +34,9 @@ Checklist:
 - [ ] One differentiator you can defend (channelpeeker's: honest numbers, no signup)
 - [ ] 50+ long-tail keywords mapped to planned pages
 - [ ] Exact volumes verified later in Google Keyword Planner (free with an Ads account)
+- [ ] **Brand name = available domain.** `curl -sI https://yourname.com` BEFORE you commit
+      to a name. channelpeek.com turned out to be someone else's live site mid-project;
+      the rename to channelpeeker touched 51 files and re-broke 11 SEO titles (see Phase 4).
 
 ---
 
@@ -80,6 +83,11 @@ Fix loops when something breaks:
 Gate: zero CRITICAL/HIGH before merge. MEDIUMs become a fix list.
 Validation table to fill every time: typecheck / lint / tests / build.
 
+Scanner triage (don't chase ghosts): AgentShield flags npm `sha512-…==` integrity
+hashes in package-lock.json as "Azure storage keys" (hundreds of CRITICALs), and
+applies agent-prompt heuristics to any CLAUDE.md. Verify one sample, log the
+false-positive class once, and judge the scan on what remains.
+
 ---
 
 ## Phase 4 — SEO (pre-deploy, all code-level)
@@ -107,6 +115,16 @@ SITE_URL=https://yourdomain.com node scripts/indexnow.mjs
 ```
 
 - [ ] Real 404 status on junk paths: `curl -s -o /dev/null -w "%{http_code}" https://site/junk` → must be 404
+      (SPA fallthrough serving the app shell with a 200 is a soft-404 — and it silently
+      breaks `/ads.txt` later: Google treats 200+HTML as a *present but invalid* ads.txt)
+
+Length audits — two hard-won rules:
+- [ ] Measure title/description lengths on **entity-decoded** text. Raw HTML counts
+      `&amp;` as 5 chars and `&#x27;` as 6; half the "violations" vanish after decoding.
+- [ ] **Re-run the length audit after ANY brand or name change.** A 2-character-longer
+      name in the `| brand` title suffix pushed 11 previously-passing pages over 60ch.
+- [ ] CJK pages: a 55-char Japanese description is not "too short" — Latin floors
+      (70ch) don't apply; use ~45 for ja/ko/zh.
 
 Known truths (2026): FAQ rich results are gov/health-only (markup still helps
 AEO/AI answers); Google ignores IndexNow (Bing/Yandex use it, and Bing feeds
@@ -207,10 +225,78 @@ git push origin main
 - [ ] `.env.example` documents every variable
 - [ ] API keys restricted to their exact APIs in the provider console
 - [ ] E2E smoke test against the built app (`npm start` + curl every route)
+- [ ] A `DEPLOYMENT.md` in the repo: env table, §1 validation block, post-deploy
+      smoke curls, the deferred switches that must NOT be flipped early
+
+E2E mechanics that bit us twice:
+- Browser assertions must wait for **hydration**, not `domcontentloaded` —
+  `page.waitForFunction()` on the expected state; `document.body.innerText`
+  does NOT include `<input>` values, read them explicitly.
+- Kill the test server with `fuser -k 3177/tcp`, never `pkill -f "next start"`
+  (that pattern matches your own shell and exits it mid-script).
+- Keep audit scripts **sitemap-driven** so they automatically cover new pages.
 
 Deploy-day (not code): domain redirect www→apex in host dashboard, set
 `NEXT_PUBLIC_SITE_URL`, Search Console via DNS TXT → import into Bing,
 run the IndexNow script, add lightweight analytics (e.g. Plausible ~1 kB).
+If rate limiting is per-IP, the reverse proxy MUST forward the client IP
+(`X-Forwarded-For`/`X-Real-IP`) or every visitor shares one bucket.
+
+---
+
+## Phase 10 — Localization (when you go multilingual)
+
+Pilot first, never all-at-once: ship your full i18n **infrastructure** with only
+the highest-value tools × the highest-RPM languages, then extend demand-driven
+from Search Console data. Machine-translating everything in bulk produces the
+thin pages Google's "scaled content abuse" policy demotes.
+
+Architecture that keeps one-fix-fixes-all-languages true:
+- [ ] English stays at root URLs; locales are thin wrapper pages (`/de/...`) that
+      render the SAME shared widget components with translated content files
+- [ ] hreflang both directions + `x-default` → English; locale URLs in sitemap;
+      per-locale canonical; `lang` attribute on the content (and set `<html lang>`
+      client-side after hydration)
+- [ ] One typed **string catalog** per locale for widget UI (buttons, errors,
+      sr-only statuses), with English as the context default so EN pages need no
+      provider and there is a single code path
+- [ ] Client-side error localization: map parse errors by **code**, server errors
+      by **exact-string lookup** with raw fallback; if server-composed result text
+      must localize, have the API return the raw data (ids, statuses, counts) and
+      rebuild sentences client-side per locale
+- [ ] Numbers/dates/regions via `Intl` with real tags (`pt-BR`, `es-419`), never
+      hardcoded `"en"`
+- [ ] A **catalog integrity test**: every locale mirrors the English keys and
+      `{placeholder}` sets (one vitest file catches every future missing string)
+- [ ] An **English-leak audit**: crawl every locale page for ~30 English UI
+      markers (strip JSON-LD first; exempt words that are identical in that
+      language — "Contact" is French, "Legal" is Spanish)
+- [ ] Content that QUOTES a UI label ("click 'Pick winner'") must be updated when
+      that label localizes — grep content files for old button names
+- [ ] Native-speaker spot check (~$20 on Fiverr, 2 pages/language) for languages
+      you can't read, before driving traffic to them
+
+---
+
+## Phase 11 — Monetization readiness (AdSense)
+
+Apply AFTER you have steady traffic (a few hundred visits/day) — approval is
+smoother and day-one RPM higher. Until then nothing below blocks you, but get
+the order right when the day comes:
+
+1. Approval granted → 2. enable Google's certified CMP (AdSense → Privacy &
+   messaging; mandatory before EEA/UK traffic sees ads) → 3. update the privacy
+   policy to disclose ad cookies (delete any "we use no advertising cookies"
+   sentence the old policy had) → 4. set the publisher-ID env and deploy →
+   5. verify `https://site/ads.txt` returns the one-liner as **plain text 200**.
+
+- [ ] One AdSense account for ALL your sites (each domain = a "site" in the
+      console, each with its own ads.txt carrying the same pub ID)
+- [ ] Ads only on content pages; never on logged-in app screens or
+      processing/wait screens ("screens without publisher content" is the classic
+      tool-site suspension)
+- [ ] Keep the loader + ads.txt route env-gated and inert in the codebase from
+      day one, so go-live is a config change, not a deploy risk
 
 ---
 
@@ -224,5 +310,10 @@ run the IndexNow script, add lightweight analytics (e.g. Plausible ~1 kB).
 6. a11y + click-path audits → fix AA failures and orphan pages
 7. Measure performance → usually stop
 8. Screenshot evidence → commit in logical chunks → push → deploy-day list
+9. Traffic first; localize pilot-first from Search Console data (Phase 10)
+10. AdSense only after steady traffic, in the Phase 11 order
+11. **Re-run phases 3–8 after any large change** (rename, i18n, refactor) — the
+    re-audit of this project caught 11 SEO regressions a green build never would
 
-*Compiled November 5, 2026 from the channelpeeker build log.*
+*Compiled November 5, 2026 from the channelpeeker build log; updated November 7,
+2026 after the rename, 6-language localization, and full re-audit.*
