@@ -135,7 +135,7 @@ function Picker(r: Result) {
         </span>
         <div className="min-w-0">
           <p className="truncate font-semibold">{r.video.title}</p>
-          <p className="text-sm text-muted">
+          <p className="text-sm tabular-nums text-muted">
             {r.video.channelTitle} · {r.comments.length.toLocaleString("en")} top-level comments loaded
             {r.hasMore ? " (newest 500 — the video has more)" : ""}
           </p>
@@ -190,7 +190,7 @@ function Picker(r: Result) {
         </label>
       </div>
 
-      <div className="mt-5 rounded-xl bg-surface-2 px-4 py-6 text-center" aria-live="polite">
+      <div className="mt-5 flex min-h-28 flex-col items-center justify-center rounded-xl bg-surface-2 px-4 py-6 text-center" aria-live="polite">
         {cycling ? (
           <p className="text-2xl font-black tracking-tight">{cycling}</p>
         ) : winners && winners.length > 0 ? (
@@ -212,7 +212,7 @@ function Picker(r: Result) {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-muted">
+          <p className="text-sm tabular-nums text-muted">
             {entries.length.toLocaleString("en")} eligible {entries.length === 1 ? "entry" : "entries"} ready
           </p>
         )}

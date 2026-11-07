@@ -162,7 +162,7 @@ function Results(r: Result) {
           <button
             type="button"
             onClick={() => downloadCsv(r)}
-            className="rounded-lg bg-surface-2 px-3 py-2 text-sm font-medium transition hover:bg-surface-3"
+            className="rounded-lg bg-surface-2 px-3 py-2 text-sm font-medium transition hover:bg-surface-3 active:scale-[0.97]"
           >
             Download CSV
           </button>
@@ -188,7 +188,7 @@ function Results(r: Result) {
                 </p>
               </div>
               <p className="mt-1 whitespace-pre-wrap break-words text-sm leading-relaxed">{c.text}</p>
-              <p className="mt-2 text-xs text-muted">
+              <p className="mt-2 text-xs tabular-nums text-muted">
                 {c.likes.toLocaleString("en")} like{c.likes === 1 ? "" : "s"} · {c.replies.toLocaleString("en")} repl{c.replies === 1 ? "y" : "ies"}
               </p>
             </li>
