@@ -44,7 +44,10 @@ export function BannerDownloader() {
         onSubmit={(input) => run({ input })}
       />
 
-      <div aria-live="polite">
+      <p role="status" className="sr-only">
+        {state.status === "loading" ? "Looking up banner…" : state.status === "done" && state.data.bannerUrl ? `Banner found for ${state.data.channel.title}.` : ""}
+      </p>
+      <div>
         {state.status === "loading" && <Skeleton className="h-64 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
         {state.status === "done" && <ResultCard {...state.data} />}
@@ -69,13 +72,14 @@ function ResultCard({ channel: c, bannerUrl, fetchedAt }: Result) {
         loading="lazy"
       />
 
-      <ul className="mt-4 space-y-2">
+      <ul role="list" className="mt-4 space-y-2">
         {SIZES.map((s) => (
           <li key={s.label} className="flex flex-col gap-2 rounded-xl bg-surface-2 p-3 sm:flex-row sm:items-center sm:justify-between">
             <a href={`${bannerUrl}${s.suffix}`} target="_blank" rel="noopener noreferrer" className="text-sm font-medium hover:underline">
-              Open {s.label} ↗
+              Open {s.label} <span aria-hidden="true">↗</span>
+              <span className="sr-only">(opens in new tab)</span>
             </a>
-            <CopyButton text={`${bannerUrl}${s.suffix}`} label="Copy URL" className="shrink-0 bg-surface" />
+            <CopyButton text={`${bannerUrl}${s.suffix}`} label="Copy URL" ariaLabel={`Copy URL for ${s.label}`} className="shrink-0 bg-surface" />
           </li>
         ))}
       </ul>

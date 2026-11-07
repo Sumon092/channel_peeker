@@ -67,7 +67,11 @@ export function CommentPicker() {
         onSubmit={(input) => run({ input })}
       />
 
-      <div aria-live="polite">
+      {/* Always-mounted status line: announces a short summary instead of the whole card. */}
+      <p role="status" className="sr-only">
+        {state.status === "loading" ? "Loading comments…" : state.status === "done" ? `Loaded ${state.data.comments.length} top-level comments.` : ""}
+      </p>
+      <div>
         {state.status === "loading" && <Skeleton className="h-72 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
         {state.status === "done" && <Picker {...state.data} />}
@@ -105,9 +109,22 @@ function Picker(r: Result) {
     return list;
   }, [r.comments, keyword, onePerPerson]);
 
+  /** Cancels an in-flight draw (filters changed mid-draw would make it stale) and clears results. */
+  function resetDraw() {
+    if (timer.current) clearInterval(timer.current);
+    setDrawing(false);
+    setCycling(null);
+    setWinners(null);
+  }
+
   function startDraw() {
     if (entries.length === 0 || drawing) return;
     setWinners(null);
+    // Reduced motion: reveal instantly, no cycling.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setWinners(drawWinners(entries, Math.min(winnerCount, entries.length)));
+      return;
+    }
     setDrawing(true);
     // Recordable suspense: cycle random entrant names before the reveal.
     const started = Date.now();
@@ -151,7 +168,7 @@ function Picker(r: Result) {
             value={keyword}
             onChange={(e) => {
               setKeyword(e.target.value);
-              setWinners(null);
+              resetDraw();
             }}
             placeholder="e.g. #giveaway"
             className={`mt-2 font-normal ${inputCls}`}
@@ -164,7 +181,7 @@ function Picker(r: Result) {
             value={winnerCount}
             onChange={(e) => {
               setWinnerCount(Number(e.target.value));
-              setWinners(null);
+              resetDraw();
             }}
             className={`mt-2 font-normal ${inputCls}`}
           >
@@ -182,7 +199,7 @@ function Picker(r: Result) {
             checked={onePerPerson}
             onChange={(e) => {
               setOnePerPerson(e.target.checked);
-              setWinners(null);
+              resetDraw();
             }}
             className="h-4 w-4 accent-[var(--accent)]"
           />
@@ -190,7 +207,8 @@ function Picker(r: Result) {
         </label>
       </div>
 
-      <div className="mt-5 flex min-h-28 flex-col items-center justify-center rounded-xl bg-surface-2 px-4 py-6 text-center" aria-live="polite">
+      {/* Visual draw box only — hidden from AT while names cycle; the sr-only status below announces instead. */}
+      <div className="mt-5 flex min-h-28 flex-col items-center justify-center rounded-xl bg-surface-2 px-4 py-6 text-center" aria-hidden={drawing || undefined}>
         {cycling ? (
           <p className="text-2xl font-black tracking-tight">{cycling}</p>
         ) : winners && winners.length > 0 ? (
@@ -200,14 +218,15 @@ function Picker(r: Result) {
               <div key={w.id}>
                 <p className="text-2xl font-black tracking-tight text-good">
                   {w.authorChannelUrl?.startsWith("http") ? (
-                    <a href={w.authorChannelUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    <a href={w.authorChannelUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:no-underline">
                       {w.author}
+                      <span className="sr-only"> (opens in new tab)</span>
                     </a>
                   ) : (
                     w.author
                   )}
                 </p>
-                <p className="mx-auto mt-1 max-w-md truncate text-sm text-muted">“{w.text}”</p>
+                <p className="mx-auto mt-1 line-clamp-2 max-w-md break-words text-sm text-muted">“{w.text}”</p>
               </div>
             ))}
           </div>
@@ -218,12 +237,17 @@ function Picker(r: Result) {
         )}
       </div>
 
+      {/* Always mounted: announces the draw start and the winners without reading the cycling names. */}
+      <p role="status" className="sr-only">
+        {drawing ? "Drawing…" : winners && winners.length > 0 ? `${winners.length === 1 ? "Winner" : "Winners"}: ${winners.map((w) => w.author).join(", ")}` : ""}
+      </p>
+
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <button
           type="button"
           onClick={startDraw}
-          disabled={drawing || entries.length === 0}
-          className="inline-flex items-center justify-center rounded-full bg-accent-fill px-7 py-3 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] disabled:opacity-70"
+          aria-disabled={drawing || entries.length === 0}
+          className="inline-flex items-center justify-center rounded-full bg-accent-fill px-7 py-3 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] aria-disabled:cursor-not-allowed aria-disabled:opacity-70"
         >
           {drawing ? "Drawing…" : winners ? "Draw again" : "Pick winner" + (winnerCount > 1 ? "s" : "")}
         </button>

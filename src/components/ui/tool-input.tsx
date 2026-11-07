@@ -20,6 +20,7 @@ export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go
   const [error, setError] = useState<string | null>(null);
 
   function submit(v: string) {
+    if (loading) return;
     const msg = validate?.(v) ?? (v.trim() ? null : "Paste a link, @handle or ID first.");
     setError(msg);
     if (!msg) onSubmit(v.trim());
@@ -78,8 +79,8 @@ export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go
         />
         <button
           type="submit"
-          disabled={loading}
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent-fill px-7 py-3.5 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] disabled:opacity-70"
+          aria-disabled={loading}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-accent-fill px-7 py-3.5 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] aria-disabled:opacity-70"
         >
           {loading ? (
             <>

@@ -38,7 +38,18 @@ export function RegionRestrictionChecker() {
         onSubmit={(input) => run({ input })}
       />
 
-      <div aria-live="polite">
+      <p role="status" className="sr-only">
+        {state.status === "loading"
+          ? "Checking regions…"
+          : state.status === "done"
+            ? state.data.availability.allowed
+              ? `Only viewable in ${state.data.availability.allowed.length} countries.`
+              : state.data.availability.blocked
+                ? `Blocked in ${state.data.availability.blocked.length} countries.`
+                : "No region restrictions set."
+            : ""}
+      </p>
+      <div>
         {state.status === "loading" && <Skeleton className="h-56 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
         {state.status === "done" && <ResultCard {...state.data} />}
@@ -49,7 +60,7 @@ export function RegionRestrictionChecker() {
 
 function CountryChips({ codes }: { codes: string[] }) {
   return (
-    <ul className="mt-2 flex flex-wrap gap-2">
+    <ul role="list" className="mt-2 flex flex-wrap gap-2">
       {[...codes].sort().map((c) => (
         <li key={c} className="rounded-lg bg-surface px-2.5 py-1 text-xs font-medium">
           {countryName(c)} ({c})

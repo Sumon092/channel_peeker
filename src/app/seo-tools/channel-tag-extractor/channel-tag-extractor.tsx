@@ -34,7 +34,14 @@ export function ChannelTagExtractor() {
         onSubmit={(input) => run({ input })}
       />
 
-      <div aria-live="polite">
+      <p role="status" className="sr-only">
+        {state.status === "loading"
+          ? "Looking up channel tags…"
+          : state.status === "done"
+            ? `${state.data.keywords.length} channel tag${state.data.keywords.length === 1 ? "" : "s"} found.`
+            : ""}
+      </p>
+      <div>
         {state.status === "loading" && <Skeleton className="h-56 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
         {state.status === "done" && <ResultCard {...state.data} />}
@@ -63,7 +70,7 @@ function ResultCard({ channel: c, keywords, fetchedAt }: Result) {
         </p>
       ) : (
         <>
-          <ul className="mt-4 flex flex-wrap gap-2">
+          <ul role="list" className="mt-4 flex flex-wrap gap-2">
             {keywords.map((k) => (
               <li key={k} className="rounded-lg bg-surface-2 px-3 py-1.5 text-sm font-medium">
                 {k}

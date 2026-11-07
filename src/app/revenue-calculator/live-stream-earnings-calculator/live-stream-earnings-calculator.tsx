@@ -15,10 +15,14 @@ import {
 
 const inputCls = "w-full field-pill px-4 py-3";
 
-function parseNum(v: string): number {
+function parseNum(v: string): number | null {
+  // Strict: "1k" must show an error, not silently calculate with 1 (or 0).
+  if (!/^[\d,.\s$]*$/.test(v) || !v.trim()) return null;
   const n = Number.parseFloat(v.replace(/[,\s$]/g, ""));
-  return Number.isFinite(n) && n >= 0 ? n : 0;
+  return Number.isFinite(n) && n >= 0 ? n : null;
 }
+
+const fieldErr = (v: string) => (v.trim() && parseNum(v) === null ? "Enter a number, e.g. 50,000 or 4.99" : null);
 
 export function LiveStreamEarningsCalculator() {
   const id = useId();
@@ -32,12 +36,14 @@ export function LiveStreamEarningsCalculator() {
   const niche = NICHES.find((n) => n.id === nicheId) ?? NICHES[0];
   const tier = COUNTRY_TIERS.find((t) => t.id === tierId) ?? COUNTRY_TIERS[0];
 
-  const monthlyViews = parseNum(views);
+  const errs = { v: fieldErr(views), sc: fieldErr(superChat), mb: fieldErr(members), mp: fieldErr(memberPrice) };
+
+  const monthlyViews = parseNum(views) ?? 0;
   const adBase = (monthlyViews / 1000) * DEFAULT_MONETIZED_SHARE * CREATOR_SHARE_LONG * tier.multiplier * LIVE_CPM_MULTIPLIER;
   const ads: MoneyRange = { low: adBase * niche.cpmLow, high: adBase * niche.cpmHigh };
 
-  const superChatNet = parseNum(superChat) * CREATOR_SHARE_FAN_FUNDING;
-  const membershipNet = parseNum(members) * parseNum(memberPrice) * CREATOR_SHARE_FAN_FUNDING;
+  const superChatNet = (parseNum(superChat) ?? 0) * CREATOR_SHARE_FAN_FUNDING;
+  const membershipNet = (parseNum(members) ?? 0) * (parseNum(memberPrice) ?? 0) * CREATOR_SHARE_FAN_FUNDING;
 
   const total: MoneyRange = { low: ads.low + superChatNet + membershipNet, high: ads.high + superChatNet + membershipNet };
 
@@ -46,7 +52,21 @@ export function LiveStreamEarningsCalculator() {
       <div className="grid gap-4 sm:grid-cols-3">
         <label className="text-sm font-medium" htmlFor={`${id}-v`}>
           Monthly live views
-          <input id={`${id}-v`} type="text" inputMode="numeric" value={views} onChange={(e) => setViews(e.target.value)} className={`mt-2 font-normal ${inputCls}`} />
+          <input
+            id={`${id}-v`}
+            type="text"
+            inputMode="numeric"
+            value={views}
+            aria-invalid={Boolean(errs.v)}
+            aria-describedby={errs.v ? `${id}-v-err` : undefined}
+            onChange={(e) => setViews(e.target.value)}
+            className={`mt-2 font-normal ${inputCls}`}
+          />
+          {errs.v && (
+            <span id={`${id}-v-err`} className="mt-1 block text-sm font-medium text-bad">
+              {errs.v}
+            </span>
+          )}
         </label>
         <label className="text-sm font-medium" htmlFor={`${id}-n`}>
           Niche
@@ -70,19 +90,61 @@ export function LiveStreamEarningsCalculator() {
         </label>
         <label className="text-sm font-medium" htmlFor={`${id}-sc`}>
           Super Chat & Stickers / month (gross $)
-          <input id={`${id}-sc`} type="text" inputMode="decimal" value={superChat} onChange={(e) => setSuperChat(e.target.value)} className={`mt-2 font-normal ${inputCls}`} />
+          <input
+            id={`${id}-sc`}
+            type="text"
+            inputMode="decimal"
+            value={superChat}
+            aria-invalid={Boolean(errs.sc)}
+            aria-describedby={errs.sc ? `${id}-sc-err` : undefined}
+            onChange={(e) => setSuperChat(e.target.value)}
+            className={`mt-2 font-normal ${inputCls}`}
+          />
+          {errs.sc && (
+            <span id={`${id}-sc-err`} className="mt-1 block text-sm font-medium text-bad">
+              {errs.sc}
+            </span>
+          )}
         </label>
         <label className="text-sm font-medium" htmlFor={`${id}-mb`}>
           Channel members
-          <input id={`${id}-mb`} type="text" inputMode="numeric" value={members} onChange={(e) => setMembers(e.target.value)} className={`mt-2 font-normal ${inputCls}`} />
+          <input
+            id={`${id}-mb`}
+            type="text"
+            inputMode="numeric"
+            value={members}
+            aria-invalid={Boolean(errs.mb)}
+            aria-describedby={errs.mb ? `${id}-mb-err` : undefined}
+            onChange={(e) => setMembers(e.target.value)}
+            className={`mt-2 font-normal ${inputCls}`}
+          />
+          {errs.mb && (
+            <span id={`${id}-mb-err`} className="mt-1 block text-sm font-medium text-bad">
+              {errs.mb}
+            </span>
+          )}
         </label>
         <label className="text-sm font-medium" htmlFor={`${id}-mp`}>
           Membership price ($/month)
-          <input id={`${id}-mp`} type="text" inputMode="decimal" value={memberPrice} onChange={(e) => setMemberPrice(e.target.value)} className={`mt-2 font-normal ${inputCls}`} />
+          <input
+            id={`${id}-mp`}
+            type="text"
+            inputMode="decimal"
+            value={memberPrice}
+            aria-invalid={Boolean(errs.mp)}
+            aria-describedby={errs.mp ? `${id}-mp-err` : undefined}
+            onChange={(e) => setMemberPrice(e.target.value)}
+            className={`mt-2 font-normal ${inputCls}`}
+          />
+          {errs.mp && (
+            <span id={`${id}-mp-err`} className="mt-1 block text-sm font-medium text-bad">
+              {errs.mp}
+            </span>
+          )}
         </label>
       </div>
 
-      <div className="mt-5 rounded-xl bg-surface-2 px-4 py-4 text-center" aria-live="polite">
+      <div className="mt-5 rounded-xl bg-surface-2 px-4 py-4 text-center" role="status">
         <p className="text-xs text-muted">Estimated monthly live stream earnings</p>
         <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{formatRange(total)}</p>
       </div>

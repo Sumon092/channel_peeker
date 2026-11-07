@@ -60,11 +60,14 @@ export function CommentFinder() {
   // Arriving from the home smart search (?q=): prefill and run without another click.
   useInitialQuery((q) => {
     setInput(q);
-    if (parseYouTubeInput(q, "video").ok) run({ input: q, order: "relevance" });
+    const parsed = parseYouTubeInput(q, "video");
+    if (parsed.ok) run({ input: q, order: "relevance" });
+    else setValidation(parsed.message);
   });
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (state.status === "loading") return;
     const parsed = parseYouTubeInput(input, "video");
     if (!parsed.ok) {
       setValidation(parsed.message);
@@ -83,7 +86,12 @@ export function CommentFinder() {
             id={`${id}-v`}
             type="text"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            aria-invalid={Boolean(validation)}
+            aria-describedby={validation ? `${id}-err` : undefined}
+            onChange={(e) => {
+              setInput(e.target.value);
+              if (validation) setValidation(null);
+            }}
             placeholder="https://www.youtube.com/watch?v=… or youtu.be/…"
             className={`mt-2 font-normal ${inputCls}`}
           />
@@ -109,20 +117,28 @@ export function CommentFinder() {
           </label>
         </div>
         {validation && (
-          <p role="alert" className="mt-3 text-sm font-medium text-bad">
+          <p id={`${id}-err`} role="alert" className="mt-3 text-sm font-medium text-bad">
             {validation}
           </p>
         )}
         <button
           type="submit"
-          disabled={state.status === "loading"}
-          className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-accent-fill px-7 py-3.5 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] disabled:opacity-70 sm:w-auto"
+          aria-disabled={state.status === "loading"}
+          className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-accent-fill px-7 py-3.5 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] aria-disabled:opacity-70 sm:w-auto"
         >
           {state.status === "loading" ? "Searching…" : "Find comments"}
         </button>
       </form>
 
-      <div aria-live="polite">
+      {/* Always-mounted status: a one-line summary instead of reading 100 comments aloud. */}
+      <p role="status" className="sr-only">
+        {state.status === "loading"
+          ? "Searching comments…"
+          : state.status === "done"
+            ? `Found ${state.data.comments.length} top-level comment${state.data.comments.length === 1 ? "" : "s"}.`
+            : ""}
+      </p>
+      <div>
         {state.status === "loading" && <Skeleton className="h-72 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
         {state.status === "done" && <Results {...state.data} />}
@@ -170,7 +186,7 @@ function Results(r: Result) {
       </div>
 
       {r.comments.length > 0 && (
-        <ul className="mt-4 space-y-3">
+        <ul role="list" className="mt-4 space-y-3">
           {r.comments.map((c) => (
             <li key={c.id} className="rounded-xl bg-surface-2 p-4">
               <div className="flex items-center justify-between gap-3">
@@ -178,6 +194,7 @@ function Results(r: Result) {
                   {c.authorChannelUrl?.startsWith("http") ? (
                     <a href={c.authorChannelUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
                       {c.author}
+                      <span className="sr-only"> (opens in new tab)</span>
                     </a>
                   ) : (
                     c.author
