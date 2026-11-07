@@ -24,7 +24,7 @@ export function SiteFooter() {
     <footer className="mt-auto bg-ink text-sm text-ink-text">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
         <div>
-          <Logo className="text-lg" />
+          <Logo className="text-lg" gid="cp-gf" />
           <p className="mt-4 max-w-xs leading-relaxed text-ink-muted">{site.tagline}</p>
         </div>
         <FooterList title="Tools" items={[{ href: "/tools", label: "All tools" }, ...hubLinks]} />
