@@ -11,6 +11,7 @@ const entries = [
   {
     date: "November 7, 2026",
     items: [
+      "New tool: Comment Picker — fair, random giveaway winners from your video's comments, with a recordable draw.",
       "New tool: Banner Downloader — any channel's banner art in HD, in TV, desktop, tablet and mobile crops.",
       "New tool: Channel Tag Extractor — the hidden channel keywords any channel has set.",
       "New tool: Region Restriction Checker — which countries a video is blocked or allowed in, plus embedding status.",

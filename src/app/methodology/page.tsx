@@ -47,6 +47,35 @@ export default function Page() {
         </li>
       </ul>
 
+      <h2>Tools we deliberately don&apos;t build</h2>
+      <p>
+        Some popular tool ideas can&apos;t be answered honestly from public data, so you won&apos;t find them here even though competitors
+        offer them:
+      </p>
+      <ul>
+        <li>
+          <strong>Shadowban checkers.</strong> YouTube has no public &quot;shadowban&quot; flag. Sites offering this guess from search
+          results, which produces confident-looking answers nobody can verify.
+        </li>
+        <li>
+          <strong>Dislike checkers.</strong> YouTube removed dislike counts from its API in 2021. Any site showing current dislikes is
+          estimating, not reporting.
+        </li>
+        <li>
+          <strong>Deleted or private video viewers.</strong> The official API doesn&apos;t return deleted or private content. Tools claiming
+          to recover it are scraping third-party archives of varying legality and accuracy.
+        </li>
+        <li>
+          <strong>Monetization verdicts.</strong> Since 2023 YouTube exposes no &quot;is monetized&quot; flag. Our{" "}
+          <a href="/monetization-checker">Monetization Checker</a> shows which Partner Program requirements a channel visibly meets instead
+          of inventing a yes/no.
+        </li>
+      </ul>
+      <p>
+        If a number here ever disagrees with a site that does offer those tools, the difference is usually that we won&apos;t show data
+        YouTube doesn&apos;t publish.
+      </p>
+
       <h2>Definitions</h2>
       <h3>Median views</h3>
       <p>

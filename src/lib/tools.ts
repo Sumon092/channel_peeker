@@ -82,6 +82,7 @@ export const tools: Tool[] = [
   { path: "/channel-age-checker", name: "Channel Age Checker", summary: "See exactly when a channel was created and how old it is.", hub: "analytics", status: "live" },
   { path: "/video-upload-date-checker", name: "Video Upload Date Checker", summary: "The exact date and time any video was published, and its age.", hub: "analytics", status: "live" },
   { path: "/comment-finder", name: "Comment Finder", summary: "Search any video's comments for a word, name or phrase, and export to CSV.", hub: "analytics", status: "live" },
+  { path: "/comment-picker", name: "Comment Picker", summary: "Pick fair, random giveaway winners from a video's comments.", hub: "analytics", status: "live" },
   { path: "/watch-time-calculator", name: "Watch Time Calculator", summary: "Views × average view duration, and your distance to 4,000 watch hours.", hub: "analytics", status: "live" },
   { path: "/region-restriction-checker", name: "Region Restriction Checker", summary: "Which countries a video is blocked or allowed in, with embedding status.", hub: "analytics", status: "live" },
 
@@ -143,6 +144,7 @@ export const toolsByInput: Record<InputKind, string[]> = {
     "/video-analyzer",
     "/seo-tools/tag-extractor",
     "/comment-finder",
+    "/comment-picker",
     "/video-upload-date-checker",
     "/video-id-extractor",
     "/url-cleaner",

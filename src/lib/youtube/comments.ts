@@ -33,6 +33,7 @@ interface ApiCommentThread {
 
 interface ApiResponse {
   items?: ApiCommentThread[];
+  nextPageToken?: string;
 }
 
 const cacheKey = (videoId: string, search: string, order: string) => `yt:comments:${videoId}:${order}:${search.toLowerCase()}:v1`;
@@ -79,7 +80,17 @@ export async function getComments(
     throw err;
   }
 
-  const comments: CommentItem[] = (res.items ?? []).flatMap((t) => {
+  const comments = toItems(res);
+
+  if (search && order === "relevance") comments.sort((a, b) => b.likes - a.likes);
+
+  const result = { comments, fetchedAt: new Date().toISOString() };
+  await kv.set(key, result, TTL.hour).catch(() => {});
+  return result;
+}
+
+function toItems(res: ApiResponse): CommentItem[] {
+  return (res.items ?? []).flatMap((t) => {
     const c = t.snippet?.topLevelComment?.snippet;
     if (!c?.textOriginal) return [];
     return [
@@ -95,10 +106,61 @@ export async function getComments(
       },
     ];
   });
+}
 
-  if (search && order === "relevance") comments.sort((a, b) => b.likes - a.likes);
+export interface PickerComments {
+  comments: CommentItem[];
+  /** True when the video has more top-level comments than our page cap fetched. */
+  hasMore: boolean;
+  pagesFetched: number;
+  fetchedAt: string;
+}
 
-  const result = { comments, fetchedAt: new Date().toISOString() };
-  await kv.set(key, result, TTL.hour).catch(() => {});
+const PICKER_MAX_PAGES = 5;
+
+/**
+ * Up to 500 most recent top-level comments for giveaway draws (1 unit per page,
+ * max 5 pages). Cached only 15 minutes so draws see fresh entries.
+ */
+export async function getCommentsForPicker(videoId: string, tool: string): Promise<PickerComments> {
+  const key = `yt:picker:${videoId}:v1`;
+  const hit = await kv.get<PickerComments>(key).catch(() => null);
+  if (hit) return hit;
+
+  const comments: CommentItem[] = [];
+  let pageToken: string | undefined;
+  let pagesFetched = 0;
+  let hasMore = false;
+
+  try {
+    do {
+      const res: ApiResponse = await ytGet<ApiResponse>(
+        "commentThreads",
+        {
+          part: "snippet",
+          videoId,
+          order: "time",
+          maxResults: 100,
+          textFormat: "plainText",
+          pageToken,
+          fields:
+            "nextPageToken,items(id,snippet(totalReplyCount,topLevelComment(snippet(authorDisplayName,authorProfileImageUrl,authorChannelUrl,textOriginal,likeCount,publishedAt))))",
+        },
+        { tool },
+      );
+      comments.push(...toItems(res));
+      pagesFetched += 1;
+      pageToken = res.nextPageToken;
+      hasMore = Boolean(pageToken);
+    } while (pageToken && pagesFetched < PICKER_MAX_PAGES);
+  } catch (err) {
+    if (err instanceof AppError && err.code === "private") {
+      throw new AppError("private", "Comments are turned off on that video.");
+    }
+    throw err;
+  }
+
+  const result: PickerComments = { comments, hasMore, pagesFetched, fetchedAt: new Date().toISOString() };
+  await kv.set(key, result, 15 * TTL.minute).catch(() => {});
   return result;
 }
