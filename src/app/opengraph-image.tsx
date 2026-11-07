@@ -34,18 +34,11 @@ export default function OgImage() {
               justifyContent: "center",
             }}
           >
-            <svg width="48" height="48" viewBox="-0.1 -0.1 24 24">
-              <circle cx="10.7" cy="10.7" r="5" fill="none" stroke="#fff" strokeWidth="2.2" />
-              <path d="M14.4 14.4 17.9 17.9" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" />
-              <path
-                d="M8.3 12.7 9.9 10.5 11.2 11.6 13 9.3"
-                fill="none"
-                stroke="#fff"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <circle cx="13" cy="9.3" r="0.95" fill="#fff" />
+            <svg width="52" height="52" viewBox="2 2 20 20">
+              <rect x="5.1" y="13.4" width="3.3" height="5.7" rx="1.65" fill="#fff" />
+              <rect x="10.35" y="9.9" width="3.3" height="9.2" rx="1.65" fill="#fff" />
+              <rect x="15.6" y="11.1" width="3.3" height="8" rx="1.65" fill="#fff" opacity="0.5" />
+              <circle cx="17.25" cy="6.8" r="2.45" fill="#fff" />
             </svg>
           </div>
           <div style={{ fontSize: 60, fontWeight: 800, display: "flex" }}>{site.name}</div>
