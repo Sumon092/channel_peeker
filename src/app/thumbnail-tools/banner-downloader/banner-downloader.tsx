@@ -2,10 +2,12 @@
 
 /* eslint-disable @next/next/no-img-element -- banner aspect ratios vary; plain img with the direct URL matches the download links */
 
+import { useI18n } from "@/components/i18n-provider";
 import { CopyButton } from "@/components/ui/copy-button";
 import { ErrorBox, FetchedAt, Skeleton } from "@/components/ui/status";
 import { ToolInput } from "@/components/ui/tool-input";
 import { useToolRequest } from "@/components/ui/use-tool-request";
+import { fmt, type WidgetStrings } from "@/lib/widget-i18n";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
 interface Result {
@@ -16,22 +18,23 @@ interface Result {
 
 /** Google's image CDN sizes banners via URL suffixes; fcrop64 selects the layout crop. */
 const SIZES = [
-  { suffix: "=w2120-fcrop64=1,00000000ffffffff-k-c0xffffffff-no-nd-rj", label: "Full banner (TV, 2120×1192)" },
-  { suffix: "=w2560-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj", label: "Desktop 2× (2560×423)" },
-  { suffix: "=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj", label: "Tablet (1707×283)" },
-  { suffix: "=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj", label: "Desktop / mobile (1060×175)" },
-  { suffix: "", label: "Source image (as uploaded)" },
-] as const;
+  { key: "tv", suffix: "=w2120-fcrop64=1,00000000ffffffff-k-c0xffffffff-no-nd-rj" },
+  { key: "desktop2x", suffix: "=w2560-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj" },
+  { key: "tablet", suffix: "=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj" },
+  { key: "desktop", suffix: "=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj" },
+  { key: "source", suffix: "" },
+] as const satisfies readonly { key: keyof WidgetStrings["banner"]["sizes"]; suffix: string }[];
 
 export function BannerDownloader() {
+  const { w } = useI18n();
   const { state, run } = useToolRequest<Result>("/api/tools/banner-downloader");
 
   return (
     <div className="space-y-4">
       <ToolInput
-        label="Channel link, @handle or video link"
-        placeholder="@handle or https://www.youtube.com/@name"
-        submitLabel="Get banner"
+        label={w.channelInputLabel}
+        placeholder={w.channelPlaceholder}
+        submitLabel={w.banner.submit}
         loading={state.status === "loading"}
         examples={[
           { label: "@mkbhd", value: "@mkbhd" },
@@ -39,13 +42,13 @@ export function BannerDownloader() {
         ]}
         validate={(v) => {
           const r = parseYouTubeInput(v, "channel");
-          return r.ok ? null : r.message;
+          return r.ok ? null : w.parseErrors[r.code];
         }}
         onSubmit={(input) => run({ input })}
       />
 
       <p role="status" className="sr-only">
-        {state.status === "loading" ? "Looking up banner…" : state.status === "done" && state.data.bannerUrl ? `Banner found for ${state.data.channel.title}.` : ""}
+        {state.status === "loading" ? w.banner.looking : state.status === "done" && state.data.bannerUrl ? fmt(w.banner.found, { title: state.data.channel.title }) : ""}
       </p>
       <div>
         {state.status === "loading" && <Skeleton className="h-64 w-full rounded-3xl" />}
@@ -57,8 +60,9 @@ export function BannerDownloader() {
 }
 
 function ResultCard({ channel: c, bannerUrl, fetchedAt }: Result) {
+  const { w } = useI18n();
   if (!bannerUrl) {
-    return <ErrorBox message={`${c.title} hasn't set a channel banner.`} />;
+    return <ErrorBox message={fmt(w.banner.none, { title: c.title })} />;
   }
   return (
     <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
@@ -67,23 +71,26 @@ function ResultCard({ channel: c, bannerUrl, fetchedAt }: Result) {
 
       <img
         src={`${bannerUrl}=w1060-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj`}
-        alt={`${c.title} channel banner`}
+        alt={fmt(w.banner.bannerAlt, { title: c.title })}
         className="mt-4 aspect-[1060/175] w-full rounded-xl bg-surface-2 object-cover"
         loading="lazy"
       />
 
       <ul role="list" className="mt-4 space-y-2">
-        {SIZES.map((s) => (
-          <li key={s.label} className="flex flex-col gap-2 rounded-xl bg-surface-2 p-3 sm:flex-row sm:items-center sm:justify-between">
-            <a href={`${bannerUrl}${s.suffix}`} target="_blank" rel="noopener noreferrer" className="text-sm font-medium hover:underline">
-              Open {s.label} <span aria-hidden="true">↗</span>
-              <span className="sr-only">(opens in new tab)</span>
-            </a>
-            <CopyButton text={`${bannerUrl}${s.suffix}`} label="Copy URL" ariaLabel={`Copy URL for ${s.label}`} className="shrink-0 bg-surface" />
-          </li>
-        ))}
+        {SIZES.map((s) => {
+          const label = w.banner.sizes[s.key];
+          return (
+            <li key={s.key} className="flex flex-col gap-2 rounded-xl bg-surface-2 p-3 sm:flex-row sm:items-center sm:justify-between">
+              <a href={`${bannerUrl}${s.suffix}`} target="_blank" rel="noopener noreferrer" className="text-sm font-medium hover:underline">
+                {fmt(w.banner.open, { label })} <span aria-hidden="true">↗</span>
+                <span className="sr-only">{w.opensInNewTab}</span>
+              </a>
+              <CopyButton text={`${bannerUrl}${s.suffix}`} label={w.banner.copyUrl} ariaLabel={fmt(w.banner.copyUrlFor, { label })} className="shrink-0 bg-surface" />
+            </li>
+          );
+        })}
       </ul>
-      <p className="mt-3 text-xs text-muted">Open a size, then right-click (or long-press) → “Save image as…”.</p>
+      <p className="mt-3 text-xs text-muted">{w.banner.saveHint}</p>
 
       <div className="mt-4 flex justify-end">
         <FetchedAt iso={fetchedAt} />

@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useI18n } from "@/components/i18n-provider";
 import { CopyButton } from "@/components/ui/copy-button";
 import { ErrorBox, FetchedAt, Skeleton } from "@/components/ui/status";
 import { ToolInput } from "@/components/ui/tool-input";
 import { useToolRequest } from "@/components/ui/use-tool-request";
+import { fmt } from "@/lib/widget-i18n";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
 interface CommentItem {
@@ -51,25 +53,27 @@ function drawWinners(entries: CommentItem[], count: number): CommentItem[] {
 }
 
 export function CommentPicker() {
+  const { w } = useI18n();
+  const p = w.picker;
   const { state, run } = useToolRequest<Result>("/api/tools/comment-picker");
 
   return (
     <div className="space-y-4">
       <ToolInput
-        label="Giveaway video link or ID"
-        placeholder="https://www.youtube.com/watch?v=… or youtu.be/…"
-        submitLabel="Load comments"
+        label={p.inputLabel}
+        placeholder={w.videoPlaceholder}
+        submitLabel={p.submit}
         loading={state.status === "loading"}
         validate={(v) => {
           const r = parseYouTubeInput(v, "video");
-          return r.ok ? null : r.message;
+          return r.ok ? null : w.parseErrors[r.code];
         }}
         onSubmit={(input) => run({ input })}
       />
 
       {/* Always-mounted status line: announces a short summary instead of the whole card. */}
       <p role="status" className="sr-only">
-        {state.status === "loading" ? "Loading comments…" : state.status === "done" ? `Loaded ${state.data.comments.length} top-level comments.` : ""}
+        {state.status === "loading" ? p.loading : state.status === "done" ? fmt(p.loaded, { n: state.data.comments.length }) : ""}
       </p>
       <div>
         {state.status === "loading" && <Skeleton className="h-72 w-full rounded-3xl" />}
@@ -82,6 +86,8 @@ export function CommentPicker() {
 }
 
 function Picker(r: Result) {
+  const { intl, w } = useI18n();
+  const p = w.picker;
   const [keyword, setKeyword] = useState("");
   const [onePerPerson, setOnePerPerson] = useState(true);
   const [winnerCount, setWinnerCount] = useState(1);
@@ -142,7 +148,7 @@ function Picker(r: Result) {
 
   const announcement =
     winners && winners.length > 0
-      ? `🎉 Giveaway result for “${r.video.title}”: ${winners.map((w) => w.author).join(", ")} — picked at random from ${entries.length.toLocaleString("en")} entries with channelpeeker.com/comment-picker`
+      ? fmt(p.announcement, { title: r.video.title, winners: winners.map((x) => x.author).join(", "), n: entries.length.toLocaleString(intl) })
       : "";
 
   return (
@@ -154,15 +160,15 @@ function Picker(r: Result) {
         <div className="min-w-0">
           <p className="truncate font-semibold">{r.video.title}</p>
           <p className="text-sm tabular-nums text-muted">
-            {r.video.channelTitle} · {r.comments.length.toLocaleString("en")} top-level comments loaded
-            {r.hasMore ? " (newest 500 — the video has more)" : ""}
+            {r.video.channelTitle} · {fmt(p.commentsLoaded, { n: r.comments.length.toLocaleString(intl) })}
+            {r.hasMore ? p.hasMoreNote : ""}
           </p>
         </div>
       </div>
 
       <div className="mt-4 grid gap-4 sm:grid-cols-3">
         <label className="text-sm font-medium" htmlFor="cp-kw">
-          Must contain <span className="font-normal text-muted">(optional)</span>
+          {p.mustContain} <span className="font-normal text-muted">{w.optional}</span>
           <input
             id="cp-kw"
             type="text"
@@ -171,12 +177,12 @@ function Picker(r: Result) {
               setKeyword(e.target.value);
               resetDraw();
             }}
-            placeholder="e.g. #giveaway"
+            placeholder={p.keywordPlaceholder}
             className={`mt-2 font-normal ${inputCls}`}
           />
         </label>
         <label className="text-sm font-medium" htmlFor="cp-n">
-          Winners
+          {p.winnersLabel}
           <select
             id="cp-n"
             value={winnerCount}
@@ -204,7 +210,7 @@ function Picker(r: Result) {
             }}
             className="h-4 w-4 accent-[var(--accent)]"
           />
-          One entry per person
+          {p.onePerPerson}
         </label>
       </div>
 
@@ -214,33 +220,37 @@ function Picker(r: Result) {
           <p className="text-2xl font-black tracking-tight">{cycling}</p>
         ) : winners && winners.length > 0 ? (
           <div className="result-enter space-y-3">
-            <p className="text-xs uppercase tracking-wide text-muted">{winners.length === 1 ? "Winner" : "Winners"}</p>
-            {winners.map((w) => (
-              <div key={w.id}>
+            <p className="text-xs uppercase tracking-wide text-muted">{winners.length === 1 ? p.winnerOne : p.winnerMany}</p>
+            {winners.map((x) => (
+              <div key={x.id}>
                 <p className="text-2xl font-black tracking-tight text-good">
-                  {w.authorChannelUrl?.startsWith("http") ? (
-                    <a href={w.authorChannelUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:no-underline">
-                      {w.author}
-                      <span className="sr-only"> (opens in new tab)</span>
+                  {x.authorChannelUrl?.startsWith("http") ? (
+                    <a href={x.authorChannelUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:no-underline">
+                      {x.author}
+                      <span className="sr-only"> {w.opensInNewTab}</span>
                     </a>
                   ) : (
-                    w.author
+                    x.author
                   )}
                 </p>
-                <p className="mx-auto mt-1 line-clamp-2 max-w-md break-words text-sm text-muted">“{w.text}”</p>
+                <p className="mx-auto mt-1 line-clamp-2 max-w-md break-words text-sm text-muted">“{x.text}”</p>
               </div>
             ))}
           </div>
         ) : (
           <p className="text-sm tabular-nums text-muted">
-            {entries.length.toLocaleString("en")} eligible {entries.length === 1 ? "entry" : "entries"} ready
+            {fmt(entries.length === 1 ? p.entriesReadyOne : p.entriesReadyMany, { n: entries.length.toLocaleString(intl) })}
           </p>
         )}
       </div>
 
       {/* Always mounted: announces the draw start and the winners without reading the cycling names. */}
       <p role="status" className="sr-only">
-        {drawing ? "Drawing…" : winners && winners.length > 0 ? `${winners.length === 1 ? "Winner" : "Winners"}: ${winners.map((w) => w.author).join(", ")}` : ""}
+        {drawing
+          ? p.drawing
+          : winners && winners.length > 0
+            ? `${winners.length === 1 ? p.winnerOne : p.winnerMany}: ${winners.map((x) => x.author).join(", ")}`
+            : ""}
       </p>
 
       <div className="mt-4 flex flex-wrap items-center gap-3">
@@ -250,19 +260,16 @@ function Picker(r: Result) {
           aria-disabled={drawing || entries.length === 0}
           className="inline-flex items-center justify-center rounded-full bg-accent-fill px-7 py-3 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] aria-disabled:cursor-not-allowed aria-disabled:opacity-70"
         >
-          {drawing ? "Drawing…" : winners ? "Draw again" : "Pick winner" + (winnerCount > 1 ? "s" : "")}
+          {drawing ? p.drawing : winners ? p.drawAgain : winnerCount > 1 ? p.pickWinnerMany : p.pickWinnerOne}
         </button>
-        {winners && winners.length > 0 && <CopyButton text={announcement} label="Copy announcement" />}
+        {winners && winners.length > 0 && <CopyButton text={announcement} label={p.copyAnnouncement} />}
         <span className="ml-auto">
           <FetchedAt iso={r.fetchedAt} />
         </span>
       </div>
 
       <p className="mt-4 text-xs leading-relaxed text-muted">
-        Fair by design: the draw runs in your browser with cryptographic randomness (not a predictable shuffle), from the{" "}
-        {r.hasMore ? "newest 500" : `${r.comments.length.toLocaleString("en")}`} top-level comments via the official YouTube API. Replies
-        inside threads aren&apos;t separate entries, and YouTube doesn&apos;t let anyone verify who&apos;s subscribed — check that manually
-        if your giveaway requires it. Record your screen during the draw for a transparent announcement.
+        {fmt(p.fairNote, { source: r.hasMore ? p.fairSourceNewest : r.comments.length.toLocaleString(intl) })}
       </p>
     </div>
   );

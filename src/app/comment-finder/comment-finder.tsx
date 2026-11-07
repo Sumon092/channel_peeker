@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import { useId, useState } from "react";
+import { useI18n } from "@/components/i18n-provider";
 import { ErrorBox, FetchedAt, Skeleton } from "@/components/ui/status";
 import { useInitialQuery } from "@/components/ui/use-initial-query";
 import { useToolRequest } from "@/components/ui/use-tool-request";
+import { fmt } from "@/lib/widget-i18n";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
 interface CommentItem {
@@ -51,6 +53,8 @@ function downloadCsv(r: Result) {
 
 export function CommentFinder() {
   const id = useId();
+  const { w } = useI18n();
+  const f = w.finder;
   const { state, run } = useToolRequest<Result>("/api/tools/comment-finder");
   const [input, setInput] = useState("");
   const [search, setSearch] = useState("");
@@ -62,7 +66,7 @@ export function CommentFinder() {
     setInput(q);
     const parsed = parseYouTubeInput(q, "video");
     if (parsed.ok) run({ input: q, order: "relevance" });
-    else setValidation(parsed.message);
+    else setValidation(w.parseErrors[parsed.code]);
   });
 
   function submit(e: React.FormEvent) {
@@ -70,7 +74,7 @@ export function CommentFinder() {
     if (state.status === "loading") return;
     const parsed = parseYouTubeInput(input, "video");
     if (!parsed.ok) {
-      setValidation(parsed.message);
+      setValidation(w.parseErrors[parsed.code]);
       return;
     }
     setValidation(null);
@@ -81,7 +85,7 @@ export function CommentFinder() {
     <div className="space-y-4">
       <form onSubmit={submit} className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
         <label className="block text-sm font-medium" htmlFor={`${id}-v`}>
-          Video link or ID
+          {w.videoInputLabel}
           <input
             id={`${id}-v`}
             type="text"
@@ -92,27 +96,27 @@ export function CommentFinder() {
               setInput(e.target.value);
               if (validation) setValidation(null);
             }}
-            placeholder="https://www.youtube.com/watch?v=… or youtu.be/…"
+            placeholder={w.videoPlaceholder}
             className={`mt-2 font-normal ${inputCls}`}
           />
         </label>
         <div className="mt-4 grid gap-4 sm:grid-cols-[1fr_auto]">
           <label className="text-sm font-medium" htmlFor={`${id}-s`}>
-            Search within comments <span className="font-normal text-muted">(optional)</span>
+            {f.searchLabel} <span className="font-normal text-muted">{w.optional}</span>
             <input
               id={`${id}-s`}
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="A word, name or phrase"
+              placeholder={f.searchPlaceholder}
               className={`mt-2 font-normal ${inputCls}`}
             />
           </label>
           <label className="text-sm font-medium" htmlFor={`${id}-o`}>
-            Sort by
+            {f.sortLabel}
             <select id={`${id}-o`} value={order} onChange={(e) => setOrder(e.target.value as "relevance" | "time")} className={`mt-2 font-normal ${inputCls}`}>
-              <option value="relevance">Top comments</option>
-              <option value="time">Newest first</option>
+              <option value="relevance">{f.sortTop}</option>
+              <option value="time">{f.sortNew}</option>
             </select>
           </label>
         </div>
@@ -126,16 +130,16 @@ export function CommentFinder() {
           aria-disabled={state.status === "loading"}
           className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-accent-fill px-7 py-3.5 font-medium text-white transition hover:bg-accent-fill-strong active:scale-[0.97] aria-disabled:opacity-70 sm:w-auto"
         >
-          {state.status === "loading" ? "Searching…" : "Find comments"}
+          {state.status === "loading" ? f.searching : f.submit}
         </button>
       </form>
 
       {/* Always-mounted status: a one-line summary instead of reading 100 comments aloud. */}
       <p role="status" className="sr-only">
         {state.status === "loading"
-          ? "Searching comments…"
+          ? f.searchingStatus
           : state.status === "done"
-            ? `Found ${state.data.comments.length} top-level comment${state.data.comments.length === 1 ? "" : "s"}.`
+            ? fmt(state.data.comments.length === 1 ? f.foundOne : f.foundMany, { n: state.data.comments.length })
             : ""}
       </p>
       <div>
@@ -148,8 +152,18 @@ export function CommentFinder() {
 }
 
 function Results(r: Result) {
-  const countNote =
-    r.video.commentCount !== null ? `${r.video.commentCount.toLocaleString("en")} comments on this video` : "Comment count unavailable";
+  const { intl, w } = useI18n();
+  const f = w.finder;
+  const countNote = r.video.commentCount !== null ? fmt(f.commentsOnVideo, { n: r.video.commentCount.toLocaleString(intl) }) : f.countUnavailable;
+
+  const n = r.comments.length;
+  const nShown = `${n}${n === 100 ? "+" : ""}`;
+  const summary =
+    n === 0
+      ? r.search
+        ? f.noMatch
+        : f.noneFound
+      : fmt(r.search ? (n === 1 ? f.countSummaryMatchedOne : f.countSummaryMatchedMany) : n === 1 ? f.countSummaryOne : f.countSummaryMany, { n: nShown });
 
   return (
     <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
@@ -161,31 +175,25 @@ function Results(r: Result) {
           <p className="truncate font-semibold">{r.video.title}</p>
           <p className="text-sm text-muted">
             {countNote}
-            {r.search ? ` · showing matches for “${r.search}”` : ""}
+            {r.search ? fmt(f.showingMatches, { q: r.search }) : ""}
           </p>
         </div>
       </div>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-muted">
-          {r.comments.length === 0
-            ? r.search
-              ? "No top-level comments match that search."
-              : "No top-level comments found."
-            : `${r.comments.length}${r.comments.length === 100 ? "+" : ""} top-level comment${r.comments.length === 1 ? "" : "s"}${r.search ? " matched" : ""} (replies not included).`}
-        </p>
-        {r.comments.length > 0 && (
+        <p className="text-sm text-muted">{summary}</p>
+        {n > 0 && (
           <button
             type="button"
             onClick={() => downloadCsv(r)}
             className="rounded-lg bg-surface-2 px-3 py-2 text-sm font-medium transition hover:bg-surface-3 active:scale-[0.97]"
           >
-            Download CSV
+            {f.downloadCsv}
           </button>
         )}
       </div>
 
-      {r.comments.length > 0 && (
+      {n > 0 && (
         <ul role="list" className="mt-4 space-y-3">
           {r.comments.map((c) => (
             <li key={c.id} className="rounded-xl bg-surface-2 p-4">
@@ -194,19 +202,20 @@ function Results(r: Result) {
                   {c.authorChannelUrl?.startsWith("http") ? (
                     <a href={c.authorChannelUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
                       {c.author}
-                      <span className="sr-only"> (opens in new tab)</span>
+                      <span className="sr-only"> {w.opensInNewTab}</span>
                     </a>
                   ) : (
                     c.author
                   )}
                 </p>
                 <p className="shrink-0 text-xs text-muted">
-                  {c.publishedAt ? new Date(c.publishedAt).toLocaleDateString("en", { dateStyle: "medium" }) : ""}
+                  {c.publishedAt ? new Date(c.publishedAt).toLocaleDateString(intl, { dateStyle: "medium" }) : ""}
                 </p>
               </div>
               <p className="mt-1 whitespace-pre-wrap break-words text-sm leading-relaxed">{c.text}</p>
               <p className="mt-2 text-xs tabular-nums text-muted">
-                {c.likes.toLocaleString("en")} like{c.likes === 1 ? "" : "s"} · {c.replies.toLocaleString("en")} repl{c.replies === 1 ? "y" : "ies"}
+                {fmt(c.likes === 1 ? f.likesOne : f.likesMany, { n: c.likes.toLocaleString(intl) })} ·{" "}
+                {fmt(c.replies === 1 ? f.repliesOne : f.repliesMany, { n: c.replies.toLocaleString(intl) })}
               </p>
             </li>
           ))}

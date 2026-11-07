@@ -4,7 +4,9 @@ import type { ReactNode } from "react";
 import type { Locale, ToolPageLabels } from "@/lib/i18n";
 import { absoluteUrl, site } from "@/lib/site";
 import { getHub, getTool, type Tool } from "@/lib/tools";
+import { WIDGET_STRINGS } from "@/locales/widgets";
 import { Breadcrumbs, type Crumb } from "./breadcrumbs";
+import { I18nProvider } from "./i18n-provider";
 import { JsonLd } from "./json-ld";
 import { SectionHeading } from "./section-heading";
 import { ToolGrid } from "./tool-card";
@@ -77,7 +79,15 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
             <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-muted">{intro}</p>
           </div>
 
-          <div className="mt-10">{children}</div>
+          <div className="mt-10">
+            {i18n ? (
+              <I18nProvider lang={i18n.lang} strings={WIDGET_STRINGS[i18n.lang]}>
+                {children}
+              </I18nProvider>
+            ) : (
+              children
+            )}
+          </div>
 
           <ul className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted">
             {[...(L?.badges ?? ["100% free", "No signup"]), dataBadge].map((t) => (

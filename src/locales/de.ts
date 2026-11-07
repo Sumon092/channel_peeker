@@ -14,7 +14,7 @@ export const content: Record<string, LocalizedToolContent> = {
     howTo: [
       "Füge den Link deines Gewinnspiel-Videos ein.",
       "Optional: Pflicht-Stichwort (z. B. #gewinnspiel), ein Los pro Person, Anzahl der Gewinner.",
-      "Klicke auf „Pick winner“ — nimm den Bildschirm auf, um die Auslosung transparent zu zeigen.",
+      "Klicke auf „Gewinner ziehen“ — nimm den Bildschirm auf, um die Auslosung transparent zu zeigen.",
     ],
     meaning: [
       "Kommentar-Gewinnspiele belohnen dein echtes Publikum, aber per Scrollen zu wählen ist weder zufällig noch beweisbar. Dieses Tool lädt die Kommentare über die offizielle YouTube-API und lost die Gewinner mit kryptografischer Zufälligkeit direkt in deinem Browser aus — wir könnten niemanden bevorzugen, selbst wenn wir wollten.",
@@ -23,7 +23,7 @@ export const content: Record<string, LocalizedToolContent> = {
     faq: [
       {
         q: "Wie lose ich einen Gewinner aus YouTube-Kommentaren aus?",
-        a: "Video-Link oben einfügen, Filter setzen, „Pick winner“ klicken. Die Auslosung nutzt den kryptografischen Zufallsgenerator deines Browsers über die geladenen Kommentare.",
+        a: "Video-Link oben einfügen, Filter setzen, „Gewinner ziehen“ klicken. Die Auslosung nutzt den kryptografischen Zufallsgenerator deines Browsers über die geladenen Kommentare.",
       },
       {
         q: "Ist die Auslosung wirklich zufällig?",
@@ -51,7 +51,7 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "YouTubes eigene Kommentarsuche ist stark eingeschränkt — auf den meisten Geräten kannst du nur scrollen. Dieses Tool lässt die offizielle API die Kommentare eines Videos nach deinen Suchbegriffen filtern: ideal, um einen halb erinnerten Kommentar wiederzufinden oder Zitate für Recherchen zu sammeln.",
-      "Wir zeigen bis zu 100 Top-Level-Kommentar-Threads pro Suche. Ohne Suchbegriff nutzt „Top comments“ YouTubes eigenes Ranking; mit Suchbegriff sortieren wir die Treffer nach Likes. „Neueste zuerst“ ist in beiden Fällen streng chronologisch.",
+      "Wir zeigen bis zu 100 Top-Level-Kommentar-Threads pro Suche. Ohne Suchbegriff nutzt „Top-Kommentare“ YouTubes eigenes Ranking; mit Suchbegriff sortieren wir die Treffer nach Likes. „Neueste zuerst“ ist in beiden Fällen streng chronologisch.",
     ],
     faq: [
       {

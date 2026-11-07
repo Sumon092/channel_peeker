@@ -11,7 +11,7 @@ export interface ToolsMenuGroup {
 }
 
 /** The header's Tools dropdown: hover/focus-driven like before, but with real open state so aria-expanded is announced (DESIGN.md fix 3). */
-export function ToolsMenu({ groups }: { groups: ToolsMenuGroup[] }) {
+export function ToolsMenu({ groups, label = "Tools", comingSoon = "+{n} coming soon" }: { groups: ToolsMenuGroup[]; label?: string; comingSoon?: string }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLAnchorElement>(null);
@@ -34,7 +34,7 @@ export function ToolsMenu({ groups }: { groups: ToolsMenuGroup[] }) {
       }}
     >
       <Link ref={triggerRef} href="/tools" aria-expanded={open} className="flex items-center gap-1 rounded-full px-4 py-2 hover:bg-surface-2">
-        Tools <ChevronDown className={`h-4 w-4 text-muted transition ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+        {label} <ChevronDown className={`h-4 w-4 text-muted transition ${open ? "rotate-180" : ""}`} aria-hidden="true" />
       </Link>
       <div className={`absolute left-1/2 top-full w-170 -translate-x-1/2 pt-3 transition duration-150 ${open ? "visible opacity-100" : "invisible opacity-0"}`}>
         <div className="grid grid-cols-3 gap-x-8 gap-y-6 rounded-2xl border border-border bg-surface p-6 shadow-menu">
@@ -49,7 +49,7 @@ export function ToolsMenu({ groups }: { groups: ToolsMenuGroup[] }) {
                     </Link>
                   </li>
                 ))}
-                {group.soon > 0 && <li className="py-0.5 text-sm font-normal text-muted">+{group.soon} coming soon</li>}
+                {group.soon > 0 && <li className="py-0.5 text-sm font-normal text-muted">{comingSoon.replace("{n}", String(group.soon))}</li>}
               </ul>
             </div>
           ))}

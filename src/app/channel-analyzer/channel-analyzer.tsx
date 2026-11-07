@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useI18n } from "@/components/i18n-provider";
 import { CopyButton } from "@/components/ui/copy-button";
 import { ErrorBox, FetchedAt, Skeleton } from "@/components/ui/status";
 import { ToolInput } from "@/components/ui/tool-input";
 import { useToolRequest } from "@/components/ui/use-tool-request";
 import type { AnalyzerReport, GradeComponent } from "@/lib/analyzer";
-import { formatCompact, formatDuration, formatNumber, formatSubscribers } from "@/lib/format";
+import { formatDuration } from "@/lib/format";
+import { fmt } from "@/lib/widget-i18n";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
 interface Result {
@@ -28,6 +30,7 @@ interface Result {
 }
 
 export function ChannelAnalyzer() {
+  const { w } = useI18n();
   const { state, run } = useToolRequest<Result>("/api/tools/channel-analyzer");
   const [lastInput, setLastInput] = useState<string | null>(null);
 
@@ -41,18 +44,18 @@ export function ChannelAnalyzer() {
   return (
     <div className="space-y-4">
       <ToolInput
-        label="Channel link, @handle or video link"
-        placeholder="@handle or https://www.youtube.com/@name"
-        submitLabel="Analyze"
+        label={w.channelInputLabel}
+        placeholder={w.channelPlaceholder}
+        submitLabel={w.analyzer.submit}
         loading={state.status === "loading"}
         examples={[
           { label: "@mkbhd", value: "@mkbhd" },
           { label: "@veritasium", value: "@veritasium" },
-          { label: "A video link", value: "https://youtu.be/dQw4w9WgXcQ" },
+          { label: w.exampleVideoLink, value: "https://youtu.be/dQw4w9WgXcQ" },
         ]}
         validate={(v) => {
           const r = parseYouTubeInput(v, "channel");
-          return r.ok ? null : r.message;
+          return r.ok ? null : w.parseErrors[r.code];
         }}
         onSubmit={(input) => {
           setLastInput(input);
@@ -70,21 +73,27 @@ export function ChannelAnalyzer() {
 }
 
 function ResultCard({ result, shareInput }: { result: Result; shareInput: string | null }) {
+  const { intl, w } = useI18n();
+  const a = w.analyzer;
   const { channel: c, report: r, fetchedAt } = result;
-  const shareUrl = shareInput ? `${location.origin}/channel-analyzer?q=${encodeURIComponent(shareInput)}` : null;
+  const shareUrl = shareInput ? `${location.origin}${location.pathname}?q=${encodeURIComponent(shareInput)}` : null;
   const grade = r.derived?.grade ?? null;
 
+  const compact = (n: number) => Intl.NumberFormat(intl, { notation: "compact", maximumFractionDigits: 1 }).format(n);
+  const num = (n: number) => n.toLocaleString(intl);
+  const subs = c.subscribersHidden || c.subscribers === null ? a.hiddenByCreator : c.subscribers >= 1000 ? `≈ ${compact(c.subscribers)}` : num(c.subscribers);
+
   const stats: { label: string; value: string; estimate?: boolean }[] = [
-    { label: "Subscribers", value: formatSubscribers(c.subscribers, c.subscribersHidden) },
-    { label: "Total views", value: formatCompact(c.views) },
-    { label: "Videos", value: formatNumber(c.videoCount) },
-    { label: "Uploads (90 days)", value: formatNumber(r.uploads90d) },
+    { label: a.statSubscribers, value: subs },
+    { label: a.statViews, value: compact(c.views) },
+    { label: a.statVideos, value: num(c.videoCount) },
+    { label: a.statUploads90, value: num(r.uploads90d) },
   ];
   if (r.derived) {
-    if (r.derived.medianViewsLong !== null) stats.push({ label: "Median views (long-form)", value: formatCompact(r.derived.medianViewsLong), estimate: true });
-    if (r.derived.medianViewsShorts !== null) stats.push({ label: "Median views (Shorts)", value: formatCompact(r.derived.medianViewsShorts), estimate: true });
-    if (r.derived.likeRatePct !== null) stats.push({ label: "Median like rate", value: `${r.derived.likeRatePct}%`, estimate: true });
-    if (r.derived.commentRatePct !== null) stats.push({ label: "Median comment rate", value: `${r.derived.commentRatePct}%`, estimate: true });
+    if (r.derived.medianViewsLong !== null) stats.push({ label: a.medianLong, value: compact(r.derived.medianViewsLong), estimate: true });
+    if (r.derived.medianViewsShorts !== null) stats.push({ label: a.medianShorts, value: compact(r.derived.medianViewsShorts), estimate: true });
+    if (r.derived.likeRatePct !== null) stats.push({ label: a.likeRate, value: `${r.derived.likeRatePct}%`, estimate: true });
+    if (r.derived.commentRatePct !== null) stats.push({ label: a.commentRate, value: `${r.derived.commentRatePct}%`, estimate: true });
   }
 
   return (
@@ -99,12 +108,12 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
           <div className="min-w-0">
             <p className="truncate text-lg font-semibold">{c.title}</p>
             <p className="text-sm text-muted">
-              {c.handle ?? "No handle"} · Joined {new Date(c.publishedAt).getFullYear()}
+              {c.handle ?? a.noHandle} · {fmt(a.joined, { year: new Date(c.publishedAt).getFullYear() })}
               {c.country ? ` · ${c.country}` : ""}
             </p>
           </div>
         </div>
-        {shareUrl && <CopyButton text={shareUrl} label="Copy share link" className="shrink-0 bg-surface-2" />}
+        {shareUrl && <CopyButton text={shareUrl} label={a.copyShare} className="shrink-0 bg-surface-2" />}
       </div>
 
       {grade && (
@@ -114,8 +123,8 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
               {grade.letter}
             </span>
             <div>
-              <p className="font-semibold">Channel report card: {grade.score}/100</p>
-              <p className="text-sm text-muted">A channelpeeker estimate from the newest {r.sampleSize} public uploads. The math is shown below.</p>
+              <p className="font-semibold">{fmt(a.reportCard, { score: grade.score })}</p>
+              <p className="text-sm text-muted">{fmt(a.reportNote, { n: r.sampleSize })}</p>
             </div>
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -131,7 +140,8 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
           <div key={s.label} className="rounded-xl border border-border px-4 py-3">
             <p className="text-xs text-muted">
               {s.label}
-              {s.estimate && <span aria-hidden="true"> *</span>}{s.estimate && <span className="sr-only"> (channelpeeker estimate)</span>}
+              {s.estimate && <span aria-hidden="true"> *</span>}
+              {s.estimate && <span className="sr-only"> {a.estimateSr}</span>}
             </p>
             <p className="mt-1 text-xl font-bold tabular-nums tracking-tight">{s.value}</p>
           </div>
@@ -143,8 +153,8 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
       {r.topVideos.length > 0 && (
         <div className="mt-5 rounded-xl border border-border p-4">
           <div className="flex items-center justify-between text-sm">
-            <span className="font-medium">Top recent videos</span>
-            <span className="text-xs text-muted">by views, newest {r.sampleSize} uploads</span>
+            <span className="font-medium">{a.topVideos}</span>
+            <span className="text-xs text-muted">{fmt(a.topVideosNote, { n: r.sampleSize })}</span>
           </div>
           <ul className="mt-3 space-y-3">
             {r.topVideos.map((v) => (
@@ -153,7 +163,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
                   href={`https://www.youtube.com/watch?v=${v.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`${v.title} — opens on YouTube in a new tab`}
+                  aria-label={fmt(a.opensOnYouTube, { title: v.title })}
                   className="relative h-10 w-[72px] shrink-0 overflow-hidden rounded-md bg-surface-2"
                 >
                   {v.thumbnailUrl && <Image src={v.thumbnailUrl} alt="" fill sizes="72px" className="object-cover" />}
@@ -164,11 +174,15 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm">{v.title}</p>
                   <p className="text-xs text-muted">
-                    {v.views !== null ? `${formatCompact(v.views)} views` : "Views hidden"}
-                    {v.isShort && " · Short"}
+                    {v.views !== null ? fmt(a.viewsCompact, { n: compact(v.views) }) : a.viewsHidden}
+                    {v.isShort && ` · ${a.short}`}
                   </p>
                 </div>
-                {v.outlierMultiplier !== null && <span className="text-sm font-bold text-accent">{v.outlierMultiplier}×<span className="sr-only"> the channel median</span></span>}
+                {v.outlierMultiplier !== null && (
+                  <span className="text-sm font-bold text-accent">
+                    {v.outlierMultiplier}×<span className="sr-only"> {a.outlierSr}</span>
+                  </span>
+                )}
               </li>
             ))}
           </ul>
@@ -176,9 +190,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
       )}
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-xs text-muted">
-          {r.derived ? "* channelpeeker estimates, calculated from public YouTube data." : "Showing YouTube's own figures for the newest public uploads."}
-        </p>
+        <p className="text-xs text-muted">{r.derived ? a.footEstimates : a.footOfficial}</p>
         <FetchedAt iso={fetchedAt} />
       </div>
     </div>
@@ -202,12 +214,15 @@ function GradeBar({ comp }: { comp: GradeComponent }) {
 }
 
 function ViewsChart({ series }: { series: AnalyzerReport["series"] }) {
+  const { intl, w } = useI18n();
+  const a = w.analyzer;
   const points = series.filter((p) => p.views !== null) as { publishedAt: string; views: number; isShort: boolean }[];
   if (points.length < 3) return null;
-  const w = 600;
+  const compact = (n: number) => Intl.NumberFormat(intl, { notation: "compact", maximumFractionDigits: 1 }).format(n);
+  const vw = 600;
   const h = 160;
   const max = Math.max(...points.map((p) => p.views)) * 1.1 || 1;
-  const step = w / (points.length - 1);
+  const step = vw / (points.length - 1);
   const pts = points.map((p, i) => [i * step, h - (p.views / max) * h] as const);
   const line = pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
   const peak = pts[points.findIndex((p) => p.views === Math.max(...points.map((q) => q.views)))];
@@ -215,15 +230,19 @@ function ViewsChart({ series }: { series: AnalyzerReport["series"] }) {
   return (
     <div className="mt-4 rounded-xl border border-border p-4">
       <div className="flex items-center justify-between text-xs">
-        <span className="font-medium">Views per upload</span>
-        <span className="text-muted">Newest {points.length} uploads, oldest first</span>
+        <span className="font-medium">{a.chartTitle}</span>
+        <span className="text-muted">{fmt(a.chartNote, { n: points.length })}</span>
       </div>
       <svg
-        viewBox={`0 0 ${w} ${h}`}
+        viewBox={`0 0 ${vw} ${h}`}
         className="mt-3 h-36 w-full"
         preserveAspectRatio="none"
         role="img"
-        aria-label={`Views per upload for the newest ${points.length} uploads. Peak ${formatCompact(Math.max(...points.map((p) => p.views)))} views; most recent upload ${formatCompact(points[points.length - 1].views)} views.`}
+        aria-label={fmt(a.chartAria, {
+          n: points.length,
+          peak: compact(Math.max(...points.map((p) => p.views))),
+          latest: compact(points[points.length - 1].views),
+        })}
       >
         <defs>
           <linearGradient id="ca-fill" x1="0" y1="0" x2="0" y2="1">
@@ -232,9 +251,9 @@ function ViewsChart({ series }: { series: AnalyzerReport["series"] }) {
           </linearGradient>
         </defs>
         {[40, 80, 120].map((y) => (
-          <line key={y} x1="0" x2={w} y1={y} y2={y} stroke="var(--border)" />
+          <line key={y} x1="0" x2={vw} y1={y} y2={y} stroke="var(--border)" />
         ))}
-        <path d={`${line} L${w} ${h} L0 ${h} Z`} fill="url(#ca-fill)" />
+        <path d={`${line} L${vw} ${h} L0 ${h} Z`} fill="url(#ca-fill)" />
         <path d={line} fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
         <circle cx={peak[0]} cy={peak[1]} r="4" fill="var(--surface)" stroke="var(--accent)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
       </svg>

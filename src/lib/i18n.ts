@@ -21,6 +21,12 @@ export const LOCALIZED_TOOLS = [
 
 export const localePath = (locale: Locale, enPath: string) => `/${locale}${enPath}`;
 
+/** Locale of a URL path ("/de/comment-picker" → "de"), or null for English pages. */
+export function localeFromPathname(pathname: string): Locale | null {
+  const first = pathname.split("/")[1];
+  return (LOCALES as readonly string[]).includes(first) ? (first as Locale) : null;
+}
+
 /** hreflang map for a tool that exists in all locales (plus x-default → English). */
 export function hreflangFor(enPath: string): Record<string, string> {
   const map: Record<string, string> = { en: enPath, "x-default": enPath };

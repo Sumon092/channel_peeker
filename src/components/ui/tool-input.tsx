@@ -2,6 +2,7 @@
 
 import { ArrowRight, LoaderCircle } from "lucide-react";
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { useI18n } from "@/components/i18n-provider";
 
 interface ToolInputProps {
   label: string;
@@ -16,12 +17,13 @@ interface ToolInputProps {
 
 export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go", loading, validate, onSubmit }: ToolInputProps) {
   const id = useId();
+  const { w } = useI18n();
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   function submit(v: string) {
     if (loading) return;
-    const msg = validate?.(v) ?? (v.trim() ? null : "Paste a link, @handle or ID first.");
+    const msg = validate?.(v) ?? (v.trim() ? null : w.parseErrors.empty);
     setError(msg);
     if (!msg) onSubmit(v.trim());
   }
@@ -84,7 +86,7 @@ export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go
         >
           {loading ? (
             <>
-              <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> Working…
+              <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" /> {w.working}
             </>
           ) : (
             <>
@@ -100,7 +102,7 @@ export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go
       )}
       {examples.length > 0 && (
         <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
-          <span className="text-muted">Try:</span>
+          <span className="text-muted">{w.tryLabel}</span>
           {examples.map((ex) => (
             <button
               key={ex.value}

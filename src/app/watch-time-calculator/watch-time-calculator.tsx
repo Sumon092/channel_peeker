@@ -1,6 +1,8 @@
 "use client";
 
 import { useId, useState } from "react";
+import { useI18n } from "@/components/i18n-provider";
+import { fmt as tfmt } from "@/lib/widget-i18n";
 
 const inputCls = "w-full field-pill px-4 py-3";
 
@@ -13,21 +15,21 @@ function parseNum(v: string): number | null {
   return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
-function fmt(n: number, digits = 0) {
-  return n.toLocaleString("en", { maximumFractionDigits: digits });
-}
-
 export function WatchTimeCalculator() {
   const id = useId();
+  const { intl, w } = useI18n();
+  const t = w.watchTime;
   const [views, setViews] = useState("100,000");
   const [minutes, setMinutes] = useState("3");
   const [seconds, setSeconds] = useState("30");
+
+  const fmt = (n: number, digits = 0) => n.toLocaleString(intl, { maximumFractionDigits: digits });
 
   const viewCount = parseNum(views);
   const avgSeconds = (parseNum(minutes) ?? 0) * 60 + (parseNum(seconds) ?? 0);
 
   // Per-field validation (WCAG 3.3.1): a typo must say so, not silently clear the result.
-  const fieldErr = (v: string, example: string) => (v.trim() && parseNum(v) === null ? `Enter a number, e.g. ${example}` : null);
+  const fieldErr = (v: string, example: string) => (v.trim() && parseNum(v) === null ? tfmt(t.numberError, { example }) : null);
   const errs = { v: fieldErr(views, "100,000"), m: fieldErr(minutes, "3"), s: fieldErr(seconds, "30") };
 
   const watchHours = viewCount !== null && avgSeconds > 0 ? (viewCount * avgSeconds) / 3600 : null;
@@ -55,29 +57,35 @@ export function WatchTimeCalculator() {
     </label>
   );
 
+  // needLine keeps the view count emphasized: split the template around {views}.
+  const [needBefore, needAfter] = t.needLine.split("{views}");
+
   return (
     <div className="rounded-3xl border border-border bg-surface p-5 text-left shadow-panel sm:p-6">
       <div className="grid gap-4 sm:grid-cols-3">
-        {field("v", "Views", views, setViews)}
-        {field("m", "Avg. view duration — minutes", minutes, setMinutes)}
-        {field("s", "Seconds", seconds, setSeconds)}
+        {field("v", t.views, views, setViews)}
+        {field("m", t.minutesLabel, minutes, setMinutes)}
+        {field("s", t.secondsLabel, seconds, setSeconds)}
       </div>
 
       {/* Always-mounted status: announces the one-line result, not the whole block. */}
       <p role="status" className="sr-only">
         {watchHours !== null
-          ? `${fmt(watchHours)} watch hours — ${watchHours >= THRESHOLD_HOURS ? "past" : `${pctOfThreshold?.toFixed(1)}% of`} the 4,000-hour threshold.`
+          ? watchHours >= THRESHOLD_HOURS
+            ? tfmt(t.statusPast, { hours: fmt(watchHours) })
+            : tfmt(t.statusAt, { hours: fmt(watchHours), pct: pctOfThreshold?.toFixed(1) ?? "0" })
           : ""}
       </p>
 
       {watchHours !== null && (
         <div className="mt-5 space-y-4">
           <div className="rounded-xl bg-surface-2 px-4 py-4 text-center">
-            <p className="text-xs text-muted">Total watch time</p>
-            <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{fmt(watchHours)} hours</p>
+            <p className="text-xs text-muted">{t.totalLabel}</p>
+            <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{tfmt(t.hoursValue, { n: fmt(watchHours) })}</p>
             <p className="mt-1 text-sm text-muted">
-              {fmt(watchHours * 60)} minutes · {pctOfThreshold !== null && pctOfThreshold < 100 ? `${pctOfThreshold.toFixed(1)}% of` : "past"} the
-              4,000-hour Partner Program threshold
+              {pctOfThreshold !== null && pctOfThreshold < 100
+                ? tfmt(t.minutesLinePct, { m: fmt(watchHours * 60), pct: pctOfThreshold.toFixed(1) })
+                : tfmt(t.minutesLinePast, { m: fmt(watchHours * 60) })}
             </p>
           </div>
 
@@ -88,11 +96,12 @@ export function WatchTimeCalculator() {
               </div>
               <p className="mt-3 text-sm text-muted">
                 {watchHours >= THRESHOLD_HOURS ? (
-                  <>These views alone pass 4,000 public watch hours.</>
+                  <>{t.passLine}</>
                 ) : (
                   <>
-                    At this average duration you&apos;d need about <strong className="text-foreground">{viewsFor4000 !== null ? fmt(viewsFor4000) : "—"} views</strong>{" "}
-                    for 4,000 watch hours — {fmt(THRESHOLD_HOURS - watchHours)} hours to go from here.
+                    {tfmt(needBefore, { hours: fmt(THRESHOLD_HOURS - watchHours) })}
+                    <strong className="text-foreground">{viewsFor4000 !== null ? fmt(viewsFor4000) : "—"}</strong>
+                    {tfmt(needAfter ?? "", { hours: fmt(THRESHOLD_HOURS - watchHours) })}
                   </>
                 )}
               </p>
@@ -101,11 +110,7 @@ export function WatchTimeCalculator() {
         </div>
       )}
 
-      <p className="mt-4 text-xs leading-relaxed text-muted">
-        Watch time = views × average view duration. YouTube&apos;s 4,000-hour requirement counts <strong>public</strong> watch hours in the
-        last 365 days (Shorts feed views don&apos;t count toward it — Shorts have a separate 10M-views path). Your exact average view
-        duration is in YouTube Studio under Analytics → Engagement.
-      </p>
+      <p className="mt-4 text-xs leading-relaxed text-muted">{t.explainer}</p>
     </div>
   );
 }

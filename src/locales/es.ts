@@ -14,7 +14,7 @@ export const content: Record<string, LocalizedToolContent> = {
     howTo: [
       "Pega el enlace de tu video del sorteo.",
       "Opcional: palabra clave obligatoria (ej. #sorteo), una participación por persona, número de ganadores.",
-      "Haz clic en « Pick winner » — graba tu pantalla para mostrar la transparencia del sorteo.",
+      "Haz clic en « Elegir ganador » — graba tu pantalla para mostrar la transparencia del sorteo.",
     ],
     meaning: [
       "Los sorteos en comentarios premian a tu audiencia real, pero elegir mientras haces scroll no es aleatorio ni demostrable. Esta herramienta carga los comentarios con la API oficial de YouTube y sortea con aleatoriedad criptográfica directamente en tu navegador — no podríamos favorecer a nadie aunque quisiéramos.",
@@ -23,7 +23,7 @@ export const content: Record<string, LocalizedToolContent> = {
     faq: [
       {
         q: "¿Cómo elegir un ganador al azar entre comentarios de YouTube?",
-        a: "Pega el enlace del video, ajusta los filtros y pulsa « Pick winner ». El sorteo usa el generador aleatorio criptográfico de tu navegador.",
+        a: "Pega el enlace del video, ajusta los filtros y pulsa « Elegir ganador ». El sorteo usa el generador aleatorio criptográfico de tu navegador.",
       },
       {
         q: "¿El sorteo es realmente aleatorio?",
