@@ -38,6 +38,15 @@ Copy `.env.example` and fill it in on the host. Summary of what matters in produ
   ```
 
 - **Process manager** (systemd / pm2) running `npm run start` (defaults to port 3000; pass `-p` to change), restart-on-crash enabled.
+- **Cache icon routes at the proxy.** Next serves `/icon.svg`, `/favicon.ico`, `/apple-icon` and `/opengraph-image` with `max-age=0`; they only change on redeploy, so add e.g. nginx:
+
+  ```nginx
+  location ~ ^/(icon\.svg|favicon\.ico|apple-icon|opengraph-image)$ {
+      proxy_pass http://app;
+      proxy_hide_header Cache-Control;
+      add_header Cache-Control "public, max-age=86400";
+  }
+  ```
 - HTTPS terminated at the proxy; HTTP → HTTPS redirect.
 - No database and no file storage — the app is stateless apart from the KV cache, so there is nothing to back up.
 
