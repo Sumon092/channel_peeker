@@ -78,6 +78,43 @@ async function resolveChannelId(ref: ChannelRef, tool: string): Promise<string> 
   return data;
 }
 
+export interface ChannelBranding {
+  /** Channel keywords ("channel tags") set by the owner in YouTube Studio. */
+  keywords: string[];
+  /** Base googleusercontent URL of the channel banner, or null if none is set. */
+  bannerUrl: string | null;
+}
+
+/** Channel keywords come as one space-separated string with quoted phrases. */
+export function parseChannelKeywords(raw: string | undefined): string[] {
+  if (!raw) return [];
+  const out: string[] = [];
+  for (const m of raw.matchAll(/"([^"]+)"|(\S+)/g)) {
+    const kw = (m[1] ?? m[2] ?? "").trim();
+    if (kw) out.push(kw);
+  }
+  return out;
+}
+
+/** Branding (banner + channel keywords) via brandingSettings; cached 12 h. */
+export async function getChannelBranding(channelId: string, tool: string) {
+  return cached(`yt:branding:${channelId}:v1`, 12 * TTL.hour, async () => {
+    const res = await ytGet<{ items?: { brandingSettings?: { channel?: { keywords?: string }; image?: { bannerExternalUrl?: string } } }[] }>(
+      "channels",
+      { part: "brandingSettings", id: channelId, fields: "items(brandingSettings(channel(keywords),image(bannerExternalUrl)))" },
+      { tool },
+    );
+    // fields-filtering drops empty objects, so a channel with no banner and no
+    // keywords can come back bare — that's valid, not a missing channel.
+    const b = res.items?.[0]?.brandingSettings ?? {};
+    const branding: ChannelBranding = {
+      keywords: parseChannelKeywords(b.channel?.keywords),
+      bannerUrl: b.image?.bannerExternalUrl ?? null,
+    };
+    return branding;
+  });
+}
+
 /** Resolves any parsed input (channel, or a video from the channel) to a channel summary. */
 export async function getChannel(input: ParsedInput, tool: string) {
   if (input.kind === "playlist") {

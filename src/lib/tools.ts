@@ -83,6 +83,7 @@ export const tools: Tool[] = [
   { path: "/video-upload-date-checker", name: "Video Upload Date Checker", summary: "The exact date and time any video was published, and its age.", hub: "analytics", status: "live" },
   { path: "/comment-finder", name: "Comment Finder", summary: "Search any video's comments for a word, name or phrase, and export to CSV.", hub: "analytics", status: "live" },
   { path: "/watch-time-calculator", name: "Watch Time Calculator", summary: "Views × average view duration, and your distance to 4,000 watch hours.", hub: "analytics", status: "live" },
+  { path: "/region-restriction-checker", name: "Region Restriction Checker", summary: "Which countries a video is blocked or allowed in, with embedding status.", hub: "analytics", status: "live" },
 
   // Links & URLs
   { path: "/timestamp-link-generator", name: "Timestamp Link Generator", summary: "Create a YouTube link that starts at an exact time.", hub: "link-tools", status: "live" },
@@ -98,9 +99,11 @@ export const tools: Tool[] = [
   { path: "/thumbnail-tools/thumbnail-size-checker", name: "Thumbnail Size Checker", summary: "Check dimensions, aspect ratio and file size before uploading.", hub: "thumbnail-tools", status: "live" },
   { path: "/thumbnail-tools/thumbnail-a-b-preview", name: "Thumbnail A/B Preview", summary: "Compare two thumbnail versions side by side at every size.", hub: "thumbnail-tools", status: "live" },
   { path: "/thumbnail-tools/profile-picture-downloader", name: "Profile Picture Downloader", summary: "Any channel's avatar in full resolution, up to 800px.", hub: "thumbnail-tools", status: "live" },
+  { path: "/thumbnail-tools/banner-downloader", name: "Banner Downloader", summary: "Any channel's banner art in HD — TV, desktop, tablet and mobile crops.", hub: "thumbnail-tools", status: "live" },
 
   // SEO
   { path: "/seo-tools/tag-extractor", name: "Tag Extractor", summary: "See the tags, title keywords and hashtags of any public video.", hub: "seo-tools", status: "live" },
+  { path: "/seo-tools/channel-tag-extractor", name: "Channel Tag Extractor", summary: "See the hidden channel keywords any channel has set.", hub: "seo-tools", status: "live" },
   { path: "/seo-tools/tag-generator", name: "Tag Generator", summary: "Generate a tag list under the 500-character limit.", hub: "seo-tools", status: "live" },
   { path: "/seo-tools/title-generator", name: "Title Generator", summary: "AI title ideas with length and truncation checks.", hub: "seo-tools", status: "live" },
   { path: "/seo-tools/title-checker", name: "Title Checker", summary: "Character count and truncation preview for desktop and mobile.", hub: "seo-tools", status: "live" },
@@ -147,6 +150,7 @@ export const toolsByInput: Record<InputKind, string[]> = {
     "/embed-code-generator",
     "/shorts-link-converter",
     "/seo-tools/video-seo-score",
+    "/region-restriction-checker",
     "/channel-id-finder",
   ],
   channel: [
@@ -155,6 +159,8 @@ export const toolsByInput: Record<InputKind, string[]> = {
     "/monetization-checker",
     "/channel-age-checker",
     "/thumbnail-tools/profile-picture-downloader",
+    "/thumbnail-tools/banner-downloader",
+    "/seo-tools/channel-tag-extractor",
     "/outlier-finder",
     "/channel-comparison",
     "/revenue-calculator/channel-earnings-estimator",

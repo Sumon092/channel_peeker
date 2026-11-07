@@ -1,5 +1,5 @@
 import "server-only";
-import { kv, TTL } from "@/lib/kv";
+import { cached, kv, TTL } from "@/lib/kv";
 import { chunk, ytGet } from "./client";
 import type { Thumbnail, ThumbnailKey, VideoSummary } from "./types";
 
@@ -118,5 +118,34 @@ export async function getVideos(ids: string[], tool: string): Promise<{ videos: 
 export async function getVideo(id: string, tool: string) {
   const { videos, fetchedAt } = await getVideos([id], tool);
   return { video: videos.get(id) ?? null, fetchedAt };
+}
+
+export interface VideoAvailability {
+  /** Explicit whitelist: viewable ONLY in these ISO country codes (null = no whitelist). */
+  allowed: string[] | null;
+  /** Explicit blocklist: blocked in these ISO country codes (null = no blocklist). */
+  blocked: string[] | null;
+  embeddable: boolean | null;
+}
+
+/** Region restriction + embeddability via contentDetails/status; cached 12 h. */
+export async function getVideoAvailability(id: string, tool: string) {
+  return cached(`yt:video-availability:${id}:v1`, 12 * TTL.hour, async () => {
+    const res = await ytGet<{
+      items?: { contentDetails?: { regionRestriction?: { allowed?: string[]; blocked?: string[] } }; status?: { embeddable?: boolean } }[];
+    }>(
+      "videos",
+      { part: "contentDetails,status", id, fields: "items(contentDetails(regionRestriction),status(embeddable))" },
+      { tool },
+    );
+    const item = res.items?.[0] ?? {};
+    const rr = item.contentDetails?.regionRestriction;
+    const availability: VideoAvailability = {
+      allowed: rr?.allowed ?? null,
+      blocked: rr?.blocked ?? null,
+      embeddable: item.status?.embeddable ?? null,
+    };
+    return availability;
+  });
 }
 

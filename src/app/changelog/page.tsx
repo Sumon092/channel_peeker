@@ -11,6 +11,9 @@ const entries = [
   {
     date: "November 7, 2026",
     items: [
+      "New tool: Banner Downloader — any channel's banner art in HD, in TV, desktop, tablet and mobile crops.",
+      "New tool: Channel Tag Extractor — the hidden channel keywords any channel has set.",
+      "New tool: Region Restriction Checker — which countries a video is blocked or allowed in, plus embedding status.",
       "New tool: Comment Finder — search any video's comments for a word, name or phrase, sort by top or newest, export to CSV.",
       "New tool: Watch Time Calculator — views × average view duration, with your distance to the 4,000-hour threshold.",
       "New tool: Live Stream Earnings Calculator — ads, Super Chat and memberships, with YouTube's cuts shown.",
