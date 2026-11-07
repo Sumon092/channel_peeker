@@ -74,6 +74,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               "@id": `${site.url}/#org`,
               name: site.name,
               url: site.url,
+              logo: `${site.url}/apple-icon`,
               description: site.disclaimer,
               email: site.contactEmail,
             },

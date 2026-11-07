@@ -5,7 +5,6 @@ import { JsonLd } from "@/components/json-ld";
 import { ReportPreview } from "@/components/report-preview";
 import { SectionHeading } from "@/components/section-heading";
 import { SmartSearch, type SmartTool } from "@/components/smart-search";
-import { absoluteUrl, site } from "@/lib/site";
 import { getTool, toolsByInput, type InputKind } from "@/lib/tools";
 
 const comparison: [string, boolean | "partial", boolean | "partial"][] = [
@@ -190,10 +189,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* WebSite + Organization come from the root layout (single source, with @id and logo). */}
       <JsonLd
         data={[
-          { "@context": "https://schema.org", "@type": "Organization", name: site.name, url: site.url, logo: absoluteUrl("/icon.svg") },
-          { "@context": "https://schema.org", "@type": "WebSite", name: site.name, url: site.url },
           {
             "@context": "https://schema.org",
             "@type": "FAQPage",
