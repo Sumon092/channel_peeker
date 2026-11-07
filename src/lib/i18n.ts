@@ -4,7 +4,7 @@
  * shared modules, so a fix to a tool automatically applies to every locale.
  */
 
-export const LOCALES = ["de", "ja", "fr", "ko"] as const;
+export const LOCALES = ["de", "ja", "fr", "ko", "es", "pt"] as const;
 export type Locale = (typeof LOCALES)[number];
 
 /** English tool paths that have localized versions (pilot set — extend over time). */
@@ -98,6 +98,40 @@ export const LABELS: Record<Locale, ToolPageLabels> = {
     allTools: "Tous les outils",
     badges: ["100 % gratuit", "Sans inscription"],
     breadcrumbTools: "Outils",
+  },
+  es: {
+    freeBadge: "Herramienta gratis · Sin registro",
+    stepWord: "Paso",
+    stepByStep: "Paso a paso",
+    howToHeading: (n) => `Cómo usar ${n}`,
+    meaningEyebrow: "Entiende tus resultados",
+    meaningHeading: "Qué significan los resultados",
+    faqEyebrow: "FAQ",
+    faqHeading: "Preguntas frecuentes",
+    lastUpdated: (d) => `Actualizado el ${d} · Revisado por el equipo de channelpeek`,
+    methodologyLink: "Nuestra metodología",
+    keepGoing: "Sigue explorando",
+    relatedHeading: "Herramientas relacionadas",
+    allTools: "Todas las herramientas",
+    badges: ["100 % gratis", "Sin registro"],
+    breadcrumbTools: "Herramientas",
+  },
+  pt: {
+    freeBadge: "Ferramenta grátis · Sem cadastro",
+    stepWord: "Passo",
+    stepByStep: "Passo a passo",
+    howToHeading: (n) => `Como usar ${n}`,
+    meaningEyebrow: "Entenda seus resultados",
+    meaningHeading: "O que os resultados significam",
+    faqEyebrow: "FAQ",
+    faqHeading: "Perguntas frequentes",
+    lastUpdated: (d) => `Atualizado em ${d} · Revisado pela equipe do channelpeek`,
+    methodologyLink: "Nossa metodologia",
+    keepGoing: "Continue explorando",
+    relatedHeading: "Ferramentas relacionadas",
+    allTools: "Todas as ferramentas",
+    badges: ["100% grátis", "Sem cadastro"],
+    breadcrumbTools: "Ferramentas",
   },
   ko: {
     freeBadge: "무료 도구 · 가입 불필요",
