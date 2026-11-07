@@ -199,7 +199,7 @@ function Picker(r: Result) {
             {winners.map((w) => (
               <div key={w.id}>
                 <p className="text-2xl font-black tracking-tight text-good">
-                  {w.authorChannelUrl ? (
+                  {w.authorChannelUrl?.startsWith("http") ? (
                     <a href={w.authorChannelUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
                       {w.author}
                     </a>

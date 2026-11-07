@@ -29,7 +29,10 @@ interface Result {
 const inputCls = "w-full field-pill px-4 py-3";
 
 function csvEscape(v: string) {
-  return /[",\n]/.test(v) ? `"${v.replaceAll('"', '""')}"` : v;
+  // Commenter-controlled text: neutralize spreadsheet formula injection (=, +, -, @, tab)
+  // before quoting, or Excel/Sheets executes it on open.
+  const safe = /^[=+\-@\t\r]/.test(v) ? `'${v}` : v;
+  return /[",\n]/.test(safe) ? `"${safe.replaceAll('"', '""')}"` : safe;
 }
 
 function downloadCsv(r: Result) {
@@ -172,7 +175,7 @@ function Results(r: Result) {
             <li key={c.id} className="rounded-xl bg-surface-2 p-4">
               <div className="flex items-center justify-between gap-3">
                 <p className="truncate text-sm font-semibold">
-                  {c.authorChannelUrl ? (
+                  {c.authorChannelUrl?.startsWith("http") ? (
                     <a href={c.authorChannelUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
                       {c.author}
                     </a>
