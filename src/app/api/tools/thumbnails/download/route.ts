@@ -38,7 +38,7 @@ export async function GET(req: Request) {
     headers: {
       "Content-Type": type,
       "Content-Disposition": `attachment; filename="youtube-thumbnail-${id}-${size}.${ext}"`,
-      "Cache-Control": "public, max-age=86400",
+      "Cache-Control": "public, max-age=86400, s-maxage=604800, immutable",
     },
   });
 }

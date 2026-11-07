@@ -29,7 +29,7 @@ export default function ToolsPage() {
       </PageHero>
       <div className="mx-auto max-w-7xl space-y-16 px-4 py-14">
         {hubs.map((hub) => (
-          <section key={hub.id} id={hub.id} className="scroll-mt-24">
+          <section key={hub.id} id={hub.id} className="scroll-mt-24 [content-visibility:auto] [contain-intrinsic-size:auto_600px]">
             <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-extrabold tracking-tight">{hub.name}</h2>

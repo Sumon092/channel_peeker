@@ -64,7 +64,7 @@ function ResultCard({ channel: c, views30dLong, views30dShorts, uploads30d, fetc
     <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
       <div className="flex items-center gap-4">
         {c.avatarUrl ? (
-          <Image src={c.avatarUrl} alt="" width={56} height={56} className="h-14 w-14 shrink-0 rounded-full" />
+          <Image src={c.avatarUrl} alt="" width={56} height={56} unoptimized className="h-14 w-14 shrink-0 rounded-full" />
         ) : (
           <span className="h-14 w-14 shrink-0 rounded-full bg-surface-2" />
         )}
