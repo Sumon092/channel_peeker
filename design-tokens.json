@@ -1,5 +1,5 @@
 {
-  "$description": "channelpeek design tokens, extracted from src/app/globals.css. The CSS custom properties there are the source of truth; this file mirrors them for tooling.",
+  "$description": "channelpeeker design tokens, extracted from src/app/globals.css. The CSS custom properties there are the source of truth; this file mirrors them for tooling.",
   "color": {
     "light": {
       "bg": "#ffffff",

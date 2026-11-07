@@ -7,7 +7,7 @@ import { CommentFinder } from "./comment-finder";
 const tool = getTool("/comment-finder");
 
 export const metadata = pageMetadata({
-  title: "YouTube Comment Finder: search video comments",
+  title: "YouTube Comment Finder: search comments",
   description:
     "Search the comments of any YouTube video for a word, name or phrase. Sort by top or newest, and export matches to CSV. Free, official YouTube data.",
   path: tool.path,

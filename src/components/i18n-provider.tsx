@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, type ReactNode } from "react";
 import { EN_WIDGETS, INTL_LOCALE, type WidgetStrings } from "@/lib/widget-i18n";
 
 interface I18nValue {
@@ -28,5 +28,6 @@ export function I18nProvider({ lang, strings, children }: { lang: string; string
     };
   }, [lang]);
 
-  return <I18nContext.Provider value={{ lang, intl: INTL_LOCALE[lang] ?? lang, w: strings }}>{children}</I18nContext.Provider>;
+  const value = useMemo(() => ({ lang, intl: INTL_LOCALE[lang] ?? lang, w: strings }), [lang, strings]);
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }

@@ -27,7 +27,7 @@ export function useToolRequest<T>(endpoint: string) {
         const json = await res.json().catch(() => null);
         if (!res.ok) {
           const raw: string | undefined = json?.error?.message;
-          setState({ status: "error", message: raw ? (w.serverErrors[raw] ?? raw) : w.genericError });
+          setState({ status: "error", message: raw ? (Object.hasOwn(w.serverErrors, raw) ? w.serverErrors[raw] : raw) : w.genericError });
           return;
         }
         setState({ status: "done", data: json as T });

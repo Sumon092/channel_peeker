@@ -5,7 +5,7 @@ import { site } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Terms of use",
-  description: "The terms that apply when you use channelpeeker's free YouTube tools.",
+  description: "The terms that apply when you use channelpeeker's free YouTube tools and website.",
   path: "/terms",
 });
 

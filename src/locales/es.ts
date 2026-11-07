@@ -7,7 +7,7 @@ export const content: Record<string, LocalizedToolContent> = {
   "/comment-picker": {
     title: "Sorteo de comentarios de YouTube",
     description:
-      "Elige ganadores de tu sorteo entre los comentarios de un video de YouTube — aleatorio criptográfico, una participación por persona, hasta 5 ganadores. Gratis, sin registro.",
+      "Elige ganadores de tu sorteo entre los comentarios de un video de YouTube — aleatorio criptográfico, hasta 5 ganadores. Gratis, sin registro.",
     heading: "Sorteo de comentarios",
     highlight: "Sorteo",
     intro: "¿Haces un sorteo? Elige ganadores al azar entre los comentarios — equidad demostrable, con una animación de suspenso que puedes grabar para el anuncio.",
@@ -203,7 +203,7 @@ export const content: Record<string, LocalizedToolContent> = {
     updated: UPDATED,
   },
   "/watch-time-calculator": {
-    title: "Calculadora de horas de visualización YouTube",
+    title: "Calculadora de horas de visualización",
     description:
       "Convierte vistas y duración media de visualización en horas de visualización — y mira cuántas vistas te faltan para las 4 000 horas.",
     heading: "Calculadora de horas de visualización",

@@ -7,7 +7,7 @@ export const content: Record<string, LocalizedToolContent> = {
   "/comment-picker": {
     title: "Tirage au sort commentaires YouTube",
     description:
-      "Tirez au sort les gagnants de votre concours parmi les commentaires d'une vidéo YouTube — aléatoire cryptographique, une participation par personne, jusqu'à 5 gagnants. Gratuit.",
+      "Tirez au sort les gagnants de votre concours parmi les commentaires d'une vidéo YouTube — aléatoire cryptographique, jusqu'à 5 gagnants. Gratuit.",
     heading: "Tirage au sort de commentaires",
     highlight: "Tirage au sort",
     intro: "Vous organisez un concours ? Tirez les gagnants au hasard parmi les commentaires — équité prouvable, avec une animation de suspense à enregistrer pour l'annonce.",
@@ -139,7 +139,7 @@ export const content: Record<string, LocalizedToolContent> = {
   "/monetization-checker": {
     title: "Vérifier la monétisation YouTube",
     description:
-      "Vérifiez quelles conditions du Programme Partenaire YouTube une chaîne remplit visiblement : abonnés, pays, activité. Des signaux honnêtes, pas un oui/non inventé.",
+      "Vérifiez quelles conditions du Programme Partenaire une chaîne remplit visiblement : abonnés, pays, activité. Des signaux honnêtes, pas un oui/non inventé.",
     heading: "Vérificateur de monétisation",
     highlight: "monétisation",
     intro: "Voyez quelles conditions du Programme Partenaire une chaîne remplit d'après les données publiques — honnêtement, sans oui/non inventé.",

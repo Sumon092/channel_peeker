@@ -9,7 +9,7 @@ import { CHROME_STRINGS } from "@/locales/widgets";
 import { Logo } from "./logo";
 
 /** Footer markup; client-side so labels can follow the page's locale. */
-export function FooterClient({ hubLinks }: { hubLinks: { href: string; label: string }[] }) {
+export function FooterClient({ hubLinks, year }: { hubLinks: { href: string; label: string }[]; year: number }) {
   const locale = localeFromPathname(usePathname() ?? "/");
   const c = locale ? CHROME_STRINGS[locale] : EN_CHROME;
 
@@ -40,7 +40,7 @@ export function FooterClient({ hubLinks }: { hubLinks: { href: string; label: st
       </div>
       <div className="border-t border-ink-border">
         <p className="mx-auto max-w-7xl px-4 py-6 text-xs leading-relaxed text-ink-muted">
-          {c.disclaimer} YouTube is a trademark of Google LLC. © {new Date().getFullYear()} {site.name}.
+          {c.disclaimer} YouTube is a trademark of Google LLC. © {year} {site.name}.
         </p>
       </div>
     </footer>

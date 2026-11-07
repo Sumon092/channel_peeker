@@ -7,7 +7,7 @@ export const content: Record<string, LocalizedToolContent> = {
   "/comment-picker": {
     title: "Sorteio de comentários do YouTube",
     description:
-      "Sorteie os ganhadores do seu sorteio entre os comentários de um vídeo do YouTube — aleatório criptográfico, uma participação por pessoa, até 5 ganhadores. Grátis, sem cadastro.",
+      "Sorteie os ganhadores entre os comentários de um vídeo do YouTube — aleatório criptográfico, até 5 ganhadores. Grátis, sem cadastro.",
     heading: "Sorteio de comentários",
     highlight: "Sorteio",
     intro: "Vai fazer um sorteio? Escolha os ganhadores aleatoriamente entre os comentários — justiça comprovável, com uma animação de suspense que você pode gravar para o anúncio.",

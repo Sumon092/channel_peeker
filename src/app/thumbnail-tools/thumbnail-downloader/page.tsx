@@ -7,7 +7,7 @@ import { ThumbnailDownloader } from "./thumbnail-downloader";
 const tool = getTool("/thumbnail-tools/thumbnail-downloader");
 
 export const metadata = pageMetadata({
-  title: "YouTube Thumbnail Downloader: HD, 1080p and 4K",
+  title: "YouTube Thumbnail Downloader: HD, 1080p, 4K",
   description:
     "Download any YouTube video's thumbnail in every size: HD 1280×720, SD, and the new 1080p to 4K versions when available. Bulk mode for up to 20 videos. Free.",
   path: tool.path,

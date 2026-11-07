@@ -40,7 +40,7 @@ export const content: Record<string, LocalizedToolContent> = {
   "/comment-finder": {
     title: "YouTube Kommentar-Suche",
     description:
-      "Durchsuche die Kommentare jedes YouTube-Videos nach einem Wort, Namen oder Satz. Nach Top oder Neueste sortieren, als CSV exportieren. Kostenlos, offizielle YouTube-Daten.",
+      "Durchsuche die Kommentare jedes YouTube-Videos nach Wort, Name oder Satz. Nach Top oder Neueste sortieren, als CSV exportieren. Offizielle YouTube-Daten.",
     heading: "Comment Finder: Kommentare durchsuchen",
     highlight: "Comment Finder",
     intro: "Durchsuche die Kommentare eines Videos — finde einen bestimmten Kommentar, jede Erwähnung eines Worts oder deinen eigenen Kommentar unter einem viralen Video.",

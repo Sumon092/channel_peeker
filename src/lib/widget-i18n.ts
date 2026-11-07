@@ -9,7 +9,7 @@ import type { ParseErrorCode } from "@/lib/youtube/parse-input";
 
 /** Replaces {key} tokens in a template. Missing keys render as-is for debuggability. */
 export function fmt(template: string, vars: Record<string, string | number>): string {
-  return template.replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? String(vars[k]) : m));
+  return template.replace(/\{(\w+)\}/g, (m, k: string) => (Object.hasOwn(vars, k) ? String(vars[k]) : m));
 }
 
 export interface WidgetStrings {
