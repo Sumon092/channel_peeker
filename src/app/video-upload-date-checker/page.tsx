@@ -1,4 +1,5 @@
 import { ToolPage } from "@/components/tool-page";
+import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { VideoUploadDateChecker } from "./video-upload-date-checker";
@@ -10,6 +11,7 @@ export const metadata = pageMetadata({
   description:
     "Find the exact date and time any YouTube video was published — in your timezone and UTC — plus how old it is. Free, official YouTube data.",
   path: tool.path,
+  languages: hreflangFor("/video-upload-date-checker"),
 });
 
 export default function Page() {

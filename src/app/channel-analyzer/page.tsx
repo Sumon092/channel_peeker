@@ -1,4 +1,5 @@
 import { ToolPage } from "@/components/tool-page";
+import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { ChannelAnalyzer } from "./channel-analyzer";
@@ -10,6 +11,7 @@ export const metadata = pageMetadata({
   description:
     "Analyze any YouTube channel free: subscribers, views per upload, recent activity, top videos and a shareable report. No signup, official YouTube data.",
   path: tool.path,
+  languages: hreflangFor("/channel-analyzer"),
 });
 
 export default function Page() {

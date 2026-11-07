@@ -1,4 +1,5 @@
 import { ToolPage } from "@/components/tool-page";
+import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { CommentFinder } from "./comment-finder";
@@ -10,6 +11,7 @@ export const metadata = pageMetadata({
   description:
     "Search the comments of any YouTube video for a word, name or phrase. Sort by top or newest, and export matches to CSV. Free, official YouTube data.",
   path: tool.path,
+  languages: hreflangFor("/comment-finder"),
 });
 
 export default function Page() {

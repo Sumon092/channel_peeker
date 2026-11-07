@@ -6,16 +6,19 @@ export function pageMetadata({
   description,
   path,
   noindex = false,
+  languages,
 }: {
   title: string;
   description: string;
   path: string;
   noindex?: boolean;
+  /** hreflang map (locale → path) for pages that exist in several languages. */
+  languages?: Record<string, string>;
 }): Metadata {
   return {
     title,
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: path, languages },
     robots: noindex ? { index: false, follow: true } : undefined,
     openGraph: {
       title,

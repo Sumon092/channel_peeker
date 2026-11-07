@@ -1,4 +1,5 @@
 import { ToolPage } from "@/components/tool-page";
+import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { WatchTimeCalculator } from "./watch-time-calculator";
@@ -10,6 +11,7 @@ export const metadata = pageMetadata({
   description:
     "Convert views and average view duration into total watch hours, and see how many views you need for YouTube's 4,000-hour monetization threshold.",
   path: tool.path,
+  languages: hreflangFor("/watch-time-calculator"),
 });
 
 export default function Page() {

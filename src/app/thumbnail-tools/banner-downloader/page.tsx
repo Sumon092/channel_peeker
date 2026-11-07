@@ -1,4 +1,5 @@
 import { ToolPage } from "@/components/tool-page";
+import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { BannerDownloader } from "./banner-downloader";
@@ -10,6 +11,7 @@ export const metadata = pageMetadata({
   description:
     "Download any YouTube channel's banner in full resolution — TV (2120px), desktop 2× (2560px), tablet and mobile crops. Free, official YouTube data.",
   path: tool.path,
+  languages: hreflangFor("/thumbnail-tools/banner-downloader"),
 });
 
 export default function Page() {

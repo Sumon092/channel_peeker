@@ -1,4 +1,5 @@
 import { ToolPage } from "@/components/tool-page";
+import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { ThumbnailDownloader } from "./thumbnail-downloader";
@@ -10,6 +11,7 @@ export const metadata = pageMetadata({
   description:
     "Download any YouTube video's thumbnail in every size: HD 1280×720, SD, and the new 1080p to 4K versions when available. Bulk mode for up to 20 videos. Free.",
   path: tool.path,
+  languages: hreflangFor("/thumbnail-tools/thumbnail-downloader"),
 });
 
 export default function Page() {

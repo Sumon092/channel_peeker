@@ -1,6 +1,7 @@
 import { ArrowRight, Check, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import type { Locale, ToolPageLabels } from "@/lib/i18n";
 import { absoluteUrl, site } from "@/lib/site";
 import { getHub, getTool, type Tool } from "@/lib/tools";
 import { Breadcrumbs, type Crumb } from "./breadcrumbs";
@@ -29,6 +30,8 @@ interface ToolPageProps {
   updated: string;
   /** Third trust badge. Override for tools that don't read the YouTube Data API. */
   dataBadge?: string;
+  /** Localized chrome: language code, translated labels and the page's own path. */
+  i18n?: { lang: Locale; labels: ToolPageLabels; path: string };
 }
 
 function Highlighted({ text, part }: { text: string; part: string }) {
@@ -47,16 +50,18 @@ function Highlighted({ text, part }: { text: string; part: string }) {
  * Shared layout for every tool page (plan section 9.2): H1 and the tool above the fold,
  * then how-to, what the results mean, FAQ, related tools and schema.
  */
-export function ToolPage({ tool, heading, highlight, intro, children, howTo, meaning, faq, related, updated, dataBadge = "Official YouTube data" }: ToolPageProps) {
+export function ToolPage({ tool, heading, highlight, intro, children, howTo, meaning, faq, related, updated, dataBadge = "Official YouTube data", i18n }: ToolPageProps) {
   const hub = getHub(tool.hub);
-  const crumbs: Crumb[] = [{ name: "Tools", path: "/tools" }];
+  const L = i18n?.labels;
+  const pagePath = i18n?.path ?? tool.path;
+  const crumbs: Crumb[] = [{ name: L?.breadcrumbTools ?? "Tools", path: "/tools" }];
   if (hub.path && hub.path !== tool.path) crumbs.push({ name: hub.name, path: hub.path });
-  crumbs.push({ name: tool.name, path: tool.path });
+  crumbs.push({ name: tool.name, path: pagePath });
 
   const relatedTools = related.map(getTool);
 
   return (
-    <>
+    <div lang={i18n?.lang}>
       <section className="hero-surface border-b border-border">
         <div className="mx-auto max-w-4xl px-4 pb-16 pt-8 sm:px-6">
           <div className="flex justify-center">
@@ -64,7 +69,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
           </div>
           <div className="mt-10 text-center">
             <p className="inline-flex items-center gap-2 rounded-full bg-surface-2 px-3 py-1.5 text-sm font-medium">
-              <span className="h-2 w-2 rounded-full bg-accent" /> Free tool · No signup
+              <span className="h-2 w-2 rounded-full bg-accent" /> {L?.freeBadge ?? "Free tool · No signup"}
             </p>
             <h1 className="mt-5 text-4xl font-black leading-[1.08] tracking-[-0.03em] sm:text-[3.4rem]">
               <Highlighted text={heading} part={highlight ?? tool.name} />
@@ -75,7 +80,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
           <div className="mt-10">{children}</div>
 
           <ul className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted">
-            {["100% free", "No signup", dataBadge].map((t) => (
+            {[...(L?.badges ?? ["100% free", "No signup"]), dataBadge].map((t) => (
               <li key={t} className="flex items-center gap-1.5">
                 <Check className="h-4 w-4 text-good" aria-hidden="true" /> {t}
               </li>
@@ -85,11 +90,11 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-        <SectionHeading eyebrow="Step by step" title={`How to use the ${tool.name}`} align="center" />
+        <SectionHeading eyebrow={L?.stepByStep ?? "Step by step"} title={L?.howToHeading(tool.name) ?? `How to use the ${tool.name}`} align="center" />
         <ol className={`mt-12 grid gap-5 ${howTo.length >= 4 ? "md:grid-cols-4" : "md:grid-cols-3"}`}>
           {howTo.map((step, i) => (
             <li key={step} className="rounded-2xl border border-border bg-surface p-6">
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent-strong">Step 0{i + 1}</p>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent-strong">{`${L?.stepWord ?? "Step"} 0${i + 1}`}</p>
               <p className="mt-3 leading-relaxed">{step}</p>
             </li>
           ))}
@@ -98,13 +103,13 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
 
       <section className="border-y border-border bg-surface-2/50">
         <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
-          <SectionHeading eyebrow="Understand your results" title="What the results mean" />
+          <SectionHeading eyebrow={L?.meaningEyebrow ?? "Understand your results"} title={L?.meaningHeading ?? "What the results mean"} />
           <div className="prose-cp mt-6">{meaning}</div>
         </div>
       </section>
 
       <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
-        <SectionHeading eyebrow="FAQ" title="Frequently asked questions" align="center" />
+        <SectionHeading eyebrow={L?.faqEyebrow ?? "FAQ"} title={L?.faqHeading ?? "Frequently asked questions"} align="center" />
         <div className="mt-10 divide-y divide-border rounded-2xl border border-border bg-surface">
           {faq.map((item) => (
             <details key={item.q} className="group">
@@ -117,9 +122,9 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
           ))}
         </div>
         <p className="mt-8 text-center text-xs text-muted">
-          Last updated {updated} · Reviewed by the channelpeek team ·{" "}
+          {L ? L.lastUpdated(updated) : `Last updated ${updated} · Reviewed by the channelpeek team`} ·{" "}
           <Link href="/methodology" className="underline">
-            How we calculate
+            {L?.methodologyLink ?? "How we calculate"}
           </Link>
         </p>
       </section>
@@ -128,9 +133,9 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
         <section className="border-t border-border bg-surface-2/50">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
             <div className="flex flex-wrap items-end justify-between gap-4">
-              <SectionHeading eyebrow="Keep going" title="Related tools" />
+              <SectionHeading eyebrow={L?.keepGoing ?? "Keep going"} title={L?.relatedHeading ?? "Related tools"} />
               <Link href={hub.path ?? "/tools"} className="inline-flex items-center gap-1 text-sm font-medium text-accent-strong hover:underline">
-                All {hub.path ? hub.name.toLowerCase() : "tools"} <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                {L ? L.allTools : `All ${hub.path ? hub.name.toLowerCase() : "tools"}`} <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
             <div className="mt-10">
@@ -146,8 +151,8 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
             "@context": "https://schema.org",
             "@type": "WebApplication",
             name: `${tool.name} for YouTube`,
-            url: absoluteUrl(tool.path),
-            description: tool.summary,
+            url: absoluteUrl(pagePath),
+            description: i18n ? intro : tool.summary,
             applicationCategory: "MultimediaApplication",
             operatingSystem: "Any",
             offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
@@ -164,6 +169,6 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
           },
         ]}
       />
-    </>
+    </div>
   );
 }

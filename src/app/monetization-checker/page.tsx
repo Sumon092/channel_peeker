@@ -1,4 +1,5 @@
 import { ToolPage } from "@/components/tool-page";
+import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { MonetizationChecker } from "./monetization-checker";
@@ -10,6 +11,7 @@ export const metadata = pageMetadata({
   description:
     "Check which YouTube Partner Program requirements any channel meets: subscribers, country, activity and kids-content limits. Honest signals, no fake yes/no.",
   path: tool.path,
+  languages: hreflangFor("/monetization-checker"),
 });
 
 export default function Page() {

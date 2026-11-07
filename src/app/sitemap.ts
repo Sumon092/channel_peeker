@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { LOCALES, LOCALIZED_TOOLS, localePath } from "@/lib/i18n";
 import { absoluteUrl } from "@/lib/site";
 import { hubs, liveTools, toolsInHub } from "@/lib/tools";
 
@@ -22,7 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const hubPaths = hubs
     .filter((h) => h.path && toolsInHub(h.id).some((t) => t.status === "live" && t.path !== h.path))
     .map((h) => h.path as string);
-  const paths = new Set([...staticPages, ...hubPaths, ...liveTools().map((t) => t.path)]);
+  const localized = LOCALES.flatMap((l) => LOCALIZED_TOOLS.map((p) => localePath(l, p)));
+  const paths = new Set([...staticPages, ...hubPaths, ...liveTools().map((t) => t.path), ...localized]);
   // No lastModified: a build date isn't a content change date, and Google ignores inaccurate ones.
   return [...paths].map((path) => ({ url: absoluteUrl(path) }));
 }

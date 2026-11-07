@@ -1,4 +1,5 @@
 import { ToolPage } from "@/components/tool-page";
+import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { CommentPicker } from "./comment-picker";
@@ -10,6 +11,7 @@ export const metadata = pageMetadata({
   description:
     "Pick random giveaway winners from any YouTube video's comments — cryptographically fair, one entry per person, keyword filter, up to 5 winners.",
   path: tool.path,
+  languages: hreflangFor("/comment-picker"),
 });
 
 export default function Page() {
