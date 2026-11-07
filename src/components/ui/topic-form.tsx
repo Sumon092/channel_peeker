@@ -28,6 +28,8 @@ export function TopicForm({ label, placeholder, submitLabel, loading, autoRun = 
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    // Enter from the input bypasses the disabled button; each submit costs an AI generation.
+    if (loading) return;
     const topic = value.trim();
     if (topic.length < 3) {
       setError("Describe your video topic in a few words first.");

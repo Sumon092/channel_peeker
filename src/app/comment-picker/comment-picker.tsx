@@ -74,7 +74,8 @@ export function CommentPicker() {
       <div>
         {state.status === "loading" && <Skeleton className="h-72 w-full rounded-3xl" />}
         {state.status === "error" && <ErrorBox message={state.message} />}
-        {state.status === "done" && <Picker {...state.data} />}
+        {/* Keyed by video: loading a different video must reset winners, filters and any in-flight draw. */}
+        {state.status === "done" && <Picker key={state.data.video.id} {...state.data} />}
       </div>
     </div>
   );
