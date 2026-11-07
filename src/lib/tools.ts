@@ -81,6 +81,8 @@ export const tools: Tool[] = [
   { path: "/outlier-finder", name: "Outlier Finder", summary: "Find videos that beat a channel's median views by 2×, 5× or 10×.", hub: "analytics", status: "live" },
   { path: "/channel-age-checker", name: "Channel Age Checker", summary: "See exactly when a channel was created and how old it is.", hub: "analytics", status: "live" },
   { path: "/video-upload-date-checker", name: "Video Upload Date Checker", summary: "The exact date and time any video was published, and its age.", hub: "analytics", status: "live" },
+  { path: "/comment-finder", name: "Comment Finder", summary: "Search any video's comments for a word, name or phrase, and export to CSV.", hub: "analytics", status: "live" },
+  { path: "/watch-time-calculator", name: "Watch Time Calculator", summary: "Views × average view duration, and your distance to 4,000 watch hours.", hub: "analytics", status: "live" },
 
   // Links & URLs
   { path: "/timestamp-link-generator", name: "Timestamp Link Generator", summary: "Create a YouTube link that starts at an exact time.", hub: "link-tools", status: "live" },
@@ -112,6 +114,7 @@ export const tools: Tool[] = [
   { path: "/revenue-calculator/channel-earnings-estimator", name: "Channel Earnings Estimator", summary: "Earnings ranges for a channel from its recent views.", hub: "revenue-calculator", status: "live" },
   { path: "/revenue-calculator/sponsorship-rate-calculator", name: "Sponsorship Rate Calculator", summary: "Price a sponsored integration from your average views.", hub: "revenue-calculator", status: "live" },
   { path: "/revenue-calculator/rpm-cpm-calculator", name: "RPM & CPM Calculator", summary: "Convert between RPM and CPM and see the creator share.", hub: "revenue-calculator", status: "live" },
+  { path: "/revenue-calculator/live-stream-earnings-calculator", name: "Live Stream Earnings Calculator", summary: "Estimate live income from ads, Super Chat and memberships, cuts included.", hub: "revenue-calculator", status: "live" },
 
   // Transcripts
   { path: "/transcript-tools/transcript-extractor", name: "Transcript Extractor", summary: "Get a transcript as text, SRT or VTT.", hub: "transcript-tools", status: "live" },
@@ -136,6 +139,7 @@ export const toolsByInput: Record<InputKind, string[]> = {
     "/thumbnail-tools/thumbnail-downloader",
     "/video-analyzer",
     "/seo-tools/tag-extractor",
+    "/comment-finder",
     "/video-upload-date-checker",
     "/video-id-extractor",
     "/url-cleaner",

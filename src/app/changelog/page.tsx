@@ -9,6 +9,14 @@ export const metadata = pageMetadata({
 
 const entries = [
   {
+    date: "November 7, 2026",
+    items: [
+      "New tool: Comment Finder — search any video's comments for a word, name or phrase, sort by top or newest, export to CSV.",
+      "New tool: Watch Time Calculator — views × average view duration, with your distance to the 4,000-hour threshold.",
+      "New tool: Live Stream Earnings Calculator — ads, Super Chat and memberships, with YouTube's cuts shown.",
+    ],
+  },
+  {
     date: "November 4, 2026",
     items: [
       "Five new micro-tools: Video ID Extractor, Playlist ID Finder, YouTube URL Cleaner, Video Upload Date Checker and Profile Picture Downloader.",

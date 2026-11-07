@@ -53,6 +53,18 @@ export const SHORTS_RPM_HIGH = 0.15;
 export const SPONSOR_CPM_LOW = 20;
 export const SPONSOR_CPM_HIGH = 50;
 
+/**
+ * Creators keep 70% of Super Chat, Super Stickers and channel memberships
+ * (YouTube's published 30% platform fee; app-store fees on mobile purchases can take more).
+ */
+export const CREATOR_SHARE_FAN_FUNDING = 0.7;
+
+/**
+ * Live stream ad CPMs typically run below long-form VOD CPMs — fewer ad slots
+ * and lower advertiser demand. Multiplier applied to the niche CPM range.
+ */
+export const LIVE_CPM_MULTIPLIER = 0.5;
+
 export interface MoneyRange {
   low: number;
   high: number;
