@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import Script from "next/script";
+import { AnalyticsConsent } from "@/components/analytics-consent";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { site } from "@/lib/site";
+import { gaMeasurementId, site } from "@/lib/site";
 import "./globals.css";
 
 // One variable font file covers every weight; monospace uses the system font (zero bytes).
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <SiteFooter />
+        {gaMeasurementId && <AnalyticsConsent id={gaMeasurementId} />}
         <JsonLd
           data={[
             {

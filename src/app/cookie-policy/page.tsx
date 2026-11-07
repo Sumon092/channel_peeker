@@ -1,6 +1,7 @@
+import { CookieSettingsButton } from "@/components/analytics-consent";
 import { ProsePage } from "@/components/prose-page";
 import { pageMetadata } from "@/lib/seo";
-import { site } from "@/lib/site";
+import { gaMeasurementId, site } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Cookie policy",
@@ -10,7 +11,7 @@ export const metadata = pageMetadata({
 
 export default function Page() {
   return (
-    <ProsePage title="Cookie policy" path="/cookie-policy" updated="September 29, 2026">
+    <ProsePage title="Cookie policy" path="/cookie-policy" updated={gaMeasurementId ? "November 7, 2026" : "September 29, 2026"}>
       <p>{site.name} tries to use as few cookies as possible.</p>
 
       <h2>Strictly necessary</h2>
@@ -20,7 +21,20 @@ export default function Page() {
       </p>
 
       <h2>Analytics</h2>
-      <p>We use privacy-friendly analytics that do not use cookies to track you across websites.</p>
+      {gaMeasurementId ? (
+        <>
+          <p>
+            If you accept analytics cookies, we use Google Analytics to learn which tools are useful. It sets cookies named <code>_ga</code> and{" "}
+            <code>_ga_*</code>, which last up to two years. If you decline, Google Analytics does not load and these cookies are not set. We save your
+            choice in your browser&apos;s local storage.
+          </p>
+          <p>
+            <CookieSettingsButton />
+          </p>
+        </>
+      ) : (
+        <p>We use privacy-friendly analytics that do not use cookies to track you across websites.</p>
+      )}
 
       <h2>Advertising</h2>
       <p>

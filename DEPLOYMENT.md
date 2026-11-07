@@ -26,6 +26,7 @@ Copy `.env.example` and fill it in on the host. Summary of what matters in produ
 | `YT_QUOTA_MAIN` / `YT_QUOTA_SEARCH` / `YT_QUOTA_BATCH_STATS` | yes | Current split: `9000` / `1000` / leave default. `search.list` costs 100 units per call, so `YT_QUOTA_SEARCH=1000` allows ~10 searches/day of headroom accounting. |
 | `DERIVED_METRICS_APPROVED` | yes | Keep `false` until YouTube approves the derived-metrics amendment from the API compliance audit. Flipping it early is a compliance risk; the UIs degrade honestly while it is off. |
 | `ADSENSE_PUBLISHER_ID` | no (for now) | Leave unset. Setting it enables the AdSense loader script and `/ads.txt`. Only set after AdSense approval **and** the CMP is configured (see §7). |
+| `GA_MEASUREMENT_ID` | no | Google Analytics 4 ID (`G-XXXXXXXXXX`). Read at build time, so rebuild after changing it. Setting it enables the consent banner and the Google Analytics wording in the privacy and cookie policies; Google's script loads only after a visitor accepts. |
 | `GOOGLE_SITE_VERIFICATION` / `BING_SITE_VERIFICATION` | recommended | Meta-tag verification for Search Console and Bing Webmaster Tools. |
 
 ## 3. Infrastructure requirements

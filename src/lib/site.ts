@@ -9,6 +9,9 @@ export const site = {
   contactEmail: "hello@channelpeeker.com",
 } as const;
 
+/** GA4 Measurement ID. Unset or malformed means no banner and no Google Analytics. Build-time, server-only. */
+export const gaMeasurementId = /^G-[A-Z0-9]+$/.test(process.env.GA_MEASUREMENT_ID ?? "") ? process.env.GA_MEASUREMENT_ID : undefined;
+
 export function absoluteUrl(path = "/") {
   return new URL(path, site.url).toString();
 }
