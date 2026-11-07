@@ -90,7 +90,7 @@ export function SmartSearch({ byKind }: Props) {
           spellCheck={false}
           aria-invalid={Boolean(error)}
           aria-describedby="smart-hint"
-          className="min-w-0 flex-1 bg-transparent py-3 text-base outline-none placeholder:text-muted sm:text-lg"
+          className="quiet-focus min-w-0 flex-1 bg-transparent py-3 text-base outline-none placeholder:text-muted sm:text-lg"
         />
         {kind && (
           <span className="hidden shrink-0 items-center gap-1.5 rounded-full bg-good-soft px-3 py-1 text-xs font-medium text-good sm:inline-flex">

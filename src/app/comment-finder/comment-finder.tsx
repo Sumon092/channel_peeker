@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useId, useState } from "react";
 import { ErrorBox, FetchedAt, Skeleton } from "@/components/ui/status";
+import { useInitialQuery } from "@/components/ui/use-initial-query";
 import { useToolRequest } from "@/components/ui/use-tool-request";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
@@ -52,6 +53,12 @@ export function CommentFinder() {
   const [search, setSearch] = useState("");
   const [order, setOrder] = useState<"relevance" | "time">("relevance");
   const [validation, setValidation] = useState<string | null>(null);
+
+  // Arriving from the home smart search (?q=): prefill and run without another click.
+  useInitialQuery((q) => {
+    setInput(q);
+    if (parseYouTubeInput(q, "video").ok) run({ input: q, order: "relevance" });
+  });
 
   function submit(e: React.FormEvent) {
     e.preventDefault();

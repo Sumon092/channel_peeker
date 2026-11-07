@@ -9,15 +9,22 @@ interface TopicFormProps {
   placeholder: string;
   submitLabel: string;
   loading?: boolean;
+  /** Run immediately when arriving with ?q= (home search). Keep off for AI tools so a landing never spends a daily generation. */
+  autoRun?: boolean;
+  /** Footnote under the form; defaults to the AI-generation disclaimer. */
+  note?: string;
   onSubmit: (topic: string) => void;
 }
 
-/** Shared input for the AI generators: a short topic, not a YouTube link. */
-export function TopicForm({ label, placeholder, submitLabel, loading, onSubmit }: TopicFormProps) {
+/** Shared input for topic-based tools (AI generators and keyword tools): a short topic, not a YouTube link. */
+export function TopicForm({ label, placeholder, submitLabel, loading, autoRun = false, note, onSubmit }: TopicFormProps) {
   const id = useId();
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
-  useInitialQuery(setValue);
+  useInitialQuery((q) => {
+    setValue(q);
+    if (autoRun && q.trim().length >= 3) onSubmit(q.trim());
+  });
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -72,7 +79,9 @@ export function TopicForm({ label, placeholder, submitLabel, loading, onSubmit }
           {error}
         </p>
       )}
-      <p className="mt-3 text-xs text-muted">Free AI generations are limited to 10 per day. Your topic is sent to Google&apos;s Gemini API to generate suggestions and isn&apos;t stored by us.</p>
+      <p className="mt-3 text-xs text-muted">
+        {note ?? "Free AI generations are limited to 10 per day. Your topic is sent to Google's Gemini API to generate suggestions and isn't stored by us."}
+      </p>
     </form>
   );
 }

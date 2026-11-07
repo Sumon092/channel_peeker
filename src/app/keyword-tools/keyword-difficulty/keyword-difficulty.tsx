@@ -22,6 +22,7 @@ export function KeywordDifficulty() {
         placeholder="e.g. home espresso setup"
         submitLabel="Check difficulty"
         loading={state.status === "loading"}
+        note="Free, no account. We look at the channels currently ranking for your keyword on YouTube — nothing is sent to AI."
         onSubmit={(topic) => run({ q: topic })}
       />
 

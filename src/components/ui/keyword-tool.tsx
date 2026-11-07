@@ -22,6 +22,8 @@ export function KeywordTool({ mode, placeholder, emptyNote }: { mode: "research"
         placeholder={placeholder}
         submitLabel="Find keywords"
         loading={state.status === "loading"}
+        autoRun
+        note="Free, no account. Phrases come from YouTube's public search suggestions — nothing is sent to AI."
         onSubmit={(topic) => run({ q: topic, mode })}
       />
 

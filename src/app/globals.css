@@ -124,6 +124,18 @@
   outline-offset: 2px;
 }
 
+/*
+ * Fields that already show focus through their own border/glow (pill fields) or
+ * through their container (.quiet-focus, e.g. the home search inside its pill,
+ * which lights up via focus-within) — the generic rectangle on top read as an
+ * error box, not a focus ring.
+ */
+.field-pill:focus-visible,
+.field-area:focus-visible,
+.quiet-focus:focus-visible {
+  outline: none;
+}
+
 /* Honor reduced motion globally: spinners, pulses, hovers and transitions all quiet down. */
 @media (prefers-reduced-motion: reduce) {
   *,
