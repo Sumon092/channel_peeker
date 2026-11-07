@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Runs in your browser"
       heading="YouTube Video ID Extractor"
       intro="Paste any form of YouTube link and get the clean 11-character video ID, instantly."
       updated="November 4, 2026"

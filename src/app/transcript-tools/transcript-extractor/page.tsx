@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Paste-based · private"
       heading="YouTube Transcript Extractor"
       intro="Paste a transcript from YouTube's own panel and get clean text, SRT or VTT — formatted, copyable and downloadable."
       updated="November 4, 2026"

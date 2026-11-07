@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Free AI · 10 runs a day"
       heading="YouTube Transcript Summarizer"
       intro="Paste a transcript and get a tight summary plus the key points — know what a video says without watching all of it."
       updated="November 4, 2026"

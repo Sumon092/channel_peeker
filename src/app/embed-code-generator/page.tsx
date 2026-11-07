@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Runs in your browser"
       heading="YouTube Embed Code Generator"
       intro="Paste a video, pick your options, copy a clean responsive iframe — including privacy-enhanced mode and a start time."
       updated="November 4, 2026"

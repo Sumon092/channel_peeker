@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Math shown, nothing invented"
       heading="YouTube Revenue Calculator"
       intro="Estimate monthly ad earnings from views, niche and audience — as a range with the math shown, never a fake-exact number."
       updated="November 4, 2026"

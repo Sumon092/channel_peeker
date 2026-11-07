@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Free AI · 10 runs a day"
       heading="YouTube Timestamp Generator"
       intro="Paste a timestamped transcript and get ready-to-paste chapters — the AI finds the topic changes and matches them to the right times."
       updated="November 4, 2026"

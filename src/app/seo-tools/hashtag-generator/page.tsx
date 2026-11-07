@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Free AI · 10 runs a day"
       heading="YouTube Hashtag Generator"
       intro="Describe your video and get 15 correctly formatted hashtags — broad ones for reach, specific ones for relevance. Use the best 3."
       updated="November 4, 2026"

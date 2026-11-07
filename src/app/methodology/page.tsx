@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
 
 export default function Page() {
   return (
-    <ProsePage title="Methodology" path="/methodology" updated="September 29, 2026">
+    <ProsePage title="Methodology" path="/methodology" updated="November 7, 2026">
       <p>
         We want every number on channelpeek to be checkable. This page explains where our data comes from, which figures are ours, and how we
         calculate them.

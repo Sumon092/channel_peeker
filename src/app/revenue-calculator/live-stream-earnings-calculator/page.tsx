@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Math shown, nothing invented"
       heading="Live Stream Earnings Calculator"
       intro="Live income has three parts — ads, Super Chat and memberships. Estimate each one, with YouTube's cut shown instead of hidden."
       updated="November 7, 2026"

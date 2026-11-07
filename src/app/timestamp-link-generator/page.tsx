@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Runs in your browser"
       heading="YouTube Timestamp Link Generator"
       intro="Make a link that starts a video at the exact moment you choose — perfect for sharing a specific quote, step or highlight."
       updated="November 4, 2026"

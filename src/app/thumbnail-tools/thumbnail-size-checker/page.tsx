@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Runs in your browser"
       heading="YouTube Thumbnail Size Checker"
       intro="Pick your thumbnail file and instantly check its dimensions, aspect ratio, file size and format against YouTube's rules."
       updated="November 4, 2026"

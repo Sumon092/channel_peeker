@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Runs in your browser"
       heading="YouTube Playlist ID Finder"
       intro="Paste a playlist link — or any video playing inside one — and get the playlist ID plus a clean shareable URL."
       updated="November 4, 2026"

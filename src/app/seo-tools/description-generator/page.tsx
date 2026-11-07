@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Free AI · 10 runs a day"
       heading="YouTube Description Generator"
       intro="Describe your video and get a structured draft: hook first, then detail, chapter placeholders, link slots and hashtags."
       updated="November 4, 2026"

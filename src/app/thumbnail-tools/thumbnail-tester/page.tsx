@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Runs in your browser"
       heading="YouTube Thumbnail Tester"
       intro="See your thumbnail in realistic feed, search, sidebar and mobile mockups — with your title next to it — before you publish."
       updated="November 4, 2026"

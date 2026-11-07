@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Runs in your browser"
       heading="Thumbnail A/B Preview"
       intro="Put two thumbnail versions next to each other at every size viewers actually see, and pick the stronger one before you publish."
       updated="November 4, 2026"

@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Math shown, nothing invented"
       heading="Sponsorship Rate Calculator"
       intro="Know what to charge before a brand emails you — rates from your average views, based on how sponsors actually price deals."
       updated="November 4, 2026"

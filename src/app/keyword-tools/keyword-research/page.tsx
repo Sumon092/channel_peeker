@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Real YouTube searches"
       heading="YouTube Keyword Research"
       intro="Type a seed keyword and see the real phrases people search on YouTube — expanded A–Z and with question forms."
       updated="November 4, 2026"

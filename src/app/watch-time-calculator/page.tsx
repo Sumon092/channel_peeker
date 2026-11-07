@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Math shown, nothing invented"
       heading="Watch Time Calculator"
       intro="Turn views and average view duration into watch hours — and see exactly how far that is from the 4,000 hours YouTube asks for."
       updated="November 7, 2026"

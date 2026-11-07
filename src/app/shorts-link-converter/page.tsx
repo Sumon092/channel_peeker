@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Runs in your browser"
       heading="YouTube Shorts Link Converter"
       intro="Turn a Shorts link into a normal watch URL — so you can scrub, change speed and use chapters — or go the other way."
       updated="November 4, 2026"

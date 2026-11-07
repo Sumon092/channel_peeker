@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Runs in your browser"
       heading="YouTube URL Cleaner"
       intro="Strip the si= share identifier and other clutter from YouTube links — share the video, not your metadata."
       updated="November 4, 2026"

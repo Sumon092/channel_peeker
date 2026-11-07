@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Math shown, nothing invented"
       heading="Shorts Revenue Calculator"
       intro="Estimate what your Shorts views earn from the shared ad-revenue pool — a realistic range, not a dream number."
       updated="November 4, 2026"

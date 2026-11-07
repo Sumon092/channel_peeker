@@ -27,6 +27,8 @@ interface ToolPageProps {
   faq: Faq[];
   related: string[];
   updated: string;
+  /** Third trust badge. Override for tools that don't read the YouTube Data API. */
+  dataBadge?: string;
 }
 
 function Highlighted({ text, part }: { text: string; part: string }) {
@@ -45,7 +47,7 @@ function Highlighted({ text, part }: { text: string; part: string }) {
  * Shared layout for every tool page (plan section 9.2): H1 and the tool above the fold,
  * then how-to, what the results mean, FAQ, related tools and schema.
  */
-export function ToolPage({ tool, heading, highlight, intro, children, howTo, meaning, faq, related, updated }: ToolPageProps) {
+export function ToolPage({ tool, heading, highlight, intro, children, howTo, meaning, faq, related, updated, dataBadge = "Official YouTube data" }: ToolPageProps) {
   const hub = getHub(tool.hub);
   const crumbs: Crumb[] = [{ name: "Tools", path: "/tools" }];
   if (hub.path && hub.path !== tool.path) crumbs.push({ name: hub.name, path: hub.path });
@@ -73,7 +75,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
           <div className="mt-10">{children}</div>
 
           <ul className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-muted">
-            {["100% free", "No signup", "Official YouTube data"].map((t) => (
+            {["100% free", "No signup", dataBadge].map((t) => (
               <li key={t} className="flex items-center gap-1.5">
                 <Check className="h-4 w-4 text-good" aria-hidden="true" /> {t}
               </li>

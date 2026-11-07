@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Real YouTube searches"
       heading="Related Keywords Finder"
       intro="See the search terms that live around your topic — sibling phrases, comparisons and adjacent searches."
       updated="November 4, 2026"

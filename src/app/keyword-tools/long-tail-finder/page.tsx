@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Real YouTube searches"
       heading="Long-tail Keyword Finder"
       intro="Find the specific, 4-plus-word phrases people search — where small channels can actually win."
       updated="November 4, 2026"

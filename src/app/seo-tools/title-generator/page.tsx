@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Free AI · 10 runs a day"
       heading="YouTube Title Generator"
       intro="Describe your video and get 8 title options in different styles, each with its character count checked against search truncation."
       updated="November 4, 2026"

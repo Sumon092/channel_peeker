@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Free AI · 10 runs a day"
       heading="YouTube Tag Generator"
       intro="Describe your video and get a ready-to-paste tag list — exact phrase first, long-tails next, kept under YouTube's 500-character limit."
       updated="November 4, 2026"

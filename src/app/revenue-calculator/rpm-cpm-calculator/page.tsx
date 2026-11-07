@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Math shown, nothing invented"
       heading="YouTube RPM & CPM Calculator"
       intro="Convert between what advertisers pay (CPM) and what you actually earn (RPM), with the formula in plain sight."
       updated="November 4, 2026"

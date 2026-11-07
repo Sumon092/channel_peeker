@@ -16,6 +16,7 @@ export default function Page() {
   return (
     <ToolPage
       tool={tool}
+      dataBadge="Runs in your browser"
       heading="YouTube Title Checker"
       intro="Type or paste a title and instantly see its length, warnings and how it truncates in search and on mobile."
       updated="November 4, 2026"
