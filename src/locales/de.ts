@@ -1,6 +1,6 @@
 import type { LocalizedToolContent } from "@/lib/i18n";
 
-const UPDATED = "7. November 2026";
+const UPDATED = "22. November 2026";
 const API_BADGE = "Offizielle YouTube-Daten";
 
 export const content: Record<string, LocalizedToolContent> = {
@@ -19,6 +19,7 @@ export const content: Record<string, LocalizedToolContent> = {
     meaning: [
       "Kommentar-Gewinnspiele belohnen dein echtes Publikum, aber per Scrollen zu wählen ist weder zufällig noch beweisbar. Dieses Tool lädt die Kommentare über die offizielle YouTube-API und lost die Gewinner mit kryptografischer Zufälligkeit direkt in deinem Browser aus — wir könnten niemanden bevorzugen, selbst wenn wir wollten.",
       "Ehrliche Grenzen: Die Auslosung erfolgt aus den neuesten 500 Top-Level-Kommentaren (Antworten zählen nicht als eigene Lose), und kein Tool der Welt kann prüfen, wer ein Kanal-Abo hat — YouTube gibt das nicht frei. Prüfe Abo-Bedingungen also manuell vor der Verkündung.",
+      "Meldet sich ein Gewinner nicht? Dann ziehst du mit „Noch einmal auslosen“ einfach nach, ohne die Kommentare neu zu laden. Willst du Kommentare nur lesen oder gezielt durchsuchen statt auslosen, ist unsere Kommentarsuche das passende Werkzeug.",
     ],
     faq: [
       {
@@ -32,6 +33,14 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Kann das Tool prüfen, ob der Gewinner abonniert hat?",
         a: "Nein — kein Tool kann das. YouTube legt Abos nicht öffentlich offen. Prüfe Abo-Bedingungen manuell, bevor du den Gewinner verkündest.",
+      },
+      {
+        q: "Wie viele Kommentare werden geladen?",
+        a: "Bis zu 500 der neuesten Top-Level-Kommentare. Bei großen Gewinnspielen hilft ein Pflicht-Stichwort, damit alle echten Teilnahmen in der Auswahl landen – oder du lost kurz nach Teilnahmeschluss aus.",
+      },
+      {
+        q: "Kann ich mehrere Gewinner ziehen?",
+        a: "Ja, bis zu fünf auf einmal und ohne doppelte Gewinner. Dazu bekommst du einen fertigen Ankündigungstext zum Kopieren.",
       },
     ],
     dataBadge: API_BADGE,
@@ -81,7 +90,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22. November 2026",
+    updated: UPDATED,
   },
   "/thumbnail-tools/thumbnail-downloader": {
     title: "YouTube Thumbnail Downloader in HD & 4K",
@@ -97,6 +106,7 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "YouTube speichert für jedes Video mehrere Thumbnail-Auflösungen — vom kleinen Suchvorschaubild bis zu „maxres“ in 1280×720 und teils weit darüber. Wir listen jede Version mit direktem Link auf, bezogen aus der offiziellen API.",
+      "Welche Größen wir anzeigen, hängt vom Video ab – wir listen nur, was es wirklich gibt. Seit 2026 liefert YouTube für manche Videos zusätzlich 1080p, 1440p und 4K. Die meisten Creator laden ihr Thumbnail in HD hoch, das ist die Version „Max. Auflösung“ mit 1280×720; bei älteren oder niedrig aufgelösten Uploads fehlt sie. Dazu kommen kleinere Kopien, die YouTube in Feed, Suche und Einbettungen verwendet.",
       "Nützlich für Design-Referenzen, Archive deiner eigenen Videos oder Konkurrenz-Recherche. Das Bild bleibt Eigentum des Kanals — nutze Downloads als Referenz, nicht als eigenes Branding.",
     ],
     faq: [
@@ -111,6 +121,22 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Ist das legal?",
         a: "Die URLs sind öffentlich — YouTube liefert sie an jeden Besucher aus. Das Bildrecht bleibt beim Ersteller; nutze Downloads für Referenz und Archiv.",
+      },
+      {
+        q: "Warum gibt es kein Thumbnail in HD?",
+        a: "Die 1280×720-Version erzeugt YouTube nur, wenn Video oder eigenes Thumbnail in HD hochgeladen wurden. Ältere und niedrig aufgelöste Uploads haben nur die kleineren Größen.",
+      },
+      {
+        q: "Kann ich YouTube-Thumbnails in 4K herunterladen?",
+        a: "Ja, sofern YouTube eins hat. Seit 2026 gibt es für manche Videos Thumbnails in 1080p, 1440p und 4K – wir zeigen sie automatisch an, wenn sie existieren.",
+      },
+      {
+        q: "Klappt das auch mit Shorts?",
+        a: "Ja. Füg einen youtube.com/shorts/-Link ein, und du bekommst das Thumbnail des Shorts in allen verfügbaren Größen.",
+      },
+      {
+        q: "Geht das auch für viele Videos auf einmal?",
+        a: "Ja: Im Modus „Mehrere“ fügst du bis zu 20 Links ein und exportierst alle Bild-Links als CSV.",
       },
     ],
     dataBadge: API_BADGE,
@@ -144,6 +170,14 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Warum hat ein Kanal kein Banner?",
         a: "Nicht jeder Kanal lädt eines hoch. Ohne Banner liefert die API keine URL — und wir sagen das ehrlich, statt zu raten.",
+      },
+      {
+        q: "Ist das legal?",
+        a: "Die Bild-URLs sind öffentlich, YouTube liefert sie jedem Besucher aus. Das Motiv bleibt aber Eigentum des Creators: Nutze die Downloads als Referenz oder Archiv, nicht als dein eigenes Branding.",
+      },
+      {
+        q: "Kann ich auch das Profilbild eines Kanals herunterladen?",
+        a: "Ja, dafür gibt es unseren Profilbild-Downloader. Er liefert das Kanalbild in voller Auflösung bis 800 px.",
       },
     ],
     dataBadge: API_BADGE,
@@ -210,7 +244,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22. November 2026",
+    updated: UPDATED,
   },
   "/channel-analyzer": {
     title: "YouTube Kanal-Analyse kostenlos",
@@ -226,7 +260,9 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "Der Report zeigt echte YouTube-Daten (Abonnenten, Aufrufe, Videoanzahl, Alter des Kanals) neben channelpeeker-Einordnungen wie Upload-Frequenz und Top-Videos der letzten Uploads. Alles, was wir berechnen, ist als Schätzung gekennzeichnet.",
+      "Grundlage sind die 50 neuesten öffentlichen Uploads. „Uploads (90 Tage)“ zählt, wie viele davon in den letzten drei Monaten erschienen sind – ein schneller Hinweis darauf, ob der Kanal aktiv ist. Das Diagramm „Aufrufe pro Upload“ zeigt die Videos in Reihenfolge, sodass Ausreißer nach oben und Durststrecken sofort auffallen.",
       "Beachte: YouTube rundet öffentliche Abonnentenzahlen auf drei signifikante Stellen — deshalb das ≈-Zeichen. Aufrufzahlen sind exakt.",
+      "Watchtime, Impressionen und Klickrate sind privat und nur für den Kanalinhaber sichtbar. Kein externes Tool kann sie für fremde Kanäle anzeigen – auch wenn manche das behaupten.",
     ],
     faq: [
       {
@@ -240,6 +276,22 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Kann ich den Report teilen?",
         a: "Ja — jeder Report hat einen eigenen Link, den du in Communities, an Sponsoren oder dein Team schicken kannst.",
+      },
+      {
+        q: "Ist die Kanal-Analyse kostenlos?",
+        a: "Ja. Ohne Konto, ohne Browser-Erweiterung – gelesen werden nur öffentliche Daten über die offizielle YouTube Data API.",
+      },
+      {
+        q: "Wie viele Videos werden ausgewertet?",
+        a: "Die 50 neuesten öffentlichen Uploads. Das reicht, um aktuellen Rhythmus und Leistung zu zeigen, ohne die komplette Kanalgeschichte durchzugehen.",
+      },
+      {
+        q: "Warum zeigt ihr keine Watchtime oder Klickrate?",
+        a: "Weil YouTube diese Werte nur dem Kanalinhaber zeigt. Tools, die sie für fremde Kanäle ausgeben, raten.",
+      },
+      {
+        q: "Sind die Zahlen live?",
+        a: "Fast. Ergebnisse werden kurz zwischengespeichert, damit es schnell bleibt und das API-Kontingent reicht. Jeder Report zeigt genau, wann die Daten abgerufen wurden.",
       },
     ],
     dataBadge: API_BADGE,
@@ -273,6 +325,14 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Zählen Shorts zur 4.000-Stunden-Anforderung?",
         a: "Nein — Watchtime aus dem Shorts-Feed zählt nicht. Shorts haben einen eigenen Monetarisierungsweg: 10 Mio. öffentliche Shorts-Aufrufe in 90 Tagen.",
+      },
+      {
+        q: "Wo finde ich meine durchschnittliche Wiedergabedauer?",
+        a: "In YouTube Studio unter Analytics → Interaktion – sowohl für einzelne Videos als auch für den ganzen Kanal.",
+      },
+      {
+        q: "Zählen Livestreams zur Watchtime?",
+        a: "Öffentliche Livestreams zählen mit. Stellst du einen Stream später auf privat, fallen seine Stunden allerdings wieder aus der Rechnung.",
       },
     ],
     dataBadge: "Nachvollziehbare Rechnung",
@@ -317,6 +377,6 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22. November 2026",
+    updated: UPDATED,
   },
 };
