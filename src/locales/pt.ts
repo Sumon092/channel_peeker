@@ -1,6 +1,6 @@
 import type { LocalizedToolContent } from "@/lib/i18n";
 
-const UPDATED = "7 de novembro de 2026";
+const UPDATED = "22 de novembro de 2026";
 const API_BADGE = "Dados oficiais do YouTube";
 
 export const content: Record<string, LocalizedToolContent> = {
@@ -19,6 +19,7 @@ export const content: Record<string, LocalizedToolContent> = {
     meaning: [
       "Sorteios nos comentários recompensam seu público de verdade, mas escolher rolando a tela não é aleatório nem comprovável. Esta ferramenta carrega os comentários pela API oficial do YouTube e sorteia com aleatoriedade criptográfica direto no seu navegador — não poderíamos favorecer ninguém, mesmo se quiséssemos.",
       "Limites honestos: o sorteio usa os 500 comentários principais mais recentes (respostas não contam como participações), e nenhuma ferramenta consegue verificar quem é inscrito — o YouTube não divulga essa informação. Verifique as condições de inscrição manualmente antes de anunciar.",
+      "O ganhador sumiu? Clique em « Sortear de novo » e saia outro na hora, sem recarregar os comentários. Se a ideia for só ler os comentários ou achar um específico, o nosso buscador de comentários resolve melhor.",
     ],
     faq: [
       {
@@ -32,6 +33,14 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Dá para verificar se o ganhador é inscrito?",
         a: "Não — nenhuma ferramenta consegue. O YouTube não torna as inscrições públicas. Verifique essa condição manualmente antes de anunciar o ganhador.",
+      },
+      {
+        q: "Quantos comentários a ferramenta carrega?",
+        a: "Até os 500 comentários principais mais recentes. Em sorteios grandes, peça uma palavra-chave obrigatória para que todas as participações de verdade entrem, ou faça o sorteio logo depois de encerrar.",
+      },
+      {
+        q: "Dá para sortear mais de um ganhador?",
+        a: "Dá: até 5 de uma vez, sem repetir ninguém. Ainda vem um texto pronto para copiar e anunciar o resultado.",
       },
     ],
     dataBadge: API_BADGE,
@@ -81,7 +90,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22 de novembro de 2026",
+    updated: UPDATED,
   },
   "/thumbnail-tools/thumbnail-downloader": {
     title: "Baixar thumbnail do YouTube em HD e 4K",
@@ -97,6 +106,7 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "O YouTube guarda várias resoluções de thumbnail por vídeo — da pequena prévia de busca ao « maxres » em 1280×720, e às vezes muito além. Listamos cada versão com link direto, obtida da API oficial.",
+      "Os tamanhos mudam de vídeo para vídeo, porque só mostramos os que existem de fato. Desde 2026, o YouTube oferece versões em 1080p, 1440p e 4K para alguns vídeos. A maioria dos criadores envia a thumbnail em HD — é a versão « resolução máxima », de 1280×720, que pode faltar em vídeos antigos ou de baixa qualidade. Também há cópias menores, usadas no feed, na busca e nos vídeos incorporados.",
       "Útil para referências de design, arquivar seus próprios vídeos ou pesquisar a concorrência. A imagem continua sendo do canal — baixe como referência, não para o seu próprio branding.",
     ],
     faq: [
@@ -111,6 +121,26 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Isso é legal?",
         a: "As URLs são públicas — o YouTube as entrega a qualquer visitante. Os direitos são do criador; use os downloads como referência e arquivo.",
+      },
+      {
+        q: "Por que não aparece a thumbnail em HD?",
+        a: "O YouTube só gera a versão de 1280×720 quando o vídeo ou a thumbnail personalizada foram enviados em HD. Vídeos antigos ou em baixa resolução têm só os tamanhos menores.",
+      },
+      {
+        q: "Dá para baixar thumbnail em 4K?",
+        a: "Dá, quando o YouTube tem. Desde 2026, alguns vídeos ganharam thumbnails em 1080p, 1440p e 4K, e elas aparecem automaticamente na lista.",
+      },
+      {
+        q: "Funciona com Shorts?",
+        a: "Funciona. Cole um link youtube.com/shorts/ e você recebe a thumbnail do Short em todos os tamanhos disponíveis.",
+      },
+      {
+        q: "Consigo baixar thumbnails de vários vídeos de uma vez?",
+        a: "Consegue. Mude para o modo « Em lote », cole até 20 links e exporte todos os links das imagens em CSV.",
+      },
+      {
+        q: "Como baixar thumbnail pelo celular?",
+        a: "Abra o tamanho que você quer, toque e segure na imagem e escolha « Salvar imagem » (ou « Baixar imagem », dependendo do navegador). Não precisa instalar nenhum app.",
       },
     ],
     dataBadge: API_BADGE,
@@ -144,6 +174,10 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Por que um canal não tem banner?",
         a: "Nem todo canal configura um. Sem banner, a API não devolve URL — e dizemos isso honestamente em vez de adivinhar.",
+      },
+      {
+        q: "Baixar banner de outro canal é permitido?",
+        a: "Os endereços das imagens são públicos — o YouTube entrega esses arquivos para qualquer visitante. Mas a arte continua sendo do criador. Use como referência ou arquivo, nunca como identidade visual do seu canal.",
       },
     ],
     dataBadge: API_BADGE,
@@ -210,7 +244,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22 de novembro de 2026",
+    updated: UPDATED,
   },
   "/channel-analyzer": {
     title: "Analisar canal do YouTube grátis",
@@ -226,7 +260,9 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "O relatório combina dados reais do YouTube (inscritos, visualizações, número de vídeos, idade do canal) com análises do channelpeeker, como frequência de postagem e top vídeos recentes. Tudo o que calculamos é marcado como estimativa.",
+      "O relatório considera os 50 envios públicos mais recentes. « Envios (90 dias) » mostra quantos saíram nos últimos três meses — um jeito rápido de ver se o canal continua ativo. Já o gráfico « Visualizações por envio » coloca os vídeos em ordem, então dá para enxergar na hora o que bombou e as fases mais fracas.",
       "Atenção: o YouTube arredonda os inscritos públicos para três algarismos significativos — por isso o sinal ≈. As visualizações são exatas.",
+      "Tempo de exibição, impressões e taxa de cliques são privados e ficam só com o dono do canal. Nenhuma ferramenta externa consegue mostrar esses números de outro canal.",
     ],
     faq: [
       {
@@ -240,6 +276,22 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Posso compartilhar o relatório?",
         a: "Sim — cada relatório tem um link próprio para mandar a comunidades, patrocinadores ou seu time.",
+      },
+      {
+        q: "O analisador de canais é grátis?",
+        a: "É. Não precisa de conta nem de extensão, e ele só lê dados públicos pela API oficial do YouTube.",
+      },
+      {
+        q: "Quantos vídeos entram na análise?",
+        a: "Os 50 envios públicos mais recentes. É o bastante para mostrar o ritmo e o desempenho atuais sem vasculhar toda a história do canal.",
+      },
+      {
+        q: "Por que vocês não mostram tempo de exibição nem CTR?",
+        a: "Porque o YouTube só mostra esses dados para o dono do canal. Ferramenta que diz exibir isso de canais alheios está chutando.",
+      },
+      {
+        q: "Os números são em tempo real?",
+        a: "Quase. Guardamos os resultados em cache por pouco tempo para manter tudo rápido e dentro da cota da API. Cada relatório mostra exatamente quando os dados foram buscados.",
       },
     ],
     dataBadge: API_BADGE,
@@ -273,6 +325,14 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Shorts contam para as 4.000 horas?",
         a: "Não — o tempo assistido no feed de Shorts não conta. Os Shorts têm caminho próprio de monetização: 10 milhões de visualizações públicas em 90 dias.",
+      },
+      {
+        q: "Onde vejo a duração média de visualização?",
+        a: "No YouTube Studio, em Estatísticas → Engajamento, por vídeo e para o canal inteiro.",
+      },
+      {
+        q: "Live conta como horas de exibição?",
+        a: "Conta, desde que a live fique pública. Se depois você deixar a transmissão privada, as horas dela saem da conta.",
       },
     ],
     dataBadge: "Cálculo transparente",
@@ -317,6 +377,6 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22 de novembro de 2026",
+    updated: UPDATED,
   },
 };
