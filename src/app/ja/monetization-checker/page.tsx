@@ -3,7 +3,7 @@ import { hreflangFor, LABELS, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { content } from "@/locales/ja";
-import { MonetizationChecker } from "@/app/monetization-checker/monetization-checker";
+import { MonetizationChecker } from "@/app/(en)/monetization-checker/monetization-checker";
 
 const EN_PATH = "/monetization-checker";
 const LOCALE = "ja" as const;

@@ -63,7 +63,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
   const relatedTools = related.map(getTool);
 
   return (
-    <div lang={i18n?.lang}>
+    <div>
       <section className="hero-surface border-b border-border">
         <div className="mx-auto max-w-4xl px-4 pb-16 pt-8 sm:px-6">
           <div className="flex justify-center">

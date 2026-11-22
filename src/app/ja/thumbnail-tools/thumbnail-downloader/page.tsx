@@ -3,7 +3,7 @@ import { hreflangFor, LABELS, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { content } from "@/locales/ja";
-import { ThumbnailDownloader } from "@/app/thumbnail-tools/thumbnail-downloader/thumbnail-downloader";
+import { ThumbnailDownloader } from "@/app/(en)/thumbnail-tools/thumbnail-downloader/thumbnail-downloader";
 
 const EN_PATH = "/thumbnail-tools/thumbnail-downloader";
 const LOCALE = "ja" as const;

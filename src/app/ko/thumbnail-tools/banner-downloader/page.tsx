@@ -3,7 +3,7 @@ import { hreflangFor, LABELS, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { content } from "@/locales/ko";
-import { BannerDownloader } from "@/app/thumbnail-tools/banner-downloader/banner-downloader";
+import { BannerDownloader } from "@/app/(en)/thumbnail-tools/banner-downloader/banner-downloader";
 
 const EN_PATH = "/thumbnail-tools/banner-downloader";
 const LOCALE = "ko" as const;

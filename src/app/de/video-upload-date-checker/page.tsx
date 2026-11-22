@@ -3,7 +3,7 @@ import { hreflangFor, LABELS, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { content } from "@/locales/de";
-import { VideoUploadDateChecker } from "@/app/video-upload-date-checker/video-upload-date-checker";
+import { VideoUploadDateChecker } from "@/app/(en)/video-upload-date-checker/video-upload-date-checker";
 
 const EN_PATH = "/video-upload-date-checker";
 const LOCALE = "de" as const;

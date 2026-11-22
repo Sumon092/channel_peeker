@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
     ],
   },
   poweredByHeader: false,
+  // One root layout per language (for a correct server-rendered <html lang>) means the 404 for
+  // unmatched URLs can't come from a single layout; app/global-not-found.tsx renders it instead.
+  experimental: { globalNotFound: true },
   async headers() {
     return [
       {

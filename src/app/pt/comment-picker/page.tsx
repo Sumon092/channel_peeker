@@ -3,7 +3,7 @@ import { hreflangFor, LABELS, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { content } from "@/locales/pt";
-import { CommentPicker } from "@/app/comment-picker/comment-picker";
+import { CommentPicker } from "@/app/(en)/comment-picker/comment-picker";
 
 const EN_PATH = "/comment-picker";
 const LOCALE = "pt" as const;

@@ -3,7 +3,7 @@ import { hreflangFor, LABELS, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { content } from "@/locales/es";
-import { WatchTimeCalculator } from "@/app/watch-time-calculator/watch-time-calculator";
+import { WatchTimeCalculator } from "@/app/(en)/watch-time-calculator/watch-time-calculator";
 
 const EN_PATH = "/watch-time-calculator";
 const LOCALE = "es" as const;

@@ -3,7 +3,7 @@ import { hreflangFor, LABELS, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { content } from "@/locales/ko";
-import { CommentFinder } from "@/app/comment-finder/comment-finder";
+import { CommentFinder } from "@/app/(en)/comment-finder/comment-finder";
 
 const EN_PATH = "/comment-finder";
 const LOCALE = "ko" as const;

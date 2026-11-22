@@ -1,12 +1,21 @@
 import type { Metadata, Viewport } from "next";
 import { Roboto } from "next/font/google";
 import Script from "next/script";
+import type { ReactNode } from "react";
 import { AnalyticsConsent } from "@/components/analytics-consent";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { LANG_TAG, type Locale } from "@/lib/i18n";
 import { gaMeasurementId, site } from "@/lib/site";
-import "./globals.css";
+import "@/app/globals.css";
+
+/**
+ * Everything the site's root layouts share. There is one root layout per language
+ * (app/(en)/layout.tsx and app/{locale}/layout.tsx) so the server-rendered <html lang>
+ * is correct; each of those is a thin wrapper around this shell, so fonts, CSS,
+ * header/footer, analytics, verification and schema can never drift between locales.
+ */
 
 // One variable font file covers every weight; monospace uses the system font (zero bytes).
 const roboto = Roboto({
@@ -14,7 +23,7 @@ const roboto = Roboto({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
+export const rootMetadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
     default: `${site.name}: free YouTube analytics and SEO tools`,
@@ -28,19 +37,19 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
+export const rootViewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0f0f0f" },
   ],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export function RootShell({ locale, children }: { locale: Locale | "en"; children: ReactNode }) {
   // Off until ADSENSE_PUBLISHER_ID is set. This one tag also serves Google's
   // certified GDPR consent message once it's configured in AdSense → Privacy & messaging.
   const adsensePub = process.env.ADSENSE_PUBLISHER_ID;
   return (
-    <html lang="en" className={`${roboto.variable} h-full antialiased`}>
+    <html lang={LANG_TAG[locale]} className={`${roboto.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         {adsensePub && (
           <Script
