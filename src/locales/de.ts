@@ -52,6 +52,7 @@ export const content: Record<string, LocalizedToolContent> = {
     meaning: [
       "YouTubes eigene Kommentarsuche ist stark eingeschränkt — auf den meisten Geräten kannst du nur scrollen. Dieses Tool lässt die offizielle API die Kommentare eines Videos nach deinen Suchbegriffen filtern: ideal, um einen halb erinnerten Kommentar wiederzufinden oder Zitate für Recherchen zu sammeln.",
       "Wir zeigen bis zu 100 Top-Level-Kommentar-Threads pro Suche. Ohne Suchbegriff nutzt „Top-Kommentare“ YouTubes eigenes Ranking; mit Suchbegriff sortieren wir die Treffer nach Likes. „Neueste zuerst“ ist in beiden Fällen streng chronologisch.",
+      "Antwort-Threads zählen wir mit, klappen sie aber nicht auf. Welche Kommentare zu deinem Suchbegriff passen, entscheidet YouTube selbst – findest du nichts, lohnt sich oft eine andere Schreibweise oder ein kürzeres Stichwort.",
     ],
     faq: [
       {
@@ -66,9 +67,21 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "Kann ich die Kommentare exportieren?",
         a: "Ja — als CSV mit Autor, Text, Likes, Antwortanzahl und Datum.",
       },
+      {
+        q: "Warum sehe ich höchstens 100 Kommentare?",
+        a: "Pro Suche laden wir eine Seite mit bis zu 100 Top-Level-Threads. Bei Videos mit vielen Kommentaren hilft es, den Suchbegriff enger zu fassen.",
+      },
+      {
+        q: "Warum heißt es, die Kommentare seien deaktiviert?",
+        a: "Hat der Creator die Kommentare abgeschaltet oder ist das Video als „speziell für Kinder“ eingestuft, liefert die YouTube-API keine Kommentardaten. Das sagen wir dann auch so, statt etwas zu erfinden.",
+      },
+      {
+        q: "Wie finde ich alle meine alten YouTube-Kommentare?",
+        a: "Dafür ist dieses Tool nicht gedacht, es durchsucht immer ein einzelnes Video. Eine Übersicht über alles, was du kommentiert hast, findest du bei Google unter „Meine Aktivitäten“ → YouTube-Kommentare. Weißt du noch, unter welchem Video es war, bist du hier schneller.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22. November 2026",
   },
   "/thumbnail-tools/thumbnail-downloader": {
     title: "YouTube Thumbnail Downloader in HD & 4K",
@@ -150,7 +163,9 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "Seit 2023 verrät YouTube öffentlich nicht mehr, ob ein Kanal monetarisiert ist. Seiten, die dir ein klares „Ja/Nein“ zeigen, raten — etwa anhand eingeblendeter Werbung, die auch auf nicht monetarisierten Videos läuft. Wir zeigen stattdessen, welche sichtbaren Anforderungen (z. B. 1.000 Abonnenten, Kanalland, Aktivität) ein Kanal erfüllt.",
+      "Das YouTube-Partnerprogramm (YPP) hat zwei Stufen. Für die erste, die Fan-Finanzierung, reichen 500 Abonnenten und 3 öffentliche Uploads in den letzten 90 Tagen – dazu kommt eine Watchtime-Schwelle, die nur der Inhaber sieht. Damit lassen sich Kanalmitgliedschaften und Supers (Super Chat, Super Sticker, Super Thanks) freischalten. Werbeeinnahmen gibt es erst in der zweiten Stufe: ab 1.000 Abonnenten und 4.000 Stunden Watchtime in 12 Monaten oder 10 Mio. Shorts-Aufrufen in 90 Tagen.",
       "Watchtime und Shorts-Aufrufe der letzten 90 Tage sind privat — die kennt nur der Kanalinhaber in YouTube Studio. Was wir zeigen, ist belegbar; was niemand prüfen kann, behaupten wir nicht.",
+      "Ein grünes Ergebnis heißt also: Der Kanal besteht alles, was sich aus öffentlichen Daten ablesen lässt. Neben Watchtime und Shorts-Aufrufen bleiben auch Verwarnungen wegen der Community-Richtlinien und die abschließende Prüfung durch YouTube im Verborgenen. Solche Punkte kennzeichnen wir deshalb als „Nicht öffentlich“ – statt so zu tun, als wüssten wir es.",
     ],
     faq: [
       {
@@ -165,9 +180,37 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "Warum zeigt ihr kein einfaches Ja/Nein?",
         a: "Weil es öffentlich nicht feststellbar ist. Ein ehrliches „diese Signale sind erfüllt“ ist nützlicher als ein geratenes Ja/Nein.",
       },
+      {
+        q: "Ab wie vielen Abonnenten verdient man auf YouTube Geld?",
+        a: "Die ersten Einnahmen sind schon ab 500 Abonnenten möglich, allerdings nur über Mitgliedschaften und Supers. Voraussetzung sind außerdem 3 öffentliche Uploads in 90 Tagen sowie 3.000 Stunden Watchtime in 12 Monaten oder 3 Mio. Shorts-Aufrufe in 90 Tagen. An Werbeeinnahmen wird man erst ab 1.000 Abonnenten beteiligt.",
+      },
+      {
+        q: "Warum könnt ihr die Watchtime nicht prüfen?",
+        a: "Weil YouTube sie nicht herausgibt. Watchtime-Stunden und Shorts-Aufrufe der letzten 90 Tage sieht nur der Kanalinhaber in YouTube Studio – über die öffentliche API kommt niemand an diese Zahlen.",
+      },
+      {
+        q: "Warum ist die Abonnentenzahl nur ungefähr?",
+        a: "Ab 1.000 rundet YouTube öffentliche Abozahlen auf drei signifikante Stellen, aus 12.345 wird also 12.300. Darunter ist die Zahl exakt – und genau dort liegen die Grenzen von 500 und 1.000.",
+      },
+      {
+        q: "Verdient ein Kanal „speziell für Kinder“ weniger?",
+        a: "In der Regel ja. Für Kinderinhalte gibt es keine personalisierte Werbung, keine Mitgliedschaften, keine Supers und keinen Livechat. Das drückt die Einnahmen meist spürbar. Ist der ganze Kanal so eingestuft, weisen wir darauf hin.",
+      },
+      {
+        q: "Kann ich prüfen, ob ein einzelnes Video monetarisiert ist?",
+        a: "Du kannst den Video-Link einfügen: Wir ermitteln den Kanal und prüfen dessen öffentliche Partnerprogramm-Signale. Ob auf genau diesem Video Werbung geschaltet wird, ist dagegen nicht öffentlich – das kann kein Tool sicher sagen.",
+      },
+      {
+        q: "Ist mein eigener Kanal schon bereit für die Monetarisierung?",
+        a: "Gib deinen @Handle ein und sieh nach, welche öffentlichen Anforderungen du bereits erfüllst. Deine Watchtime und die Shorts-Aufrufe findest du nur selbst, im Monetarisierungsbereich von YouTube Studio.",
+      },
+      {
+        q: "Kostet das Tool etwas?",
+        a: "Nein. Es ist kostenlos, braucht kein Konto und liest ausschließlich öffentliche Kanaldaten über die offizielle YouTube Data API.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22. November 2026",
   },
   "/channel-analyzer": {
     title: "YouTube Kanal-Analyse kostenlos",
@@ -264,8 +307,16 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "Welche Zeitzone wird verwendet?",
         a: "Beide: die Zeitzone deines Browsers und UTC — damit Zitate eindeutig sind.",
       },
+      {
+        q: "Wie finde ich heraus, wann ein YouTube-Kanal erstellt wurde?",
+        a: "Das zeigt dieses Tool nicht, denn es arbeitet mit einzelnen Videos. Für das Erstellungsdatum eines Kanals gibt es unseren Kanalalter-Check – einfach Handle oder Kanal-Link einfügen.",
+      },
+      {
+        q: "Ist das Tool kostenlos?",
+        a: "Ja: kostenlos, ohne Anmeldung und mit offiziellen YouTube-Daten.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22. November 2026",
   },
 };
