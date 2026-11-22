@@ -1,6 +1,6 @@
 import type { LocalizedToolContent } from "@/lib/i18n";
 
-const UPDATED = "7 novembre 2026";
+const UPDATED = "22 novembre 2026";
 const API_BADGE = "Données YouTube officielles";
 
 export const content: Record<string, LocalizedToolContent> = {
@@ -19,6 +19,7 @@ export const content: Record<string, LocalizedToolContent> = {
     meaning: [
       "Les concours en commentaires récompensent votre vrai public, mais choisir en scrollant n'est ni aléatoire ni prouvable. Cet outil charge les commentaires via l'API officielle YouTube et tire les gagnants avec un aléatoire cryptographique, directement dans votre navigateur — nous ne pourrions favoriser personne, même si nous le voulions.",
       "Limites honnêtes : le tirage porte sur les 500 commentaires de premier niveau les plus récents (les réponses ne comptent pas comme participations), et aucun outil au monde ne peut vérifier qui est abonné — YouTube ne publie pas cette information. Vérifiez les conditions d'abonnement manuellement avant l'annonce.",
+      "Un gagnant ne se manifeste pas ? Cliquez sur « Relancer le tirage » : pas besoin de recharger les commentaires. Et si vous voulez simplement lire ou fouiller les commentaires plutôt que tirer au sort, notre outil de recherche de commentaires est fait pour ça.",
     ],
     faq: [
       {
@@ -32,6 +33,14 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "L'outil peut-il vérifier que le gagnant est abonné ?",
         a: "Non — aucun outil ne le peut. YouTube ne rend pas les abonnements publics. Vérifiez cette condition manuellement avant d'annoncer le gagnant.",
+      },
+      {
+        q: "Combien de commentaires l'outil charge-t-il ?",
+        a: "Jusqu'aux 500 commentaires principaux les plus récents. Pour un gros concours, exigez un mot-clé afin que toutes les vraies participations restent dans le lot, ou lancez le tirage peu après la clôture.",
+      },
+      {
+        q: "Peut-on tirer plusieurs gagnants ?",
+        a: "Oui, jusqu'à 5 d'un coup, sans doublon. Un message d'annonce prêt à copier est fourni avec.",
       },
     ],
     dataBadge: API_BADGE,
@@ -81,7 +90,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22 novembre 2026",
+    updated: UPDATED,
   },
   "/thumbnail-tools/thumbnail-downloader": {
     title: "Télécharger miniature YouTube HD & 4K",
@@ -97,6 +106,7 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "YouTube stocke plusieurs résolutions de miniature pour chaque vidéo — de la petite vignette de recherche au « maxres » en 1280×720, et parfois bien au-delà. Nous listons chaque version avec un lien direct, issue de l'API officielle.",
+      "Les tailles proposées varient d'une vidéo à l'autre, car nous n'affichons que celles qui existent vraiment. Depuis 2026, YouTube fournit pour certaines vidéos des versions 1080p, 1440p et 4K. La plupart des créateurs envoient leur miniature en HD : c'est la version « résolution maximale », en 1280×720, absente sur certaines vidéos anciennes ou de faible qualité. S'y ajoutent des copies plus petites, utilisées dans le fil, la recherche et les lecteurs intégrés.",
       "Utile pour les références design, l'archivage de vos propres vidéos ou la veille concurrentielle. L'image reste la propriété de la chaîne — téléchargez pour référence, pas pour votre propre branding.",
     ],
     faq: [
@@ -111,6 +121,22 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Est-ce légal ?",
         a: "Les URL sont publiques — YouTube les sert à chaque visiteur. Les droits restent au créateur ; utilisez les téléchargements pour référence et archivage.",
+      },
+      {
+        q: "Pourquoi n'y a-t-il pas de miniature HD ?",
+        a: "YouTube ne crée la version 1280×720 que si la vidéo ou la miniature personnalisée a été envoyée en HD. Les vidéos anciennes ou en basse résolution n'ont que les petites tailles.",
+      },
+      {
+        q: "Peut-on télécharger une miniature YouTube en 4K ?",
+        a: "Oui, quand YouTube en dispose. Depuis 2026, certaines vidéos ont des miniatures en 1080p, 1440p et 4K ; elles apparaissent automatiquement dans la liste.",
+      },
+      {
+        q: "Ça fonctionne avec les Shorts ?",
+        a: "Oui. Collez un lien youtube.com/shorts/ pour obtenir la miniature du Short dans toutes les tailles disponibles.",
+      },
+      {
+        q: "Peut-on récupérer les miniatures de plusieurs vidéos d'un coup ?",
+        a: "Oui : passez en mode « En lot », collez jusqu'à 20 liens et exportez tous les liens d'images en CSV.",
       },
     ],
     dataBadge: API_BADGE,
@@ -144,6 +170,10 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Pourquoi une chaîne n'a-t-elle pas de bannière ?",
         a: "Toutes les chaînes n'en définissent pas. Sans bannière, l'API ne renvoie aucune URL — et nous le disons honnêtement au lieu de deviner.",
+      },
+      {
+        q: "Est-ce légal ?",
+        a: "Les adresses des images sont publiques : YouTube les sert à tous les visiteurs. Le visuel, lui, reste la propriété du créateur. Téléchargez-le pour vous inspirer ou archiver, pas pour en faire votre propre identité visuelle.",
       },
     ],
     dataBadge: API_BADGE,
@@ -210,7 +240,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22 novembre 2026",
+    updated: UPDATED,
   },
   "/channel-analyzer": {
     title: "Analyser une chaîne YouTube gratuitement",
@@ -226,7 +256,9 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "Le rapport combine de vraies données YouTube (abonnés, vues, nombre de vidéos, âge de la chaîne) et des analyses channelpeeker comme la fréquence de publication et les top vidéos récentes. Tout ce que nous calculons est signalé comme estimation.",
+      "Le rapport porte sur les 50 dernières vidéos publiques de la chaîne. La case « Mises en ligne (90 jours) » indique combien sont sorties ces trois derniers mois, de quoi voir d'un coup d'œil si la chaîne est encore active. Le graphique « Vues par mise en ligne » les aligne dans l'ordre : les vidéos qui ont décollé comme les passages à vide sautent aux yeux.",
       "À noter : YouTube arrondit les nombres d'abonnés publics à trois chiffres significatifs — d'où le signe ≈. Les vues, elles, sont exactes.",
+      "Durée de visionnage, impressions, taux de clics : ces chiffres sont réservés au propriétaire de la chaîne. Aucun outil extérieur ne peut les afficher pour une autre chaîne.",
     ],
     faq: [
       {
@@ -240,6 +272,22 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Puis-je partager le rapport ?",
         a: "Oui — chaque rapport a son propre lien, à envoyer à vos communautés, sponsors ou votre équipe.",
+      },
+      {
+        q: "L'analyse de chaîne est-elle gratuite ?",
+        a: "Oui. Ni compte ni extension : l'outil lit uniquement des données publiques via l'API officielle YouTube Data.",
+      },
+      {
+        q: "Combien de vidéos sont analysées ?",
+        a: "Les 50 dernières mises en ligne publiques. C'est suffisant pour mesurer le rythme et les performances du moment sans remonter toute l'histoire de la chaîne.",
+      },
+      {
+        q: "Pourquoi pas de durée de visionnage ni de taux de clics ?",
+        a: "YouTube les réserve au propriétaire de la chaîne. Les outils qui prétendent les afficher pour d'autres chaînes font des suppositions.",
+      },
+      {
+        q: "Les chiffres sont-ils en temps réel ?",
+        a: "Presque. Les résultats sont gardés en cache quelques instants pour rester rapides et respecter le quota de l'API YouTube. Chaque rapport indique précisément quand ses données ont été récupérées.",
       },
     ],
     dataBadge: API_BADGE,
@@ -273,6 +321,10 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "Les Shorts comptent-ils pour les 4 000 heures ?",
         a: "Non — le visionnage dans le flux Shorts ne compte pas. Les Shorts ont leur propre voie de monétisation : 10 millions de vues publiques en 90 jours.",
+      },
+      {
+        q: "Où trouver ma durée moyenne de visionnage ?",
+        a: "Dans YouTube Studio, sous Données d'analyse → Engagement, vidéo par vidéo ou pour toute la chaîne.",
       },
     ],
     dataBadge: "Calcul transparent",
@@ -321,6 +373,6 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22 novembre 2026",
+    updated: UPDATED,
   },
 };
