@@ -52,6 +52,7 @@ export const content: Record<string, LocalizedToolContent> = {
     meaning: [
       "La recherche de commentaires de YouTube est très limitée — sur la plupart des appareils, on ne peut que scroller. Cet outil demande à l'API officielle de filtrer les commentaires d'une vidéo selon vos termes : idéal pour retrouver un commentaire à moitié oublié ou collecter des citations pour une recherche.",
       "Nous affichons jusqu'à 100 fils de commentaires de premier niveau par recherche. Sans terme de recherche, « Top » suit le classement de YouTube ; avec un terme, nous trions les résultats par likes. « Plus récents » reste strictement chronologique.",
+      "Les fils de réponses sont comptés, mais pas dépliés. Et c'est YouTube qui décide quels commentaires correspondent à votre recherche : si rien ne remonte, essayez une autre orthographe ou un mot plus court.",
     ],
     faq: [
       {
@@ -66,9 +67,21 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "Puis-je exporter les commentaires ?",
         a: "Oui — en CSV avec auteur, texte, likes, nombre de réponses et date.",
       },
+      {
+        q: "Pourquoi 100 commentaires au maximum ?",
+        a: "Chaque recherche récupère une page de 100 fils de commentaires au plus. Sur une vidéo très commentée, mieux vaut affiner les mots-clés pour trouver ce que vous cherchez dans cette page.",
+      },
+      {
+        q: "Pourquoi l'outil indique-t-il que les commentaires sont désactivés ?",
+        a: "Quand le créateur a fermé les commentaires, ou que la vidéo est conçue pour les enfants, l'API YouTube ne renvoie aucun commentaire. Nous l'indiquons tel quel au lieu de deviner.",
+      },
+      {
+        q: "Est-ce que ça marche sur mobile ?",
+        a: "Oui, directement dans le navigateur de votre téléphone, sans appli ni compte. Copiez le lien depuis le bouton Partager de l'appli YouTube et collez-le ici.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22 novembre 2026",
   },
   "/thumbnail-tools/thumbnail-downloader": {
     title: "Télécharger miniature YouTube HD & 4K",
@@ -150,7 +163,9 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "Depuis 2023, YouTube ne révèle plus publiquement si une chaîne est monétisée. Les sites qui affichent un « oui/non » devinent — par exemple d'après les publicités, qui tournent aussi sur des vidéos non monétisées. Nous montrons à la place quelles conditions visibles (1 000 abonnés, pays de la chaîne, activité) la chaîne remplit.",
+      "Le Programme Partenaire YouTube (YPP) comporte deux paliers. Le premier, celui du financement par les fans, s'ouvre dès 500 abonnés et 3 vidéos publiques sur les 90 derniers jours, avec en plus un seuil de durée de visionnage que seul le propriétaire peut consulter. Il donne accès aux abonnements à la chaîne et aux Supers : Super Chat, Super Stickers et Super Thanks. Pour toucher des revenus publicitaires, il faut passer au second palier : 1 000 abonnés et 4 000 heures de visionnage sur 12 mois, ou 10 millions de vues Shorts sur 90 jours.",
       "Le temps de visionnage et les vues Shorts des 90 derniers jours sont privés — seul le propriétaire les voit dans YouTube Studio. Ce que nous affichons est vérifiable ; ce que personne ne peut vérifier, nous ne l'affirmons pas.",
+      "Concrètement, un verdict vert signifie que la chaîne remplit toutes les conditions visibles dans les données publiques. Le reste nous échappe, comme à tout le monde : en plus des heures de visionnage et des vues Shorts, les avertissements liés au règlement de la communauté et l'examen final mené par YouTube restent confidentiels. C'est pour cela que ces lignes apparaissent en « Non public » plutôt qu'avec une réponse inventée.",
     ],
     faq: [
       {
@@ -165,9 +180,37 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "Pourquoi pas un simple oui/non ?",
         a: "Parce que c'est invérifiable publiquement. Un honnête « ces signaux sont remplis » est plus utile qu'un oui/non deviné.",
       },
+      {
+        q: "Combien d'abonnés faut-il pour être monétisé ?",
+        a: "Tout dépend de ce qu'on appelle « monétisé ». Avec 500 abonnés, 3 vidéos publiques en 90 jours et 3 000 heures de visionnage sur 12 mois (ou 3 millions de vues Shorts sur 90 jours), on peut déjà activer les abonnements à la chaîne et les Supers. Les revenus publicitaires, eux, demandent 1 000 abonnés.",
+      },
+      {
+        q: "Pourquoi l'outil ne vérifie-t-il pas les heures de visionnage ?",
+        a: "Parce que personne d'autre que le propriétaire ne peut les voir. Les heures de visionnage et les vues Shorts des 90 derniers jours ne figurent que dans YouTube Studio ; l'API publique ne les communique à personne.",
+      },
+      {
+        q: "Pourquoi le nombre d'abonnés est-il approximatif ?",
+        a: "Au-delà de 1 000, YouTube arrondit le compteur public à trois chiffres significatifs : 12 345 abonnés deviennent 12,3 k. En dessous de 1 000, le chiffre est exact, et c'est justement là que se jouent les seuils de 500 et 1 000.",
+      },
+      {
+        q: "Une chaîne « conçue pour les enfants » gagne-t-elle moins ?",
+        a: "Le plus souvent, oui. Ces contenus ne reçoivent pas de publicités personnalisées et perdent les abonnements, les Supers et le chat en direct, ce qui ampute nettement les revenus. Si toute la chaîne est réglée ainsi, nous le signalons.",
+      },
+      {
+        q: "Comment savoir si une vidéo précise est monétisée ?",
+        a: "Collez son lien : nous remontons jusqu'à la chaîne et vérifions ses signaux publics du Programme Partenaire. Savoir si des pubs passent sur cette vidéo-là, en revanche, n'est pas une donnée publique. Aucun outil ne peut le confirmer.",
+      },
+      {
+        q: "Ma chaîne est-elle éligible à la monétisation ?",
+        a: "Saisissez votre @handle pour voir quelles conditions publiques vous remplissez déjà. Vos heures de visionnage et vos vues Shorts, vous seul les voyez, dans la section consacrée à la monétisation de YouTube Studio.",
+      },
+      {
+        q: "L'outil est-il gratuit ?",
+        a: "Oui, entièrement. Aucun compte n'est nécessaire et seules les informations publiques de la chaîne sont lues, via l'API officielle YouTube Data.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22 novembre 2026",
   },
   "/channel-analyzer": {
     title: "Analyser une chaîne YouTube gratuitement",
