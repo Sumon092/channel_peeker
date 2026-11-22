@@ -150,7 +150,9 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "Desde 2023, o YouTube não revela mais publicamente se um canal é monetizado. Sites que mostram um « sim/não » estão adivinhando — por exemplo, pelos anúncios, que também aparecem em vídeos não monetizados. Nós mostramos quais requisitos visíveis (1.000 inscritos, país do canal, atividade) o canal cumpre.",
+      "O Programa de Parcerias do YouTube (YPP) tem dois níveis. No primeiro, o de apoio dos fãs, bastam 500 inscritos e 3 vídeos públicos nos últimos 90 dias (além de uma meta de horas de exibição que só o dono enxerga) para ganhar com o clube de membros e com os Supers — Super Chat, Super Stickers e Super Thanks. No segundo, com 1.000 inscritos e 4.000 horas de exibição em 12 meses, ou 10 milhões de visualizações de Shorts em 90 dias, o canal libera também a receita de anúncios.",
       "As horas de exibição e as visualizações de Shorts dos últimos 90 dias são privadas — só o dono vê no YouTube Studio. O que mostramos é verificável; o que ninguém pode verificar, não afirmamos.",
+      "Na prática, um resultado verde significa que o canal passa em todos os requisitos que aparecem nos dados públicos. Além das horas e dos Shorts, também ficam de fora os avisos das diretrizes da comunidade e a análise final feita pelo próprio YouTube — por isso esses itens aparecem como « Não público » no resultado, em vez de um palpite.",
     ],
     faq: [
       {
@@ -165,9 +167,37 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "Por que vocês não mostram um simples sim/não?",
         a: "Porque não dá para verificar publicamente. Um honesto « estes sinais são cumpridos » é mais útil que um sim/não chutado.",
       },
+      {
+        q: "Dá para monetizar com 500 inscritos?",
+        a: "Dá, no nível de apoio dos fãs: 500 inscritos, 3 vídeos públicos nos últimos 90 dias e 3.000 horas de exibição em 12 meses ou 3 milhões de visualizações de Shorts em 90 dias. Esse nível libera o clube de membros e os Supers. A receita de anúncios só chega com 1.000 inscritos.",
+      },
+      {
+        q: "Por que vocês não verificam as horas de exibição?",
+        a: "Porque as horas de exibição e as visualizações de Shorts dos últimos 90 dias só aparecem para o dono do canal, no YouTube Studio. A API pública não mostra esses números para ninguém.",
+      },
+      {
+        q: "Por que o número de inscritos aparece como aproximado?",
+        a: "Acima de 1.000, o YouTube arredonda o número público de inscritos para três dígitos significativos (por exemplo, 12.345 vira 12,3 mil). Abaixo de 1.000 o número é exato — justamente a faixa em que os limites de 500 e 1.000 fazem diferença.",
+      },
+      {
+        q: "Canal para crianças ganha menos?",
+        a: "Normalmente, sim. Conteúdo marcado como para crianças não recebe anúncios personalizados e perde o clube de membros, os Supers e o chat ao vivo, o que costuma reduzir bastante a receita. Quando o canal inteiro está configurado assim, avisamos no resultado.",
+      },
+      {
+        q: "Como saber se um vídeo do YouTube é monetizado?",
+        a: "Cole o link do vídeo aqui: identificamos o canal e verificamos os sinais públicos do Programa de Parcerias. Já se um vídeo específico exibe anúncios não é um dado público, então nenhuma ferramenta consegue confirmar essa parte.",
+      },
+      {
+        q: "Meu canal já pode ser monetizado?",
+        a: "Cole o seu @ e veja quais requisitos públicos você já cumpre. As horas de exibição e as visualizações de Shorts só você vê, no YouTube Studio, na seção Ganhar dinheiro.",
+      },
+      {
+        q: "A ferramenta é grátis?",
+        a: "Sim. É grátis, não pede cadastro e só lê informações públicas do canal pela API oficial de dados do YouTube.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22 de novembro de 2026",
   },
   "/channel-analyzer": {
     title: "Analisar canal do YouTube grátis",
