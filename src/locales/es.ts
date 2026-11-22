@@ -52,6 +52,7 @@ export const content: Record<string, LocalizedToolContent> = {
     meaning: [
       "La búsqueda de comentarios de YouTube es muy limitada — en la mayoría de dispositivos solo puedes hacer scroll. Esta herramienta pide a la API oficial que filtre los comentarios según tus términos: ideal para reencontrar un comentario a medias recordado o reunir citas para una investigación.",
       "Mostramos hasta 100 hilos de comentarios principales por búsqueda. Sin término de búsqueda, « populares » sigue el ranking de YouTube; con término, ordenamos por me gusta. « Más recientes » siempre es cronológico.",
+      "Los hilos de respuestas se cuentan, pero no se despliegan. Además, es YouTube quien decide qué comentarios coinciden con tu búsqueda; si no aparece nada, prueba con otra forma de escribirlo o con una palabra más corta.",
     ],
     faq: [
       {
@@ -66,9 +67,21 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "¿Puedo exportar los comentarios?",
         a: "Sí — en CSV con autor, texto, me gusta, número de respuestas y fecha.",
       },
+      {
+        q: "¿Por qué veo como máximo 100 comentarios?",
+        a: "Cada búsqueda trae una página de hasta 100 hilos principales. En videos con muchísimos comentarios, conviene usar palabras más específicas para dar con lo que buscas dentro de esa página.",
+      },
+      {
+        q: "¿Por qué dice que los comentarios están desactivados?",
+        a: "Si el creador los desactivó, o si el video está marcado como para niños, la API de YouTube no devuelve comentarios. En ese caso te lo decimos tal cual, sin inventar nada.",
+      },
+      {
+        q: "¿Sirve para buscar en el chat de un directo?",
+        a: "No. El chat en vivo no forma parte de los comentarios del video, así que la herramienta no lo incluye. Sí encuentra los comentarios normales que la gente deja debajo de la transmisión.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22 de noviembre de 2026",
   },
   "/thumbnail-tools/thumbnail-downloader": {
     title: "Descargar miniaturas de YouTube HD y 4K",
@@ -150,7 +163,9 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "Desde 2023, YouTube ya no revela públicamente si un canal está monetizado. Los sitios que muestran un « sí/no » están adivinando — por ejemplo, según los anuncios, que también aparecen en videos sin monetizar. Nosotros mostramos qué requisitos visibles (1 000 suscriptores, país del canal, actividad) cumple el canal.",
+      "El Programa de Socios de YouTube (YPP) tiene dos niveles. Al primero, el de apoyo de fans, se llega con 500 suscriptores y 3 videos públicos en los últimos 90 días, más un mínimo de horas de visualización que solo ve el dueño del canal. Con él se activan las membresías del canal y los Supers: Super Chat, Super Stickers y Super Thanks. Los ingresos por anuncios llegan en el segundo nivel, que pide 1,000 suscriptores y 4,000 horas de visualización en 12 meses o 10 millones de vistas de Shorts en 90 días.",
       "Las horas de visualización y las vistas de Shorts de los últimos 90 días son privadas — solo el dueño las ve en YouTube Studio. Lo que mostramos es verificable; lo que nadie puede verificar, no lo afirmamos.",
+      "En la práctica, un resultado en verde significa que el canal cumple todo lo que se puede comprobar con datos públicos. Además de las horas y las vistas de Shorts, tampoco son visibles las advertencias por incumplir los lineamientos de la comunidad ni la revisión final que hace YouTube. Por eso esos puntos aparecen como “No público”: preferimos decirlo claro antes que adivinar.",
     ],
     faq: [
       {
@@ -165,9 +180,41 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "¿Por qué no muestran un simple sí/no?",
         a: "Porque no se puede verificar públicamente. Un honesto « estas señales se cumplen » es más útil que un sí/no adivinado.",
       },
+      {
+        q: "¿Cuántos suscriptores necesito para monetizar?",
+        a: "Depende del tipo de ingresos. Con 500 suscriptores ya puedes activar membresías y Supers, siempre que tengas 3 videos públicos en 90 días y 3,000 horas de visualización en 12 meses o 3 millones de vistas de Shorts en 90 días. Para cobrar por anuncios necesitas 1,000 suscriptores.",
+      },
+      {
+        q: "¿YouTube paga en mi país?",
+        a: "Solo si el país configurado en el canal está entre los que admite el Programa de Socios. Si no lo está, el canal no puede monetizar aunque cumpla todo lo demás. La herramienta revisa el país público del canal y te avisa si no está disponible o si el canal no lo indica.",
+      },
+      {
+        q: "¿Por qué no revisan las horas de visualización?",
+        a: "Porque solo las ve el dueño del canal en YouTube Studio, igual que las vistas de Shorts de los últimos 90 días. La API pública no se las da a nadie.",
+      },
+      {
+        q: "¿Por qué el número de suscriptores sale aproximado?",
+        a: "A partir de 1,000, YouTube redondea el contador público a tres cifras significativas: 12,345 suscriptores se muestran como 12.3 k. Por debajo de 1,000 la cifra es exacta, justo donde importan los umbrales de 500 y 1,000.",
+      },
+      {
+        q: "¿Un canal para niños gana menos?",
+        a: "Por lo general, sí. El contenido marcado como para niños no recibe anuncios personalizados y pierde las membresías, los Supers y el chat en vivo, así que los ingresos suelen bajar bastante. Si todo el canal está configurado así, lo indicamos en el resultado.",
+      },
+      {
+        q: "¿Cómo saber si un video de YouTube está monetizado?",
+        a: "Pega el enlace del video: identificamos su canal y revisamos las señales públicas del Programa de Socios. Si ese video en particular muestra anuncios no es un dato público, así que ninguna herramienta puede confirmarlo.",
+      },
+      {
+        q: "¿Mi canal ya puede monetizar?",
+        a: "Escribe tu @handle y verás qué requisitos públicos ya cumples. Tus horas de visualización y vistas de Shorts solo las ves tú, en la sección de monetización de YouTube Studio.",
+      },
+      {
+        q: "¿La herramienta es gratis?",
+        a: "Sí. No pide cuenta y solo lee información pública del canal a través de la API oficial de datos de YouTube.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22 de noviembre de 2026",
   },
   "/channel-analyzer": {
     title: "Analizar canal de YouTube gratis",
@@ -264,8 +311,16 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "¿Qué zona horaria se usa?",
         a: "Ambas: la de tu navegador y UTC — para citas sin ambigüedad.",
       },
+      {
+        q: "¿Por qué la fecha no coincide con la que yo esperaba?",
+        a: "Casi siempre es por la zona horaria. Un video publicado de noche en un país puede caer en el día siguiente en UTC, o al revés. Por eso mostramos la hora en tu zona local y también en UTC.",
+      },
+      {
+        q: "¿Es gratis?",
+        a: "Sí: gratis, sin registro y con datos oficiales de YouTube.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22 de noviembre de 2026",
   },
 };
