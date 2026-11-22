@@ -264,8 +264,20 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "Quel fuseau horaire est utilisé ?",
         a: "Les deux : celui de votre navigateur et l'UTC — pour des citations sans ambiguïté.",
       },
+      {
+        q: "Comment trouver la date de publication d'un Short ?",
+        a: "Collez simplement le lien du Short : l'outil accepte les liens youtube.com/shorts/ comme ceux des vidéos classiques. C'est souvent le plus rapide, puisque le lecteur Shorts n'affiche pas la date à l'écran.",
+      },
+      {
+        q: "Peut-on voir la date sans passer par un outil ?",
+        a: "En partie. Une fois la description dépliée, YouTube indique généralement le jour de publication, mais ni l'heure ni le fuseau horaire. Pour une citation précise, ou pour départager deux vidéos sorties le même jour, il faut l'horodatage complet.",
+      },
+      {
+        q: "L'outil est-il gratuit ?",
+        a: "Oui. Pas de compte à créer, rien à installer : il interroge directement les données officielles de YouTube.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22 novembre 2026",
   },
 };
