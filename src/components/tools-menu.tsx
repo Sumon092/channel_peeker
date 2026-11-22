@@ -7,7 +7,8 @@ import { ToolIcon } from "./tool-icon";
 
 export interface ToolsMenuGroup {
   name: string;
-  items: { name: string; path: string }[];
+  /** path picks the icon; href is the link target (localized page when one exists). */
+  items: { name: string; path: string; href: string }[];
   soon: number;
 }
 
@@ -47,7 +48,7 @@ export function ToolsMenu({ groups, label = "Tools", comingSoon = "+{n} coming s
               <ul className="mt-2 space-y-1">
                 {group.items.map((t) => (
                   <li key={t.path}>
-                    <Link href={t.path} prefetch={false} className="flex items-center gap-2 py-0.5 hover:text-accent">
+                    <Link href={t.href} prefetch={false} className="flex items-center gap-2 py-0.5 hover:text-accent">
                       <ToolIcon path={t.path} size="xs" />
                       {t.name}
                     </Link>

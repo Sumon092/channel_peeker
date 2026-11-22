@@ -2,17 +2,12 @@
 
 import { Menu } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { localeFromPathname } from "@/lib/i18n";
-import { EN_CHROME } from "@/lib/widget-i18n";
-import { CHROME_STRINGS } from "@/locales/widgets";
+import type { ChromeStrings } from "@/lib/widget-i18n";
 import { Logo } from "./logo";
 import { ToolsMenu, type ToolsMenuGroup } from "./tools-menu";
 
-/** Header markup; client-side so labels can follow the page's locale. */
-export function HeaderClient({ groups }: { groups: ToolsMenuGroup[] }) {
-  const locale = localeFromPathname(usePathname() ?? "/");
-  const c = locale ? CHROME_STRINGS[locale] : EN_CHROME;
+/** Header markup (client for the menu's open state); labels arrive already localized from SiteHeader. */
+export function HeaderClient({ groups, c }: { groups: ToolsMenuGroup[]; c: ChromeStrings }) {
 
   const nav = [
     { href: "/methodology", label: c.methodology },

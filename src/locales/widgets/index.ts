@@ -1,5 +1,5 @@
 import type { Locale } from "@/lib/i18n";
-import type { ChromeStrings, WidgetStrings } from "@/lib/widget-i18n";
+import { EN_CHROME, type ChromeStrings, type WidgetStrings } from "@/lib/widget-i18n";
 import * as de from "./de";
 import * as es from "./es";
 import * as fr from "./fr";
@@ -24,3 +24,8 @@ export const CHROME_STRINGS: Record<Locale, ChromeStrings> = {
   es: es.chrome,
   pt: pt.chrome,
 };
+
+/** Header/footer/shared-chrome strings for a page's locale (null/"en" → English). */
+export function chromeFor(locale: Locale | "en" | null | undefined): ChromeStrings {
+  return locale && locale !== "en" ? CHROME_STRINGS[locale] : EN_CHROME;
+}

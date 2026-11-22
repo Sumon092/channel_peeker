@@ -8,6 +8,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { LANG_TAG, type Locale } from "@/lib/i18n";
 import { gaMeasurementId, site } from "@/lib/site";
+import { chromeFor } from "@/locales/widgets";
 import "@/app/globals.css";
 
 /**
@@ -61,13 +62,13 @@ export function RootShell({ locale, children }: { locale: Locale | "en"; childre
           />
         )}
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-surface focus:px-3 focus:py-2">
-          Skip to content
+          {chromeFor(locale).skipToContent}
         </a>
-        <SiteHeader />
+        <SiteHeader locale={locale} />
         <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
-        <SiteFooter />
+        <SiteFooter locale={locale} />
         {gaMeasurementId && <AnalyticsConsent id={gaMeasurementId} />}
         <JsonLd
           data={[

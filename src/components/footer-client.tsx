@@ -1,17 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { localeFromPathname } from "@/lib/i18n";
 import { site } from "@/lib/site";
-import { EN_CHROME } from "@/lib/widget-i18n";
-import { CHROME_STRINGS } from "@/locales/widgets";
+import type { ChromeStrings } from "@/lib/widget-i18n";
 import { Logo } from "./logo";
 
-/** Footer markup; client-side so labels can follow the page's locale. */
-export function FooterClient({ hubLinks, year }: { hubLinks: { href: string; label: string }[]; year: number }) {
-  const locale = localeFromPathname(usePathname() ?? "/");
-  const c = locale ? CHROME_STRINGS[locale] : EN_CHROME;
+/** Footer markup; labels arrive already localized from SiteFooter. */
+export function FooterClient({ hubLinks, year, c }: { hubLinks: { href: string; label: string }[]; year: number; c: ChromeStrings }) {
 
   const company = [
     { href: "/about", label: c.about },
@@ -40,7 +35,7 @@ export function FooterClient({ hubLinks, year }: { hubLinks: { href: string; lab
       </div>
       <div className="border-t border-ink-border">
         <p className="mx-auto max-w-7xl px-4 py-6 text-xs leading-relaxed text-ink-muted">
-          {c.disclaimer} YouTube is a trademark of Google LLC. © {year} {site.name}.
+          {c.disclaimer} {c.trademark} © {year} {site.name}.
         </p>
       </div>
     </footer>

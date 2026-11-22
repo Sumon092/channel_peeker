@@ -305,4 +305,10 @@ export const chrome: ChromeStrings = {
   dataPolicy: "데이터 정책",
   tagline: "정직한 숫자로 보는 무료 고속 YouTube 분석·SEO 도구.",
   disclaimer: "channelpeeker는 YouTube 크리에이터를 위한 독립 도구입니다. YouTube 및 Google과 제휴하거나 보증·후원을 받지 않습니다.",
+  skipToContent: "본문 바로가기",
+  home: "홈",
+  freeLabel: "무료",
+  useTool: "도구 사용하기",
+  soonLabel: "출시 예정",
+  trademark: "YouTube는 Google LLC의 상표입니다.",
 };

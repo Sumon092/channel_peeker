@@ -8,8 +8,8 @@ export interface Crumb {
   path: string;
 }
 
-export function Breadcrumbs({ items, tone = "light" }: { items: Crumb[]; tone?: "light" | "dark" }) {
-  const all = [{ name: "Home", path: "/" }, ...items];
+export function Breadcrumbs({ items, tone = "light", homeLabel = "Home" }: { items: Crumb[]; tone?: "light" | "dark"; homeLabel?: string }) {
+  const all = [{ name: homeLabel, path: "/" }, ...items];
   const [base, hover, current] =
     tone === "dark" ? ["text-ink-muted", "hover:text-white", "text-white"] : ["text-muted", "hover:text-text", "text-text"];
   return (

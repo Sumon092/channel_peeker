@@ -305,4 +305,10 @@ export const chrome: ChromeStrings = {
   dataPolicy: "データポリシー",
   tagline: "正直な数字で見る、無料で高速なYouTube分析・SEOツール。",
   disclaimer: "channelpeekerはYouTubeクリエイターのための独立したツールです。YouTubeおよびGoogleとは提携しておらず、承認や後援も受けていません。",
+  skipToContent: "本文へスキップ",
+  home: "ホーム",
+  freeLabel: "無料",
+  useTool: "ツールを使う",
+  soonLabel: "近日公開",
+  trademark: "YouTubeはGoogle LLCの商標です。",
 };

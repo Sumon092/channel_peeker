@@ -305,4 +305,10 @@ export const chrome: ChromeStrings = {
   dataPolicy: "Datenrichtlinie",
   tagline: "Kostenlose, schnelle YouTube-Analyse- und SEO-Tools mit ehrlichen Zahlen.",
   disclaimer: "channelpeeker ist ein unabhängiges Tool für YouTube-Creator. Es ist weder mit YouTube noch mit Google verbunden und wird von ihnen weder unterstützt noch gesponsert.",
+  skipToContent: "Zum Inhalt springen",
+  home: "Startseite",
+  freeLabel: "Kostenlos",
+  useTool: "Zum Tool",
+  soonLabel: "Bald verfügbar",
+  trademark: "YouTube ist eine Marke der Google LLC.",
 };

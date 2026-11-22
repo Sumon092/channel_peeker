@@ -271,6 +271,15 @@ export interface ChromeStrings {
   dataPolicy: string;
   tagline: string;
   disclaimer: string;
+  skipToContent: string;
+  /** Breadcrumb root. */
+  home: string;
+  /** Tool-card badges and call to action. */
+  freeLabel: string;
+  useTool: string;
+  soonLabel: string;
+  /** Legal line; meaning must stay exactly "YouTube is a trademark of Google LLC." */
+  trademark: string;
 }
 
 /** BCP 47 tags for Intl APIs (dates, numbers, region names). */
@@ -573,4 +582,10 @@ export const EN_CHROME: ChromeStrings = {
   dataPolicy: "Data policy",
   tagline: "Free, fast YouTube analytics and SEO tools with honest numbers.",
   disclaimer: "channelpeeker is an independent tool for YouTube creators. It is not affiliated with, endorsed by or sponsored by YouTube or Google.",
+  skipToContent: "Skip to content",
+  home: "Home",
+  freeLabel: "Free",
+  useTool: "Use tool",
+  soonLabel: "Coming soon",
+  trademark: "YouTube is a trademark of Google LLC.",
 };

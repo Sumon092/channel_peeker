@@ -2,9 +2,10 @@ import { ArrowRight, Check, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Locale, ToolPageLabels } from "@/lib/i18n";
+import { hubName, toolName } from "@/lib/catalog";
 import { absoluteUrl, site } from "@/lib/site";
 import { getHub, getTool, type Tool } from "@/lib/tools";
-import { WIDGET_STRINGS } from "@/locales/widgets";
+import { chromeFor, WIDGET_STRINGS } from "@/locales/widgets";
 import { Breadcrumbs, type Crumb } from "./breadcrumbs";
 import { I18nProvider } from "./i18n-provider";
 import { JsonLd } from "./json-ld";
@@ -56,9 +57,11 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
   const hub = getHub(tool.hub);
   const L = i18n?.labels;
   const pagePath = i18n?.path ?? tool.path;
+  const locale = i18n?.lang;
+  const name = toolName(tool, locale);
   const crumbs: Crumb[] = [{ name: L?.breadcrumbTools ?? "Tools", path: "/tools" }];
-  if (hub.path && hub.path !== tool.path) crumbs.push({ name: hub.name, path: hub.path });
-  crumbs.push({ name: tool.name, path: pagePath });
+  if (hub.path && hub.path !== tool.path) crumbs.push({ name: hubName(tool.hub, locale), path: hub.path });
+  crumbs.push({ name, path: pagePath });
 
   const relatedTools = related.map(getTool);
 
@@ -67,7 +70,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
       <section className="hero-surface border-b border-border">
         <div className="mx-auto max-w-4xl px-4 pb-16 pt-8 sm:px-6">
           <div className="flex justify-center">
-            <Breadcrumbs items={crumbs} />
+            <Breadcrumbs items={crumbs} homeLabel={chromeFor(locale).home} />
           </div>
           <div className="mt-10 text-center">
             <p className="inline-flex items-center gap-2 rounded-full bg-surface-2 px-3 py-1.5 text-sm font-medium">
@@ -100,7 +103,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-        <SectionHeading eyebrow={L?.stepByStep ?? "Step by step"} title={L?.howToHeading(tool.name) ?? `How to use the ${tool.name}`} align="center" />
+        <SectionHeading eyebrow={L?.stepByStep ?? "Step by step"} title={L?.howToHeading(name) ?? `How to use the ${tool.name}`} align="center" />
         <ol className={`mt-12 grid gap-5 ${howTo.length >= 4 ? "md:grid-cols-4" : "md:grid-cols-3"}`}>
           {howTo.map((step, i) => (
             <li key={step} className="rounded-2xl border border-border bg-surface p-6">
@@ -149,7 +152,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
               </Link>
             </div>
             <div className="mt-10">
-              <ToolGrid tools={relatedTools} />
+              <ToolGrid tools={relatedTools} locale={locale} />
             </div>
           </div>
         </section>
@@ -160,7 +163,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
           {
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            name: `${tool.name} for YouTube`,
+            name: i18n ? name : `${tool.name} for YouTube`,
             url: absoluteUrl(pagePath),
             description: i18n ? intro : tool.summary,
             applicationCategory: "MultimediaApplication",
