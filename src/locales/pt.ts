@@ -52,6 +52,7 @@ export const content: Record<string, LocalizedToolContent> = {
     meaning: [
       "A busca de comentários do YouTube é muito limitada — na maioria dos aparelhos só dá para rolar a tela. Esta ferramenta pede à API oficial que filtre os comentários pelos seus termos: ideal para reencontrar um comentário meio lembrado ou reunir citações para pesquisa.",
       "Mostramos até 100 threads de comentários principais por busca. Sem termo de busca, « populares » segue o ranking do próprio YouTube; com termo, ordenamos por curtidas. « Mais recentes » é sempre cronológico.",
+      "As respostas entram na contagem de cada conversa, mas não são abertas. E quem decide quais comentários batem com a sua busca é o próprio YouTube — se nada aparecer, vale tentar outra grafia ou uma palavra mais curta.",
     ],
     faq: [
       {
@@ -66,9 +67,21 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "Posso exportar os comentários?",
         a: "Sim — em CSV com autor, texto, curtidas, número de respostas e data.",
       },
+      {
+        q: "Por que aparecem no máximo 100 comentários?",
+        a: "Cada busca traz uma página com até 100 conversas principais. Em vídeos com muitos comentários, use termos mais específicos para achar o que procura dentro dessa página.",
+      },
+      {
+        q: "Por que diz que os comentários estão desativados?",
+        a: "Quando o criador desativa os comentários, ou o vídeo é marcado como conteúdo para crianças, a API do YouTube não devolve nenhum comentário. A gente avisa isso em vez de chutar.",
+      },
+      {
+        q: "Dá para buscar comentários pelo celular?",
+        a: "Dá, direto no navegador do celular, sem baixar app nem fazer login. Copie o link no botão Compartilhar do app do YouTube e cole aqui.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22 de novembro de 2026",
   },
   "/thumbnail-tools/thumbnail-downloader": {
     title: "Baixar thumbnail do YouTube em HD e 4K",
@@ -294,8 +307,16 @@ export const content: Record<string, LocalizedToolContent> = {
         q: "Qual fuso horário é usado?",
         a: "Os dois: o do seu navegador e o UTC — para citações sem ambiguidade.",
       },
+      {
+        q: "Dá para ver a data exata pelo app do YouTube?",
+        a: "Só em parte. Abrindo a descrição, o app costuma mostrar o dia da publicação, mas não o horário nem o fuso. Quando você precisa da hora certa, para uma citação ou para saber qual vídeo saiu primeiro no mesmo dia, cole o link aqui.",
+      },
+      {
+        q: "A ferramenta é grátis?",
+        a: "É, sim: grátis, sem cadastro e com dados oficiais do YouTube.",
+      },
     ],
     dataBadge: API_BADGE,
-    updated: UPDATED,
+    updated: "22 de novembro de 2026",
   },
 };
