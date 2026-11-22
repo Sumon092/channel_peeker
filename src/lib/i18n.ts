@@ -4,6 +4,8 @@
  * shared modules, so a fix to a tool automatically applies to every locale.
  */
 
+import { absoluteUrl } from "./site";
+
 export const LOCALES = ["de", "ja", "fr", "ko", "es", "pt"] as const;
 export type Locale = (typeof LOCALES)[number];
 
@@ -27,10 +29,28 @@ export function localeFromPathname(pathname: string): Locale | null {
   return (LOCALES as readonly string[]).includes(first) ? (first as Locale) : null;
 }
 
-/** hreflang map for a tool that exists in all locales (plus x-default → English). */
+/** BCP 47 language tag per site locale, used for hreflang and <html lang>. Portuguese copy is Brazilian. */
+export const LANG_TAG: Record<Locale | "en", string> = {
+  en: "en",
+  de: "de",
+  ja: "ja",
+  fr: "fr",
+  ko: "ko",
+  es: "es",
+  pt: "pt-BR",
+};
+
+export const isLocalizedTool = (enPath: string) => (LOCALIZED_TOOLS as readonly string[]).includes(enPath);
+
+/**
+ * Absolute hreflang map for a localized tool: every language version plus x-default → English.
+ * Throws for untranslated paths so no page can ever point at alternates that don't exist.
+ */
 export function hreflangFor(enPath: string): Record<string, string> {
-  const map: Record<string, string> = { en: enPath, "x-default": enPath };
-  for (const l of LOCALES) map[l] = localePath(l, enPath);
+  if (!isLocalizedTool(enPath)) throw new Error(`hreflangFor: ${enPath} has no localized versions`);
+  const map: Record<string, string> = { [LANG_TAG.en]: absoluteUrl(enPath) };
+  for (const l of LOCALES) map[LANG_TAG[l]] = absoluteUrl(localePath(l, enPath));
+  map["x-default"] = absoluteUrl(enPath);
   return map;
 }
 
