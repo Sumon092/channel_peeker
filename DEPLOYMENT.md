@@ -4,7 +4,7 @@ How to take channelpeeker from a green local build to production, and what to ve
 
 ## 1. Pre-deploy validation (every release)
 
-Run from the repo root; all four must pass before deploying:
+All four must pass before a release goes live:
 
 ```bash
 npx tsc --noEmit   # type check
@@ -12,6 +12,8 @@ npm run lint       # eslint
 npm test           # vitest (unit tests)
 npm run build      # production build (also prerenders all pages)
 ```
+
+`deploy.sh` runs them automatically inside each new release folder and refuses to switch if any fails. During development run them in a separate git worktree or on another machine — **never in `/var/www/html/channel_peeker` on the server** (see §4 and CLAUDE.md).
 
 ## 2. Environment variables
 
@@ -38,7 +40,7 @@ Copy `.env.example` and fill it in on the host. Summary of what matters in produ
   proxy_set_header X-Real-IP $remote_addr;
   ```
 
-- **Process manager** (systemd / pm2) running `npm run start` (defaults to port 3000; pass `-p` to change), restart-on-crash enabled.
+- **Process manager:** pm2 app `channelpeeker`, cluster mode with 1 instance, running `next start -p 4010 -H 127.0.0.1` from `/var/www/html/channel_peeker-releases/current`. `deploy.sh` creates and reloads it; don't start it by hand. Cluster mode is what makes `pm2 reload` graceful (the new process is up before the old one stops).
 - **Cache icon routes at the proxy.** Next serves `/icon.svg`, `/favicon.ico`, `/apple-icon` and `/opengraph-image` with `max-age=0`; they only change on redeploy, so add e.g. nginx:
 
   ```nginx
@@ -51,15 +53,57 @@ Copy `.env.example` and fill it in on the host. Summary of what matters in produ
 - HTTPS terminated at the proxy; HTTP → HTTPS redirect.
 - No database and no file storage — the app is stateless apart from the KV cache, so there is nothing to back up.
 
-## 4. Deploy steps
+## 4. Deploy and rollback
 
-1. `git pull` the release commit.
-2. `npm ci`
-3. Run the §1 validation block.
-4. `npm run build`
-5. Restart the service (`systemctl restart …` / `pm2 reload …`).
+Deploys go through **`deploy.sh` only**. Never run `npm ci`, `npm run build` or tests in the git checkout on the server: the old in-place deploy rebuilt `.next` under the running server and broke live JS for visitors until restart.
 
-Zero-downtime isn't critical at current traffic; a restart drops in-flight requests for a second or two.
+### How it works
+
+```
+/var/www/html/channel_peeker                    git checkout: source of deploys, nothing runs from here
+/var/www/html/channel_peeker-releases/
+  releases/20261122-181912-9c567db/             one full app per release (clone + .env + node_modules + .next)
+  current  -> releases/<id>                     what pm2 serves
+  previous -> releases/<id>                     rollback target
+```
+
+`./deploy.sh [ref]` (default `main`):
+
+1. Clones `<ref>` from the checkout into a new release folder (full git history, which the sitemap's lastmod needs) and copies `.env` from the checkout.
+2. `npm ci`, type check, lint, tests, build — in the release folder. Any failure deletes the release and stops; the live site is untouched.
+3. Smoke-tests the new build on port 4011 (`/`, two localized pages, sitemap, robots, a 404).
+4. Swaps the `current` symlink atomically (old `current` becomes `previous`) and runs `pm2 reload channelpeeker`.
+5. Health-checks port 4010 and confirms the server is serving the new release. If not, it rolls back automatically.
+6. Deletes old releases, keeping the newest 3 (plus `current` and `previous`).
+
+### Deploy
+
+```bash
+cd /var/www/html/channel_peeker
+git pull                 # if deploying what's on GitHub; deploy.sh deploys the checkout's local ref
+./deploy.sh              # deploys main; or ./deploy.sh <branch|tag|sha>
+```
+
+Takes 2–4 minutes, almost all of it before the switch.
+
+### Rollback (instant, no build)
+
+```bash
+/var/www/html/channel_peeker/deploy.sh rollback
+```
+
+Switches `current` back to `previous` and reloads (about 2 seconds). Running it again rolls forward. To go to any older release still on disk: `./deploy.sh status`, then `./deploy.sh switch <release>`.
+
+### Other commands
+
+- `./deploy.sh status` — current/previous release, all releases, pm2 state.
+- `./deploy.sh --build-only [ref]` — build and verify a release without going live; later `./deploy.sh switch <release>`.
+
+### First run on a server
+
+The very first `./deploy.sh` replaces the old fork-mode `npm start` process with the cluster-mode one, which means **a few seconds of downtime once**; it then runs `pm2 save` so the setup survives reboots. Every later deploy and rollback is a graceful reload. To have an instant rollback target from the first deploy on, build the currently live commit first with `./deploy.sh --build-only <sha>`: the first real deploy then uses it as `previous`.
+
+The old `.next` and `node_modules` in the checkout are unused after the first run and can be deleted.
 
 ## 5. Post-deploy smoke checks
 
@@ -70,7 +114,8 @@ curl -s -o /dev/null -w "%{http_code}\n" $BASE/comment-picker          # 200
 curl -s -o /dev/null -w "%{http_code}\n" $BASE/de/comment-picker       # 200 (localized page)
 curl -s $BASE/sitemap.xml | grep -c "<loc>"                            # 110+
 curl -s $BASE/robots.txt | head -3
-curl -s $BASE/comment-picker | grep -c 'hreflang'                      # ≥ 8 (6 locales + en + x-default)
+curl -s $BASE/comment-picker | grep -o 'hrefLang=' | wc -l           # 8 (en, de, ja, fr, ko, es, pt-BR, x-default)
+curl -s $BASE/pt/comment-picker | grep -o '<html lang="[^"]*"'         # <html lang="pt-BR"
 ```
 
 Then in a browser:
@@ -84,7 +129,7 @@ Then in a browser:
 - **Quota ceiling is the first thing that breaks under success.** 9,000 YouTube units/day. A viral Comment Picker moment can exhaust it by midday; after that, API tools show their honest error state until the quota resets (midnight Pacific). If usage grows, request a quota increase in Google Cloud Console with real usage data.
 - **Monitoring:** add an uptime ping (e.g. UptimeRobot, free) against `/` and one tool page. Check host logs after each deploy.
 - **Cache behavior:** YouTube responses are cached in KV (15 min – 12 h depending on endpoint). A stale result self-heals; no manual cache flushing is needed or supported.
-- **Key rotation:** both API keys are plain env vars — rotate by updating the env and restarting.
+- **Key rotation / env changes:** edit `/var/www/html/channel_peeker/.env`, then run `./deploy.sh`. Each release gets its own copy of `.env` at build time, so a restart alone does not pick up changes (and a rollback restores that release's env).
 
 ## 7. Deferred switches (do not flip early)
 
