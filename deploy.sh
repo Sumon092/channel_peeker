@@ -101,7 +101,7 @@ build_release() {
   (
     cd "$dir" &&
       log "npm ci" && npm ci --no-audit --no-fund --prefer-offline &&
-      log "Type check" && npx tsc --noEmit &&
+      log "Type check" && npx next typegen && npx tsc --noEmit &&  # typegen: route types (LayoutProps, PageProps) a fresh clone lacks
       log "Lint" && npm run lint &&
       log "Tests" && npm test &&
       log "Build" && npm run build
