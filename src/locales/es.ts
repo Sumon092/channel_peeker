@@ -1,6 +1,6 @@
 import type { LocalizedToolContent } from "@/lib/i18n";
 
-const UPDATED = "7 de noviembre de 2026";
+const UPDATED = "22 de noviembre de 2026";
 const API_BADGE = "Datos oficiales de YouTube";
 
 export const content: Record<string, LocalizedToolContent> = {
@@ -19,6 +19,7 @@ export const content: Record<string, LocalizedToolContent> = {
     meaning: [
       "Los sorteos en comentarios premian a tu audiencia real, pero elegir mientras haces scroll no es aleatorio ni demostrable. Esta herramienta carga los comentarios con la API oficial de YouTube y sortea con aleatoriedad criptográfica directamente en tu navegador — no podríamos favorecer a nadie aunque quisiéramos.",
       "Límites honestos: el sorteo usa los 500 comentarios principales más recientes (las respuestas no cuentan como participaciones), y ninguna herramienta puede verificar quién está suscrito — YouTube no publica esa información. Verifica las condiciones de suscripción manualmente antes de anunciar.",
+      "Y si prefieres leer los comentarios o buscar uno en concreto en lugar de sortear, usa nuestro buscador de comentarios.",
     ],
     faq: [
       {
@@ -32,6 +33,18 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "¿Puede verificar que el ganador está suscrito?",
         a: "No — ninguna herramienta puede. YouTube no hace públicas las suscripciones. Verifica esa condición manualmente antes de anunciar al ganador.",
+      },
+      {
+        q: "¿Cuántos comentarios carga?",
+        a: "Hasta los 500 comentarios principales más recientes. En sorteos grandes conviene pedir una palabra clave obligatoria para que todas las participaciones reales entren, o sortear apenas cierre la convocatoria.",
+      },
+      {
+        q: "¿Puedo elegir varios ganadores?",
+        a: "Sí, hasta 5 a la vez y sin repetir ganador. Además te damos un texto listo para copiar y anunciar el resultado.",
+      },
+      {
+        q: "¿Puedo volver a sortear si el ganador no responde?",
+        a: "Claro. Toca “Sortear de nuevo” y sale otro ganador al instante, sin volver a cargar los comentarios.",
       },
     ],
     dataBadge: API_BADGE,
@@ -81,7 +94,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22 de noviembre de 2026",
+    updated: UPDATED,
   },
   "/thumbnail-tools/thumbnail-downloader": {
     title: "Descargar miniaturas de YouTube HD y 4K",
@@ -97,6 +110,7 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "YouTube guarda varias resoluciones de miniatura por video — desde la vista previa pequeña de búsqueda hasta « maxres » en 1280×720, y a veces mucho más. Listamos cada versión con enlace directo, obtenida de la API oficial.",
+      "Los tamaños cambian según el video, porque solo mostramos los que existen de verdad. Desde 2026, YouTube ofrece versiones en 1080p, 1440p y 4K para algunos videos. La mayoría de los creadores sube su miniatura en HD: es la versión de “resolución máxima”, de 1280×720, que puede faltar en videos antiguos o de baja calidad. También hay copias más chicas, las que YouTube usa en el inicio, la búsqueda y los videos insertados.",
       "Útil para referencias de diseño, archivar tus propios videos o investigar a la competencia. La imagen sigue siendo propiedad del canal — descárgala como referencia, no para tu propio branding.",
     ],
     faq: [
@@ -111,6 +125,22 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "¿Es legal?",
         a: "Las URL son públicas — YouTube las sirve a cada visitante. Los derechos son del creador; usa las descargas como referencia y archivo.",
+      },
+      {
+        q: "¿Por qué no aparece la miniatura en HD?",
+        a: "YouTube solo genera la versión de 1280×720 si el video o la miniatura personalizada se subieron en HD. Los videos antiguos o de baja resolución solo tienen tamaños más chicos.",
+      },
+      {
+        q: "¿Se pueden descargar miniaturas en 4K?",
+        a: "Sí, cuando YouTube las tiene. Desde 2026 algunos videos cuentan con miniaturas en 1080p, 1440p y 4K, y las mostramos automáticamente si existen.",
+      },
+      {
+        q: "¿Funciona con Shorts?",
+        a: "Sí. Pega un enlace youtube.com/shorts/ y tendrás la miniatura del Short en todos los tamaños disponibles.",
+      },
+      {
+        q: "¿Puedo descargar miniaturas de varios videos a la vez?",
+        a: "Sí. Cambia al modo “En lote”, pega hasta 20 enlaces y exporta todos los enlaces de imagen en un CSV.",
       },
     ],
     dataBadge: API_BADGE,
@@ -144,6 +174,10 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "¿Por qué un canal no tiene banner?",
         a: "No todos los canales lo configuran. Sin banner, la API no devuelve URL — y lo decimos honestamente en vez de adivinar.",
+      },
+      {
+        q: "¿Es legal?",
+        a: "Las URL de las imágenes son públicas: YouTube se las entrega a cualquier visitante. Pero el diseño sigue siendo del creador. Úsalo como referencia o para archivar, no como identidad visual de tu propio canal.",
       },
     ],
     dataBadge: API_BADGE,
@@ -214,7 +248,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22 de noviembre de 2026",
+    updated: UPDATED,
   },
   "/channel-analyzer": {
     title: "Analizar canal de YouTube gratis",
@@ -230,7 +264,9 @@ export const content: Record<string, LocalizedToolContent> = {
     ],
     meaning: [
       "El informe combina datos reales de YouTube (suscriptores, vistas, número de videos, antigüedad del canal) con análisis de channelpeeker como la frecuencia de subida y los top videos recientes. Todo lo que calculamos está marcado como estimación.",
+      "El análisis toma las 50 subidas públicas más recientes. “Subidas (90 días)” cuenta cuántas salieron en los últimos tres meses, una forma rápida de saber si el canal sigue activo. La gráfica “Vistas por subida” las muestra en orden, así que los videos que se dispararon y las rachas flojas se ven enseguida.",
       "Ten en cuenta: YouTube redondea los suscriptores públicos a tres cifras significativas — por eso el signo ≈. Las vistas sí son exactas.",
+      "El tiempo de visualización, las impresiones y el CTR son privados: solo los ve el dueño del canal. Ninguna herramienta externa puede mostrarlos para un canal ajeno.",
     ],
     faq: [
       {
@@ -244,6 +280,22 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "¿Puedo compartir el informe?",
         a: "Sí — cada informe tiene su propio enlace para enviar a tus comunidades, patrocinadores o tu equipo.",
+      },
+      {
+        q: "¿El analizador de canales es gratis?",
+        a: "Sí. No necesitas cuenta ni extensión, y solo lee datos públicos de la API oficial de YouTube.",
+      },
+      {
+        q: "¿Cuántos videos analiza?",
+        a: "Las 50 subidas públicas más recientes. Alcanza para ver el ritmo y el rendimiento actuales sin revisar toda la historia del canal.",
+      },
+      {
+        q: "¿Por qué no muestran tiempo de visualización ni CTR?",
+        a: "Porque YouTube solo se los muestra al dueño del canal. Las herramientas que dicen enseñarlos para canales ajenos están adivinando.",
+      },
+      {
+        q: "¿Los números son en tiempo real?",
+        a: "Casi. Guardamos los resultados en caché por poco tiempo para que todo cargue rápido y no agotar la cuota de la API. Cada informe indica exactamente cuándo se obtuvieron los datos.",
       },
     ],
     dataBadge: API_BADGE,
@@ -277,6 +329,10 @@ export const content: Record<string, LocalizedToolContent> = {
       {
         q: "¿Los Shorts cuentan para las 4 000 horas?",
         a: "No — el tiempo visto en el feed de Shorts no cuenta. Los Shorts tienen su propia vía de monetización: 10 millones de vistas públicas en 90 días.",
+      },
+      {
+        q: "¿Dónde encuentro mi duración media de visualización?",
+        a: "En YouTube Studio, en Estadísticas → Interacción, tanto por video como para todo el canal.",
       },
     ],
     dataBadge: "Cálculo transparente",
@@ -321,6 +377,6 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: API_BADGE,
-    updated: "22 de noviembre de 2026",
+    updated: UPDATED,
   },
 };
