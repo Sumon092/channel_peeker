@@ -1,46 +1,16 @@
-import { LocalizedSections } from "@/components/localized-sections";
-import { ToolPage } from "@/components/tool-page";
-import { hreflangFor, LABELS, localePath } from "@/lib/i18n";
-import { pageMetadata } from "@/lib/seo";
-import { getTool } from "@/lib/tools";
-import { content } from "@/locales/pt";
 import { WatchTimeCalculator } from "@/app/(en)/watch-time-calculator/watch-time-calculator";
+import { LocalizedToolPage, localizedMetadata } from "@/components/localized-tool-page";
+import { content } from "@/locales/pages/pt/watch-time-calculator";
 
 const EN_PATH = "/watch-time-calculator";
 const LOCALE = "pt" as const;
-const c = content[EN_PATH];
-const tool = getTool(EN_PATH);
 
-export const metadata = pageMetadata({
-  title: c.title,
-  description: c.description,
-  path: localePath(LOCALE, EN_PATH),
-  languages: hreflangFor(EN_PATH),
-});
+export const metadata = localizedMetadata(LOCALE, EN_PATH, content);
 
 export default function Page() {
   return (
-    <ToolPage
-      tool={tool}
-      heading={c.heading}
-      highlight={c.highlight}
-      intro={c.intro}
-      updated={c.updated}
-      howTo={c.howTo}
-      meaning={
-        <>
-          {c.meaning.map((p) => (
-            <p key={p.slice(0, 24)}>{p}</p>
-          ))}
-          <LocalizedSections sections={c.sections} />
-        </>
-      }
-      faq={c.faq}
-      dataBadge={c.dataBadge}
-      related={["/monetization-checker","/channel-analyzer","/revenue-calculator"]}
-      i18n={{ lang: LOCALE, labels: LABELS[LOCALE], path: localePath(LOCALE, EN_PATH) }}
-    >
+    <LocalizedToolPage locale={LOCALE} enPath={EN_PATH} content={content} related={["/monetization-checker", "/channel-analyzer", "/revenue-calculator"]}>
       <WatchTimeCalculator />
-    </ToolPage>
+    </LocalizedToolPage>
   );
 }
