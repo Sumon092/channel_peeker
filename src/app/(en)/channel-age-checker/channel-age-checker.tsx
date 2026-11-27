@@ -34,7 +34,11 @@ function useAgeStrings() {
   return { intl, w, a: w.channelAge ?? EN_WIDGETS.channelAge! };
 }
 
-const compact = (n: number, intl: string) => new Intl.NumberFormat(intl, { notation: "compact", maximumFractionDigits: 1 }).format(n);
+/** "95.9K" / "9.6万"; in languages that don't shorten thousands (German "95.884") a whole number, never "95.883,7". */
+function compact(n: number, intl: string): string {
+  const short = new Intl.NumberFormat(intl, { notation: "compact", maximumFractionDigits: 1 }).format(n);
+  return /\p{L}/u.test(short) ? short : new Intl.NumberFormat(intl, { maximumFractionDigits: 0 }).format(n);
+}
 const whole = (n: number, intl: string) => new Intl.NumberFormat(intl).format(n);
 
 /** Share link query: the handle when there is one (kept readable, "@" unescaped), else the channel ID. */
