@@ -43,7 +43,7 @@ export const content: Record<string, LocalizedToolContent> = {
         a: "네, 한 번에 최대 5명까지 중복 없이 뽑을 수 있고, 바로 복사해 쓸 수 있는 발표 문구도 함께 드립니다.",
       },
       {
-        q: "쇼츠 댓글로도 추첨할 수 있나요?",
+        q: "Shorts 댓글로도 추첨할 수 있나요?",
         a: "네. youtube.com/shorts/ 링크를 붙여넣으면 일반 영상과 똑같이 댓글을 불러와 추첨합니다.",
       },
     ],
@@ -58,7 +58,7 @@ export const content: Record<string, LocalizedToolContent> = {
     highlight: "댓글 검색기",
     intro: "영상 댓글을 검색하세요 — 특정 댓글, 특정 단어가 언급된 모든 댓글, 인기 영상에 남긴 내 댓글까지 찾을 수 있습니다.",
     howTo: [
-      "영상 또는 쇼츠 링크를 붙여넣습니다.",
+      "영상 또는 Shorts 링크를 붙여넣습니다.",
       "필요하면 검색할 단어·이름·문구를 입력합니다.",
       "인기순·최신순으로 결과를 확인하고 CSV로 다운로드하세요.",
     ],
@@ -104,7 +104,7 @@ export const content: Record<string, LocalizedToolContent> = {
     highlight: "썸네일 다운로더",
     intro: "어떤 영상이든 YouTube가 제공하는 모든 크기의 썸네일을 받으세요 — SD부터 새로운 4K 버전까지.",
     howTo: [
-      "영상 또는 쇼츠 링크를 붙여넣습니다.",
+      "영상 또는 Shorts 링크를 붙여넣습니다.",
       "공식 API에서 사용 가능한 모든 썸네일 크기를 읽어옵니다.",
       "원하는 크기를 열어 이미지를 저장하세요.",
     ],
@@ -135,8 +135,8 @@ export const content: Record<string, LocalizedToolContent> = {
         a: "YouTube에 있다면 가능합니다. 2026년부터 일부 영상에 1080p, 1440p, 4K 썸네일이 제공되며, 있으면 목록에 자동으로 나타납니다.",
       },
       {
-        q: "쇼츠 썸네일도 되나요?",
-        a: "네. youtube.com/shorts/ 링크를 넣으면 쇼츠 썸네일을 가능한 모든 크기로 받을 수 있습니다.",
+        q: "Shorts 썸네일도 되나요?",
+        a: "네. youtube.com/shorts/ 링크를 넣으면 Shorts 썸네일을 가능한 모든 크기로 받을 수 있습니다.",
       },
       {
         q: "여러 영상의 썸네일을 한 번에 받을 수 있나요?",
@@ -246,7 +246,7 @@ export const content: Record<string, LocalizedToolContent> = {
     highlight: "업로드 날짜 체커",
     intro: "유튜브는 '2년 전'이라고만 보여줍니다 — 여기서는 게시된 정확한 날짜와 시각을 분 단위로 확인할 수 있습니다.",
     howTo: [
-      "영상 또는 쇼츠 링크를 붙여넣습니다.",
+      "영상 또는 Shorts 링크를 붙여넣습니다.",
       "공식 YouTube API에서 정확한 게시 타임스탬프를 읽어옵니다.",
       "결과를 복사하세요 — 내 시간대와 UTC 모두 표시됩니다.",
     ],
@@ -268,8 +268,8 @@ export const content: Record<string, LocalizedToolContent> = {
         a: "둘 다입니다: 브라우저의 로컬 시간대와 UTC — 인용할 때 혼동이 없습니다.",
       },
       {
-        q: "쇼츠 업로드 날짜도 확인되나요?",
-        a: "네. youtube.com/shorts/ 링크를 그대로 붙여넣으면 일반 영상과 똑같이 정확한 게시 시각이 나옵니다. 쇼츠 화면에는 날짜가 바로 보이지 않아서 특히 유용합니다.",
+        q: "Shorts 업로드 날짜도 확인되나요?",
+        a: "네. youtube.com/shorts/ 링크를 그대로 붙여넣으면 일반 영상과 똑같이 정확한 게시 시각이 나옵니다. Shorts 화면에는 날짜가 바로 보이지 않아서 특히 유용합니다.",
       },
       {
         q: "무료인가요?",

@@ -203,7 +203,7 @@ export const content: LocalizedPageContent = {
         { p: "Sobald dein Kanal die Voraussetzungen erfüllt, bewirbst du dich in YouTube Studio. Das ist kostenlos und dauert ein paar Minuten." },
         {
           ol: [
-            "Aktiviere die Zwei-Faktor-Authentifizierung für dein Google-Konto. YouTube verlangt das.",
+            "Aktiviere die Zwei-Faktor-Authentifizierung (Bestätigung in zwei Schritten) für dein Google-Konto. YouTube verlangt das.",
             "Öffne YouTube Studio und wähle im Menü links „Einnahmen“.",
             "Klicke auf „Jetzt bewerben“, lies die Bedingungen des Partnerprogramms und akzeptiere sie.",
             "Richte ein AdSense für YouTube-Konto ein oder verknüpfe ein vorhandenes. Darüber zahlt YouTube dich aus.",
