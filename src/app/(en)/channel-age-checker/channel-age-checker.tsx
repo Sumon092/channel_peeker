@@ -1,12 +1,13 @@
 "use client";
 
+import { ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { useEffect } from "react";
 import { CopyButton } from "@/components/ui/copy-button";
 import { ErrorBox, FetchedAt, Skeleton } from "@/components/ui/status";
 import { ToolInput } from "@/components/ui/tool-input";
 import { useToolRequest } from "@/components/ui/use-tool-request";
-import { averageViewsPerVideo, channelAge, formatAge, subscribersPerMonth } from "@/lib/channel-age";
+import { averageViewsPerVideo, channelAge, formatAge, isPlaceholderDate, subscribersPerMonth, totalDays } from "@/lib/channel-age";
 import { formatCompact, formatNumber, formatSubscribers } from "@/lib/format";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
@@ -86,13 +87,21 @@ function ResultCard({ channel: c, fetchedAt }: Result) {
   const dateText = UTC_DATE.format(created);
   const timeText = `${UTC_TIME.format(created)} UTC`;
   const now = new Date();
+  // YouTube returns 1970-01-01 for some channels (e.g. @YouTube): never turn that into an age.
+  const unknownDate = isPlaceholderDate(created);
   const age = formatAge(channelAge(created, now));
-  const perMonth = subscribersPerMonth(c.subscribers, c.subscribersHidden, created, now);
+  const days = totalDays(created, now);
+  const daysText = `${formatNumber(days)} ${days === 1 ? "day" : "days"}`;
+  const perMonth = unknownDate ? null : subscribersPerMonth(c.subscribers, c.subscribersHidden, created, now);
+  const perMonthText = unknownDate ? "Not available" : perMonth === null ? "Hidden by creator" : `≈ ${formatCompact(perMonth)}`;
+  const resultText = unknownDate
+    ? `${c.title}: creation date not public.`
+    : `${c.title} was created on ${dateText} at ${timeText} (${age} ago, or ${daysText}).`;
   const perVideo = averageViewsPerVideo(c.views, c.videoCount);
   const averages = [
     {
       label: "Subscribers per month",
-      value: perMonth === null ? "Hidden by creator" : `≈ ${formatCompact(perMonth)}`,
+      value: perMonthText,
       muted: perMonth === null,
     },
     { label: "Average views per video", value: perVideo === null ? "No public videos" : formatCompact(perVideo), muted: perVideo === null },
@@ -118,11 +127,23 @@ function ResultCard({ channel: c, fetchedAt }: Result) {
       </div>
 
       <div className="mt-4 rounded-xl bg-surface-2 p-5 text-center">
-        <p className="text-sm text-muted">This channel is</p>
-        <p className="mt-1 text-3xl font-black tabular-nums tracking-tight">{age} old</p>
-        <p className="mt-1 text-sm text-muted">
-          Created on {dateText} at {timeText}
-        </p>
+        {unknownDate ? (
+          <>
+            <p className="text-3xl font-black tracking-tight">Creation date not public</p>
+            <p className="mt-1 text-sm text-muted">
+              YouTube doesn&apos;t give a real creation date for this channel, so its age can&apos;t be worked out.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-sm text-muted">This channel is</p>
+            <p className="mt-1 text-3xl font-black tabular-nums tracking-tight">{age} old</p>
+            <p className="mt-1 text-base font-semibold tabular-nums text-muted">{daysText} in total</p>
+            <p className="mt-1 text-sm text-muted">
+              Created on {dateText} at {timeText}
+            </p>
+          </>
+        )}
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
@@ -159,8 +180,17 @@ function ResultCard({ channel: c, fetchedAt }: Result) {
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-2">
-          <CopyButton text={`${c.title} was created on ${dateText} at ${timeText} (${age} ago).`} label="Copy result" />
+          <CopyButton text={resultText} label="Copy result" />
           <CopyButton text={shareUrl} label="Copy link" ariaLabel="Copy link to this result" />
+          <a
+            href={`https://www.youtube.com/channel/${c.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open on YouTube (opens in a new tab)"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3.5 py-2 text-sm font-medium transition hover:border-accent"
+          >
+            Open on YouTube <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+          </a>
         </div>
         <FetchedAt iso={fetchedAt} />
       </div>

@@ -260,6 +260,7 @@ export const widgets: WidgetStrings = {
     submit: "Analyser",
     copyShare: "Copier le lien de partage",
     joined: "Créée en {year}",
+    creationDateNotPublic: "Date de création non publique",
     noHandle: "Pas de pseudo",
     hiddenByCreator: "Masqué par le créateur",
     statSubscribers: "Abonnés",

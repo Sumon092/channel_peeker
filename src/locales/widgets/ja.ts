@@ -260,6 +260,7 @@ export const widgets: WidgetStrings = {
     submit: "分析する",
     copyShare: "共有リンクをコピー",
     joined: "{year}年開設",
+    creationDateNotPublic: "開設日は非公開",
     noHandle: "ハンドルなし",
     hiddenByCreator: "非公開(クリエイター設定)",
     statSubscribers: "登録者",

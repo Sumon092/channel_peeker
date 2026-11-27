@@ -8,6 +8,7 @@ import { ErrorBox, FetchedAt, Skeleton } from "@/components/ui/status";
 import { ToolInput } from "@/components/ui/tool-input";
 import { useToolRequest } from "@/components/ui/use-tool-request";
 import type { AnalyzerReport, GradeComponent } from "@/lib/analyzer";
+import { creationYear } from "@/lib/channel-age";
 import { formatDuration } from "@/lib/format";
 import { fmt } from "@/lib/widget-i18n";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
@@ -78,6 +79,8 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
   const { channel: c, report: r, fetchedAt } = result;
   const shareUrl = shareInput ? `${location.origin}${location.pathname}?q=${encodeURIComponent(shareInput)}` : null;
   const grade = r.derived?.grade ?? null;
+  // Null when YouTube returns a placeholder creation date (1970 for @YouTube).
+  const joinedYear = creationYear(c.publishedAt);
 
   const compact = (n: number) => Intl.NumberFormat(intl, { notation: "compact", maximumFractionDigits: 1 }).format(n);
   const num = (n: number) => n.toLocaleString(intl);
@@ -108,7 +111,7 @@ function ResultCard({ result, shareInput }: { result: Result; shareInput: string
           <div className="min-w-0">
             <p className="truncate text-lg font-semibold">{c.title}</p>
             <p className="text-sm text-muted">
-              {c.handle ?? a.noHandle} · {fmt(a.joined, { year: new Date(c.publishedAt).getFullYear() })}
+              {c.handle ?? a.noHandle} · {joinedYear === null ? a.creationDateNotPublic : fmt(a.joined, { year: joinedYear })}
               {c.country ? ` · ${c.country}` : ""}
             </p>
           </div>

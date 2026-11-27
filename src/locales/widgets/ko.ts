@@ -260,6 +260,7 @@ export const widgets: WidgetStrings = {
     submit: "분석하기",
     copyShare: "공유 링크 복사",
     joined: "{year}년 개설",
+    creationDateNotPublic: "개설일 비공개",
     noHandle: "핸들 없음",
     hiddenByCreator: "크리에이터가 비공개함",
     statSubscribers: "구독자",

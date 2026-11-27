@@ -55,7 +55,8 @@ export default function Page() {
                 <strong>Channel:</strong> avatar, name (Marques Brownlee) and handle.
               </li>
               <li>
-                <strong>Age:</strong> in years, months and days: &quot;18 years, 8 months, 6 days old&quot;.
+                <strong>Age:</strong> in years, months and days, &quot;18 years, 8 months, 6 days old&quot;, plus the total in days (6,825
+                days).
               </li>
               <li>
                 <strong>Creation date and time,</strong> in UTC: &quot;Created on March 21, 2008 at 15:25 UTC&quot;.
@@ -87,6 +88,9 @@ export default function Page() {
               <li>
                 <strong>Copy link:</strong> copies a share link (channelpeeker.com/channel-age-checker?c=@mkbhd) that opens the tool and
                 runs the same check. Handy for sending a channel to a client or teammate.
+              </li>
+              <li>
+                <strong>Open on YouTube:</strong> opens the channel on YouTube in a new tab.
               </li>
             </ul>
           </>
@@ -145,8 +149,8 @@ export default function Page() {
                 date shows whether that&apos;s true.
               </li>
               <li>
-                <strong>Spying on competitors.</strong> Compare how long a rival took to reach their numbers with how long you&apos;ve been
-                going.
+                <strong>Benchmarking against competitors.</strong> Compare how long a rival took to reach their numbers with how long
+                you&apos;ve been going.
               </li>
               <li>
                 <strong>Sizing up a niche.</strong> If most of the big channels in a topic are 8+ years old, it&apos;s a mature space. If
@@ -207,6 +211,7 @@ export default function Page() {
         {
           q: "Does an older channel rank better or get monetized faster?",
           a: "Not directly. YouTube's Partner Program has no minimum channel age. It looks at subscribers and watch hours. Recommendations depend on how viewers respond to your videos, not on how old the channel is.",
+          link: { text: "YouTube's Partner Program", href: "https://support.google.com/youtube/answer/72851" },
         },
         {
           q: "Can I check a deleted or private channel?",
@@ -235,6 +240,14 @@ export default function Page() {
         {
           q: "Why isn't the tool showing a result?",
           a: "Usually it's the link. Paste the full channel link, the handle, or any video link. Old /c/ custom URLs don't work, so use the @handle or a video link instead. If the channel has been deleted, made private or terminated, there's nothing public left to read.",
+        },
+        {
+          q: "Does a channel's age change if it's renamed?",
+          a: "No. The creation date stays the same when a creator changes the channel name, handle or picture. It only reflects when the channel was first made.",
+        },
+        {
+          q: "Why does a channel show a strange date like 1970?",
+          a: "That's not a real date. A few channels, including YouTube's own official channel, come back from YouTube with January 1, 1970 as their creation date, which is a placeholder rather than the day they were made. Any date before 2005, the year YouTube launched, can't be right, so the tool shows \"Creation date not public\" instead of a wrong age.",
         },
       ]}
       related={["/channel-analyzer", "/video-upload-date-checker", "/monetization-checker"]}

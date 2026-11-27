@@ -218,6 +218,8 @@ export interface WidgetStrings {
     copyShare: string;
     /** {year} */
     joined: string;
+    /** Shown instead of "Joined {year}" when YouTube returns a placeholder date (e.g. 1970). */
+    creationDateNotPublic: string;
     noHandle: string;
     hiddenByCreator: string;
     statSubscribers: string;
@@ -541,6 +543,7 @@ export const EN_WIDGETS: WidgetStrings = {
     submit: "Analyze",
     copyShare: "Copy share link",
     joined: "Joined {year}",
+    creationDateNotPublic: "Creation date not public",
     noHandle: "No handle",
     hiddenByCreator: "Hidden by creator",
     statSubscribers: "Subscribers",

@@ -42,6 +42,31 @@ export function formatAge({ years, months, days }: Age): string {
   return parts.length ? parts.join(", ") : "0 days";
 }
 
+/** Whole UTC days from creation to now (0 for today or a future date). */
+export function totalDays(created: Date, now: Date): number {
+  return Math.max(0, Math.round((utcMidnight(now) - utcMidnight(created)) / DAY_MS));
+}
+
+/**
+ * YouTube returns 1970-01-01T00:00:00Z (the Unix epoch) for some channels, e.g. its own @YouTube channel.
+ * Anything before 2005, the year YouTube launched, is a placeholder, not a real creation date.
+ */
+export function isPlaceholderDate(created: Date): boolean {
+  return Number.isNaN(created.getTime()) || created.getUTCFullYear() < 2005;
+}
+
+/** The channel's creation year, or null when YouTube gave a placeholder (see isPlaceholderDate). */
+export function creationYear(iso: string): number | null {
+  const d = new Date(iso);
+  return isPlaceholderDate(d) ? null : d.getUTCFullYear();
+}
+
+/** "Mar 2008" (UTC), or null when YouTube gave a placeholder date. */
+export function formatCreatedMonth(iso: string): string | null {
+  const d = new Date(iso);
+  return isPlaceholderDate(d) ? null : d.toLocaleDateString("en", { year: "numeric", month: "short", timeZone: "UTC" });
+}
+
 /** Average month length in days (365.25 / 12). */
 const MONTH_DAYS = 30.4375;
 
@@ -51,8 +76,7 @@ const MONTH_DAYS = 30.4375;
  */
 export function subscribersPerMonth(subscribers: number | null, hidden: boolean, created: Date, now: Date): number | null {
   if (hidden || subscribers === null) return null;
-  const days = Math.max(0, Math.round((utcMidnight(now) - utcMidnight(created)) / DAY_MS));
-  return subscribers / Math.max(1, days / MONTH_DAYS);
+  return subscribers / Math.max(1, totalDays(created, now) / MONTH_DAYS);
 }
 
 /** Total views ÷ public videos. Null when there are no public videos to divide by. */

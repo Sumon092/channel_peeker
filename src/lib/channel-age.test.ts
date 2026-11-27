@@ -1,5 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { averageViewsPerVideo, channelAge, formatAge, subscribersPerMonth } from "./channel-age";
+import {
+  averageViewsPerVideo,
+  channelAge,
+  creationYear,
+  formatAge,
+  formatCreatedMonth,
+  isPlaceholderDate,
+  subscribersPerMonth,
+  totalDays,
+} from "./channel-age";
 
 const age = (created: string, now: string) => channelAge(new Date(created), new Date(now));
 
@@ -113,5 +122,61 @@ describe("averageViewsPerVideo", () => {
   it("returns null with zero videos", () => {
     expect(averageViewsPerVideo(0, 0)).toBeNull();
     expect(averageViewsPerVideo(12_345, 0)).toBeNull();
+  });
+});
+
+describe("totalDays", () => {
+  it("counts whole UTC days", () => {
+    expect(totalDays(new Date("2008-03-21T15:25:54Z"), new Date("2026-11-27T04:10:00Z"))).toBe(6_825);
+    expect(totalDays(new Date("2024-02-28T00:00:00Z"), new Date("2024-03-01T00:00:00Z"))).toBe(2);
+  });
+
+  it("is 0 for today or a future date", () => {
+    expect(totalDays(new Date("2026-11-27T01:00:00Z"), new Date("2026-11-27T23:00:00Z"))).toBe(0);
+    expect(totalDays(new Date("2026-12-01T00:00:00Z"), new Date("2026-11-27T00:00:00Z"))).toBe(0);
+  });
+});
+
+describe("isPlaceholderDate", () => {
+  it("flags the Unix epoch YouTube returns for @YouTube", () => {
+    expect(isPlaceholderDate(new Date("1970-01-01T00:00:00Z"))).toBe(true);
+  });
+
+  it("flags anything before 2005 and invalid dates", () => {
+    expect(isPlaceholderDate(new Date("2004-12-31T23:59:59Z"))).toBe(true);
+    expect(isPlaceholderDate(new Date("not a date"))).toBe(true);
+  });
+
+  it("accepts real dates from 2005 on, including fractional seconds", () => {
+    expect(isPlaceholderDate(new Date("2005-04-24T03:20:54Z"))).toBe(false);
+    expect(isPlaceholderDate(new Date("2020-03-16T15:38:27.659206Z"))).toBe(false);
+  });
+});
+
+describe("creationYear (Channel Analyzer)", () => {
+  it("returns the UTC year of a real date", () => {
+    expect(creationYear("2008-03-21T15:25:54Z")).toBe(2008);
+    expect(creationYear("2005-04-24T03:20:54Z")).toBe(2005);
+  });
+
+  it("returns null for placeholder and unreadable dates", () => {
+    expect(creationYear("1970-01-01T00:00:00Z")).toBeNull();
+    expect(creationYear("2004-12-31T23:59:59Z")).toBeNull();
+    expect(creationYear("")).toBeNull();
+    expect(creationYear("garbage")).toBeNull();
+  });
+});
+
+describe("formatCreatedMonth (Channel Comparison)", () => {
+  it("formats a real date as month and year in UTC", () => {
+    expect(formatCreatedMonth("2008-03-21T15:25:54Z")).toBe("Mar 2008");
+    // 23:30 UTC on Jan 31 is still January, whatever the viewer's timezone
+    expect(formatCreatedMonth("2012-01-31T23:30:00Z")).toBe("Jan 2012");
+  });
+
+  it("returns null for placeholder and unreadable dates", () => {
+    expect(formatCreatedMonth("1970-01-01T00:00:00Z")).toBeNull();
+    expect(formatCreatedMonth("2004-06-01T00:00:00Z")).toBeNull();
+    expect(formatCreatedMonth("not a date")).toBeNull();
   });
 });

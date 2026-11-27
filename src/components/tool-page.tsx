@@ -15,7 +15,7 @@ import { ToolGrid } from "./tool-card";
 export interface Faq {
   q: string;
   a: string;
-  /** Turns the first occurrence of `text` in the answer into a link. Schema keeps the plain text. */
+  /** Turns the first occurrence of `text` in the answer into a link (http(s) links open in a new tab). Schema keeps the plain text. */
   link?: { text: string; href: string };
 }
 
@@ -25,9 +25,15 @@ function FaqAnswer({ a, link }: Faq) {
   return (
     <>
       {a.slice(0, i)}
-      <Link href={link.href} className="font-medium text-accent-strong underline">
-        {link.text}
-      </Link>
+      {/^https?:\/\//.test(link.href) ? (
+        <a href={link.href} target="_blank" rel="noopener noreferrer" className="font-medium text-accent-strong underline">
+          {link.text}
+        </a>
+      ) : (
+        <Link href={link.href} className="font-medium text-accent-strong underline">
+          {link.text}
+        </Link>
+      )}
       {a.slice(i + link.text.length)}
     </>
   );

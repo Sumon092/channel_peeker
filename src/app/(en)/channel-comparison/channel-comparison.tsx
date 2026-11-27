@@ -8,6 +8,7 @@ import { useInitialQuery } from "@/components/ui/use-initial-query";
 import { useToolRequest } from "@/components/ui/use-tool-request";
 import { formatCompact, formatNumber, formatSubscribers } from "@/lib/format";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
+import { formatCreatedMonth } from "@/lib/channel-age";
 
 interface Channel {
   id: string;
@@ -149,7 +150,8 @@ function ComparisonTable({ channels, fetchedAt }: Result) {
     },
     {
       label: "Created",
-      render: (c) => new Date(c.publishedAt).toLocaleDateString("en", { year: "numeric", month: "short" }),
+      // YouTube returns a placeholder date (1970) for some channels, e.g. @YouTube.
+      render: (c) => formatCreatedMonth(c.publishedAt) ?? "Creation date not public",
     },
     {
       label: "Country",
