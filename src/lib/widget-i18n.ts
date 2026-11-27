@@ -251,8 +251,6 @@ export interface WidgetStrings {
   };
   watchTime: {
     views: string;
-    minutesLabel: string;
-    secondsLabel: string;
     /** {example} */
     numberError: string;
     /** {hours} {pct} — sr-only summary */
@@ -265,7 +263,7 @@ export interface WidgetStrings {
     minutesLinePct: string;
     minutesLinePast: string;
     passLine: string;
-    /** {views} {hours} — rendered with the view count emphasized */
+    /** {more} {total} — remaining views at the same duration, with {more} emphasized */
     needLine: string;
     views3000Label: string;
     views4000Label: string;
@@ -276,6 +274,55 @@ export interface WidgetStrings {
     /** {perDay} {target} — total hours ÷ 365 vs. the ~11/day that 4,000 needs */
     perDayLine: string;
     explainer: string;
+    avdLegend: string;
+    lengthLegend: string;
+    minutesSr: string;
+    secondsSr: string;
+    videosLabel: string;
+    tabsLabel: string;
+    tabs: Record<"views" | "progress" | "retention", string>;
+    pctViewedLabel: string;
+    pctViewedNote: string;
+    /** {n} */
+    perVideoTitle: string;
+    /** {goal} */
+    goalHours: string;
+    progress: {
+      h12Label: string;
+      h12Hint: string;
+      h28Label: string;
+      h28Hint: string;
+      subsLabel: string;
+      goalLegend: string;
+      goals: Record<"g3000" | "g4000" | "g8000", string>;
+      empty: string;
+      /** {hours} {goal} */
+      progressLine: string;
+      /** {n} */
+      toGo: string;
+      reached: string;
+      /** {subs} */
+      subsLine: string;
+      subsReached: string;
+      /** {n} */
+      per90: string;
+      /** {perDay} {goal} {date} */
+      paceDate: string;
+      paceZero: string;
+      /** {perDay} {plateau} {goal} {needed} */
+      pacePlateau: string;
+      /** {perDay} {goal} */
+      paceTooSlow: string;
+      paceMissing: string;
+      note: string;
+      /** Under a 4,000-hour date on or after February 1, 2027 */
+      switchWarning: string;
+      switchButton: string;
+    };
+    retention: { retLabel: string; avdLabel: string; empty: string };
+    actions: { example: string; clear: string; copyResult: string; copyLink: string; copyLinkAria: string; estimateEarnings: string };
+    /** Plain-text "Copy result" lines */
+    copy: { views: string; needed: string; pctViewed: string; perVideo: string; progress: string; reached: string; subs: string; retention: string; footer: string };
   };
 
   uploadDate: {
@@ -673,8 +720,6 @@ export const EN_WIDGETS: WidgetStrings = {
   },
   watchTime: {
     views: "Views",
-    minutesLabel: "Avg. view duration — minutes",
-    secondsLabel: "Seconds",
     numberError: "Enter a number, e.g. {example}",
     statusPast: "{hours} watch hours — past the 4,000-hour threshold.",
     statusAt: "{hours} watch hours — {pct}% of the 4,000-hour threshold.",
@@ -682,15 +727,81 @@ export const EN_WIDGETS: WidgetStrings = {
     hoursValue: "{n} hours",
     minutesLinePct: "{m} minutes · {pct}% of the 4,000-hour Partner Program threshold",
     minutesLinePast: "{m} minutes · past the 4,000-hour Partner Program threshold",
-    passLine: "These views alone pass 4,000 public watch hours.",
-    needLine: "At this average duration you'd need about {views} views for 4,000 watch hours — {hours} hours to go from here.",
+    passLine: "Goal reached. These views alone pass 4,000 public watch hours.",
+    needLine: "{more} more views ({total} total) at that duration for 4,000 hours.",
     views3000Label: "Views needed for 3,000 hours",
     views4000Label: "Views needed for 4,000 hours",
     views8000Label: "Views needed for 8,000 hours",
-    views8000Note: "from February 1, 2027",
+    views8000Note: "New applicants from February 1, 2027",
     perDayLine: "If these views are from the last 365 days, that's about {perDay} watch hours a day. 4,000 hours needs about {target} a day.",
-    explainer:
-      "Watch time = views × average view duration. YouTube's 4,000-hour requirement counts public watch hours in the last 365 days (Shorts feed views don't count toward it — Shorts have a separate 10M-views path). Your exact average view duration is in YouTube Studio under Analytics → Engagement.",
+    explainer: "Watch time = views × average view duration. YouTube's 4,000-hour requirement counts public watch hours on long-form videos in the last 365 days. Shorts feed views don't count toward it, because Shorts have their own route based on qualified Shorts views. Your exact average view duration is in YouTube Studio under Analytics → Engagement.",
+    avdLegend: "Average view duration (minutes : seconds)",
+    lengthLegend: "Video length (minutes : seconds)",
+    minutesSr: "Minutes",
+    secondsSr: "Seconds",
+    videosLabel: "Number of videos",
+    tabsLabel: "Calculator mode",
+    tabs: {
+      views: "Views to hours",
+      progress: "Track my progress",
+      retention: "Length × retention",
+    },
+    pctViewedLabel: "Average % viewed",
+    pctViewedNote: "This is the retention number YouTube Studio shows. Higher usually means viewers are happier.",
+    perVideoTitle: "Views needed per video, across {n} videos",
+    goalHours: "{goal} hours",
+    progress: {
+      h12Label: "Watch hours in the last 12 months",
+      h12Hint: "YouTube Studio → Earn",
+      h28Label: "Watch hours in the last 28 days",
+      h28Hint: "Studio → Analytics, set dates to last 28 days",
+      subsLabel: "Subscribers",
+      goalLegend: "Goal",
+      goals: {
+        g3000: "3,000 hours · fan funding",
+        g4000: "4,000 hours · ad revenue until January 31, 2027",
+        g8000: "8,000 hours · new applicants from February 1, 2027",
+      },
+      empty: "Enter your watch hours from the last 12 months to see how close you are.",
+      progressLine: "{hours} of {goal} hours",
+      toGo: "{n} hours to go",
+      reached: "Goal reached. With 1,000 subscribers as well, you can apply in YouTube Studio under Earn.",
+      subsLine: "{subs} of 1,000 subscribers",
+      subsReached: "{subs} subscribers, past the 1,000 you need",
+      per90: "To get there within 90 days, aim for about {n} watch hours a day.",
+      paceDate: "At your current pace of about {perDay} hours a day, you'll reach {goal} hours around {date}.",
+      paceZero: "You had no watch hours in the last 28 days, so there's no pace to project a date from.",
+      pacePlateau: "At about {perDay} hours a day, your 12-month total would level off near {plateau} hours, short of {goal}. Getting there takes about {needed} hours a day.",
+      paceTooSlow: "At about {perDay} hours a day, reaching {goal} hours would take more than 5 years.",
+      paceMissing: "Add your watch hours from the last 28 days to see roughly when you'll get there.",
+      note: "This assumes your pace stays the same. Watch hours older than 12 months drop off, so your real total can move more slowly than this.",
+      switchWarning: "Heads up: that's after February 1, 2027, when new applicants need 8,000 hours. If you're applying after that date, switch the goal to 8,000.",
+      switchButton: "Switch goal to 8,000 hours",
+    },
+    retention: {
+      retLabel: "Average retention (%)",
+      avdLabel: "Average view duration",
+      empty: "Enter a video length and an average retention to see the average view duration.",
+    },
+    actions: {
+      example: "Try an example",
+      clear: "Clear",
+      copyResult: "Copy result",
+      copyLink: "Copy link",
+      copyLinkAria: "Copy a link that fills in these numbers",
+      estimateEarnings: "Estimate earnings",
+    },
+    copy: {
+      views: "{views} views at a {avd} average view duration = {hours} watch hours.",
+      needed: "Views needed at this duration: {v3} for 3,000 hours, {v4} for 4,000 hours, {v8} for 8,000 hours.",
+      pctViewed: "Average % viewed: {pct}% of a {len} video.",
+      perVideo: "Spread across {n} videos: {v3}, {v4} and {v8} views per video.",
+      progress: "{hours} of {goal} watch hours ({pct}%), {toGo} hours to go.",
+      reached: "{hours} watch hours, past the {goal}-hour goal.",
+      subs: "{subs} of 1,000 subscribers.",
+      retention: "A {len} video with {ret}% average retention = a {avd} average view duration.",
+      footer: "Worked out with the channelpeeker Watch Time Calculator",
+    },
   },
 
   uploadDate: {

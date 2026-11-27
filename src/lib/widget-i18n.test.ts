@@ -44,14 +44,17 @@ describe("widget string catalogs", () => {
       expect(errors).toEqual([]);
     });
 
-    it(`${locale} needLine splits cleanly on a single {views}`, () => {
-      // watch-time-calculator renders this by splitting on {views} to emphasize the number.
-      expect(WIDGET_STRINGS[locale].watchTime.needLine.split("{views}")).toHaveLength(2);
+    it(`${locale} needLine splits cleanly on a single {more} and keeps {total}`, () => {
+      // watch-time-calculator renders this by splitting on {more} to emphasize the remaining views.
+      const line = WIDGET_STRINGS[locale].watchTime.needLine;
+      expect(line.split("{more}")).toHaveLength(2);
+      expect(line).toContain("{total}");
     });
   }
 
-  it("English needLine splits cleanly on a single {views}", () => {
-    expect(EN_WIDGETS.watchTime.needLine.split("{views}")).toHaveLength(2);
+  it("English needLine splits cleanly on a single {more} and keeps {total}", () => {
+    expect(EN_WIDGETS.watchTime.needLine.split("{more}")).toHaveLength(2);
+    expect(EN_WIDGETS.watchTime.needLine).toContain("{total}");
   });
 });
 

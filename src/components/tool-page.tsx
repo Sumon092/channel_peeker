@@ -67,8 +67,8 @@ interface ToolPageProps {
   meaningId?: string;
   /** Prose shown just below the widget, before the how-to. */
   afterTool?: ReactNode;
-  /** A prose section between the how-to and "what the results mean". */
-  resultSection?: { eyebrow: string; title: string; content: ReactNode };
+  /** Prose section(s) between the how-to and "what the results mean". */
+  resultSection?: ExtraSection | ExtraSection[];
   /** Extra prose section(s) between "what the results mean" and the FAQ. */
   extraSection?: ExtraSection | ExtraSection[];
   faq: Faq[];
@@ -164,12 +164,12 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, how
         )}
       </section>
 
-      {resultSection && (
-        <section className="mx-auto max-w-3xl px-4 pb-20 sm:px-6">
-          <SectionHeading eyebrow={resultSection.eyebrow} title={resultSection.title} />
-          <div className="prose-cp mt-6">{resultSection.content}</div>
+      {(resultSection ? [resultSection].flat() : []).map((x) => (
+        <section key={x.title} id={x.id} className="mx-auto max-w-3xl scroll-mt-20 px-4 pb-20 sm:px-6">
+          <SectionHeading eyebrow={x.eyebrow} title={x.title} />
+          <div className="prose-cp mt-6">{x.content}</div>
         </section>
-      )}
+      ))}
 
       <section id={meaningId} className="scroll-mt-20 border-y border-border bg-surface-2/50">
         <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6">

@@ -8,9 +8,9 @@ import { WatchTimeCalculator } from "./watch-time-calculator";
 const tool = getTool("/watch-time-calculator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Watch Time Calculator: Hours to 4,000", // layout template appends " | channelpeeker"
+  title: "YouTube Watch Time Calculator: 4,000 & 8,000 Hours", // layout template appends " | channelpeeker"
   description:
-    "Turn views and average view duration into watch hours. See how close you are to 4,000 (or 3,000) hours and how many views you still need. Free, no signup.",
+    "Turn views and watch time into hours, track your progress to 4,000 hours (8,000 from February 2027), and see the date you'll get there. Free, no signup.",
   path: tool.path,
   languages: hreflangFor("/watch-time-calculator"),
 });
@@ -24,8 +24,51 @@ const VIEWS_TABLE: [duration: string, for3000: string, for4000: string, for8000:
   ["10 minutes", "18,000", "24,000", "48,000"],
 ];
 
+/** Watch hours at a 4-minute average view duration (views × 4 ÷ 60, rounded). */
+const HOURS_TABLE: [views: string, hours: string][] = [
+  ["100", "about 7"],
+  ["1,000", "about 67"],
+  ["10,000", "about 667"],
+  ["100,000", "about 6,667"],
+  ["1,000,000", "about 66,667"],
+];
+
 /** YouTube's announcement of the February 1, 2027 Partner Program changes. */
 const YPP_CHANGES_URL = "https://support.google.com/youtube/answer/12843009";
+
+/** "What you'll see in the result": the widget's own "Try an example" inputs and outputs (checked in the browser). */
+const RESULT_SECTION = (
+  <>
+    <p>
+      The calculator has three tabs. Each one has a &quot;Try an example&quot; button, and these are the results those examples give (the date
+      is from November 27, 2026):
+    </p>
+    <ul>
+      <li>
+        <strong>Views to hours:</strong> 42,000 views at a 5:20 average view duration give 3,733 hours, or 224,000 minutes, which is 93.3% of
+        4,000. That&apos;s 3,000 more views (45,000 total) at that duration for 4,000 hours. In total, 3,000 hours takes 33,750 views and 8,000
+        hours takes 90,000. With a 12:00 video length filled in, the average % viewed is 44.4%. Spread across 20 videos, that&apos;s 1,688,
+        2,250 and 4,500 views per video.
+      </li>
+      <li>
+        <strong>Track my progress:</strong> 2,850 watch hours in the last 12 months is 71.3% of 4,000, with 1,150 hours to go, and 740 of 1,000
+        subscribers. Getting there within 90 days takes about 12.8 hours a day. With 310 hours in the last 28 days, the pace is about 11.1 hours
+        a day, which reaches 4,000 around March 11, 2027. Because that&apos;s after February 1, 2027, a note points out that new applicants will
+        need 8,000 hours by then, with a button that switches the goal to 8,000. If a pace could never get there, because the 12-month total
+        would level off below the goal, the calculator says so instead of showing a date.
+      </li>
+      <li>
+        <strong>Length × retention:</strong> a 14:00 video with 38% average retention has a 5:19 average view duration. 60,000 views at that
+        duration give 5,320 watch hours. For 3,000, 4,000 and 8,000 hours you&apos;d need 33,835, 45,113 and 90,226 views, or 1,354, 1,805 and
+        3,610 per video across 25 videos.
+      </li>
+      <li>
+        <strong>On every tab:</strong> Copy result (a plain-text summary), Copy link (a link that fills in the same numbers), Clear, and a link
+        to the earnings estimator. Everything is worked out in your browser. The only thing saved is which tab you used last.
+      </li>
+    </ul>
+  </>
+);
 
 export default function Page() {
   return (
@@ -49,6 +92,95 @@ export default function Page() {
         "Read your result. You'll get your total watch time in hours and minutes, whether you've passed 4,000 hours, and how many more views you'd need at the same average duration.",
       ]}
       howToTip="To check your monetization progress, set the date range in Studio to the last 365 days before you copy the numbers. That's the window YouTube looks at."
+      resultSection={[
+        {
+          eyebrow: "In YouTube Studio",
+          title: "How to check your watch hours in YouTube Studio",
+          content: (
+            <>
+              <p>There are two places to look, and they answer different questions.</p>
+              <ol>
+                <li>
+                  For your monetization progress, open YouTube Studio and click Earn. It shows your public watch hours from the last 12
+                  months, which is the number YouTube actually counts for the <Link href="/monetization-checker">Partner Program</Link>. Use
+                  this in the &quot;Track my progress&quot; tab.
+                </li>
+                <li>
+                  For your recent pace, open Analytics, set the date range to the last 28 days, and note your watch time in hours. Put that in
+                  the &quot;last 28 days&quot; box and the calculator works out when you&apos;ll reach your goal.
+                </li>
+              </ol>
+              <p>
+                The two numbers won&apos;t always match. Analytics counts everything, including Shorts feed views and videos you&apos;ve
+                since made private, while Earn only counts what qualifies.
+              </p>
+            </>
+          ),
+        },
+        {
+          eyebrow: "The math",
+          title: "The watch time formula",
+          content: (
+            <>
+              <p className="rounded-xl bg-surface-2 px-4 py-3 font-semibold">Watch hours = views × average view duration (in minutes) ÷ 60</p>
+              <p>A few worked examples:</p>
+              <ul>
+                <li>10,000 views at an average of 4 minutes = 40,000 minutes = about 667 hours.</li>
+                <li>50,000 views at 3 minutes 30 seconds = 175,000 minutes = about 2,917 hours.</li>
+                <li>100,000 views at 2 minutes = 200,000 minutes = about 3,333 hours.</li>
+              </ul>
+              <p>
+                If you know your video length and retention instead, work out the average view duration first: video length × retention %. A
+                10-minute video with 40% retention gives an average view duration of 4 minutes.
+              </p>
+              <h3>How many watch hours do views give you?</h3>
+              <p>At an average view duration of 4 minutes:</p>
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Views</th>
+                    <th scope="col">Watch hours</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {HOURS_TABLE.map(([views, hours]) => (
+                    <tr key={views}>
+                      <th scope="row" className="font-normal tabular-nums">
+                        {views}
+                      </th>
+                      <td className="tabular-nums">{hours}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p>For your own numbers, use the calculator above.</p>
+            </>
+          ),
+        },
+        {
+          eyebrow: "Your date",
+          title: "Track your progress and see your date",
+          content: (
+            <>
+              <p>
+                Knowing your total is useful. Knowing when you&apos;ll get there is better. In the &quot;Track my progress&quot; tab, enter
+                your watch hours from the last 12 months and your watch hours from the last 28 days. The calculator works out your daily
+                pace, how many hours you still need, and roughly when you&apos;ll cross 4,000 (or 8,000) at that pace. It also shows how many
+                hours a day you&apos;d need to get there within 90 days, which is a handy target if you want to speed things up.
+              </p>
+              <p>
+                Treat the date as a rough guide. The 12-month window keeps moving, so hours you earned a year ago drop off as new ones come
+                in.
+              </p>
+            </>
+          ),
+        },
+        {
+          eyebrow: "The result",
+          title: "What you'll see in the result",
+          content: RESULT_SECTION,
+        },
+      ]}
       meaningHeading="What your watch time result means"
       meaning={
         <>
@@ -69,7 +201,7 @@ export default function Page() {
             <a href={YPP_CHANGES_URL} target="_blank" rel="noopener noreferrer">
               February 1, 2027
             </a>
-            , channels applying for ad revenue will need 8,000 watch hours in the last 365 days, or 20 million Shorts views in 90 days, plus
+            , channels applying for ad revenue will need 8,000 watch hours in the last 365 days, or 20 million qualified Shorts views in 90 days, plus
             1,000 subscribers. That&apos;s double today&apos;s bar. Channels already in the Partner Program aren&apos;t affected, and the
             3,000-hour fan funding level stays the same. If you&apos;re planning to apply after February 1, aim for 8,000. That works out to
             about 22 hours of viewing every day.
@@ -100,6 +232,10 @@ export default function Page() {
             </tbody>
           </table>
           <p>
+            Public watch hours means watch time on long-form videos that are set to public. Shorts feed views, private, unlisted and deleted
+            videos don&apos;t count.
+          </p>
+          <p>
             Going from a 2-minute to an 8-minute average cuts the views you need by three quarters. That&apos;s why keeping people watching
             often matters more than getting more clicks.
           </p>
@@ -112,7 +248,8 @@ export default function Page() {
             <li>Live streams once they&apos;re made private or deleted</li>
           </ul>
           <p>
-            Shorts creators have their own route instead: 10 million Shorts views in the last 90 days (or 3 million for the earlier tier).
+            Shorts creators have their own route instead: 10 million qualified Shorts views in the last 90 days (or 3 million for the earlier
+            tier).
           </p>
 
           <h3>Spread over a year, 4,000 hours is about 11 hours a day</h3>
@@ -123,10 +260,11 @@ export default function Page() {
           </p>
         </>
       }
-      extraSection={{
-        eyebrow: "Grow your watch time",
-        title: "How to reach 4,000 watch hours faster",
-        content: (
+      extraSection={[
+        {
+          eyebrow: "Grow your watch time",
+          title: "How to reach 4,000 watch hours faster",
+          content: (
           <>
             <p>
               You can&apos;t change last year&apos;s numbers, but you can change what happens next. These are the things that move watch
@@ -157,14 +295,51 @@ export default function Page() {
                 <strong>Keep old videos public.</strong> Deleting or privating a video removes its watch hours from your total. Fix or update
                 an old video instead of taking it down.
               </li>
+              <li>
+                <strong>Make evergreen videos.</strong> Tutorials and explainers keep getting found for years, so they add watch hours long
+                after you post them.
+              </li>
+              <li>
+                <strong>Upload on a schedule.</strong> A steady rhythm gives YouTube more chances to recommend you and gives viewers a reason
+                to come back.
+              </li>
+              <li>
+                <strong>Work on titles and thumbnails.</strong> A better click-through rate means more people start watching, and every extra
+                view adds hours.
+              </li>
             </ul>
             <p>
               Once you&apos;re close, run your numbers again with the <Link href="/monetization-checker">Monetization Checker</Link> to see
               which public requirements your channel already meets.
             </p>
           </>
-        ),
-      }}
+          ),
+        },
+        {
+          eyebrow: "Totals going down",
+          title: "Why your watch hours went down",
+          content: (
+            <>
+              <p>It&apos;s normal to see your total drop, even when you&apos;re uploading. The usual reasons:</p>
+              <ul>
+                <li>
+                  <strong>The 12-month window moved on.</strong> Hours from more than a year ago no longer count, so a big month last year
+                  drops off this year.
+                </li>
+                <li>
+                  <strong>You made a video private, unlisted or deleted it.</strong> Its watch hours leave your total straight away.
+                </li>
+                <li>
+                  <strong>Your views slowed down.</strong> If you&apos;re earning hours more slowly than old ones expire, the total falls.
+                </li>
+                <li>
+                  <strong>Studio hasn&apos;t caught up.</strong> The Earn number can lag behind Analytics by a day or two.
+                </li>
+              </ul>
+            </>
+          ),
+        },
+      ]}
       faq={[
         {
           q: "How is YouTube watch time calculated?",
@@ -176,7 +351,7 @@ export default function Page() {
         },
         {
           q: "Is the 4,000-hour requirement changing?",
-          a: "Yes, for new channels. From February 1, 2027, new applicants need 8,000 watch hours in the last 365 days (or 20 million Shorts views in 90 days) plus 1,000 subscribers. If you're already monetized, nothing changes for you.",
+          a: "Yes, for new channels. From February 1, 2027, new applicants need 8,000 watch hours in the last 365 days (or 20 million qualified Shorts views in 90 days) plus 1,000 subscribers. If you're already monetized, nothing changes for you.",
         },
         {
           q: "Where do I find my average view duration?",
@@ -201,6 +376,39 @@ export default function Page() {
         {
           q: "Can I buy watch hours?",
           a: "Don't. Bought views and watch time break YouTube's rules. They usually get filtered out, and they can get your application rejected or your channel removed.",
+        },
+        {
+          q: "How many minutes is 4,000 watch hours?",
+          a: "240,000 minutes. 8,000 hours, the target for new applicants from February 1, 2027, is 480,000 minutes, and the 3,000-hour fan funding target is 180,000 minutes.",
+        },
+        {
+          q: "How many watch hours is 1,000 views?",
+          a: "It depends on how long people watch. At a 4-minute average, 1,000 views give about 67 hours. At 10 minutes, about 167 hours. Enter your own numbers in the calculator above.",
+        },
+        {
+          q: "Do the 4,000 hours have to come from one video?",
+          a: "No. YouTube adds up public watch hours across all your long-form videos from the last 12 months. Many small videos count just as much as one big one.",
+        },
+        {
+          q: "What happens when I reach 4,000 watch hours?",
+          a: "You also need 1,000 subscribers. Once you have both, apply in YouTube Studio under Earn, accept the terms and link an AdSense account. YouTube then reviews your channel, which can take up to 30 days.",
+        },
+        {
+          q: "Does YouTube pay per watch hour?",
+          a: "No. YouTube doesn't pay for watch hours. Once you're monetized, you earn a share of ad revenue, which depends on views, your topic and your audience's location. Our earnings estimator gives you a rough range.",
+          link: { text: "earnings estimator", href: "/revenue-calculator/channel-earnings-estimator" },
+        },
+        {
+          q: "Is 4,000 watch hours hard to get?",
+          a: "It's a real milestone. Spread over a year, it's about 11 hours of viewing every day across your channel. Longer videos that hold attention get there much faster than short ones, which is why average view duration matters so much.",
+        },
+        {
+          q: "What retention rate should I use in the calculator?",
+          a: "Use your real numbers from YouTube Studio if you have them. If you're just starting out, try a few values between 30% and 50% to see a range, then replace them with your real figure once you have some videos up.",
+        },
+        {
+          q: "I'm applying around January 2027. Which rule applies to me?",
+          a: "The 8,000-hour rule applies to new applicants from February 1, 2027. YouTube's announcement doesn't say how applications still in review on that date will be handled, so if you already meet 4,000 hours and 1,000 subscribers, it makes sense to apply before then and check the status in Earn.",
         },
         {
           q: "Is this calculator free?",

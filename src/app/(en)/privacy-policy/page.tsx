@@ -32,8 +32,9 @@ export default function Page() {
           <strong>Server logs.</strong> Like most websites, our web server keeps standard access logs (IP address, browser type and the page
           address requested) for about 14 days, for security and troubleshooting. A page address can include what you checked or searched for:
           share links from tools such as the monetization checker and channel age checker end in <code>?c=</code> and a channel handle or ID,
-          and links from our site search and some tools&apos; share links end in <code>?q=</code> and the channel, video link or keyword you
-          entered.
+          links from our site search and some tools&apos; share links end in <code>?q=</code> and the channel, video link or keyword you
+          entered, and the watch time calculator&apos;s share links include the numbers you entered, such as views, average view duration,
+          watch hours or subscribers.
         </li>
         <li>
           <strong>Aggregate usage analytics</strong> to learn which tools are useful.{" "}
