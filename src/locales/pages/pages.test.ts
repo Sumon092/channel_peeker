@@ -55,7 +55,9 @@ describe("translated pages", () => {
       it(`${name} has well-formed text, links and dates`, () => {
         for (const t of allText(c)) {
           expect(t.split("**").length % 2, `unbalanced ** in: ${t}`).toBe(1);
-          expect(t, "leftover English month").not.toMatch(ENGLISH_MONTHS);
+          // Some month names are spelled the same in German (April, August, September, November).
+          const months = locale === "de" ? t.replace(/\b(April|August|September|November)\b/g, "") : t;
+          expect(months, "leftover English month").not.toMatch(ENGLISH_MONTHS);
           for (const [, href] of t.matchAll(/\]\((.+?)\)/g)) {
             if (href.startsWith("http") || href.startsWith("#")) continue;
             const en = href.replace(new RegExp(`^/${locale}(?=/)`), "");
