@@ -27,7 +27,15 @@ interface ToolPageProps {
   /** The interactive widget. Keep it a small client component. */
   children: ReactNode;
   howTo: string[];
+  /** One-line tip under the how-to steps. */
+  howToTip?: string;
   meaning: ReactNode;
+  /** Overrides the "What the results mean" H2. */
+  meaningHeading?: string;
+  /** Prose shown just below the widget, before the how-to. */
+  afterTool?: ReactNode;
+  /** An extra prose section between "what the results mean" and the FAQ. */
+  extraSection?: { eyebrow: string; title: string; content: ReactNode };
   faq: Faq[];
   related: string[];
   updated: string;
@@ -53,7 +61,7 @@ function Highlighted({ text, part }: { text: string; part: string }) {
  * Shared layout for every tool page (plan section 9.2): H1 and the tool above the fold,
  * then how-to, what the results mean, FAQ, related tools and schema.
  */
-export function ToolPage({ tool, heading, highlight, intro, children, howTo, meaning, faq, related, updated, dataBadge = "Official YouTube data", i18n }: ToolPageProps) {
+export function ToolPage({ tool, heading, highlight, intro, children, howTo, howToTip, meaning, meaningHeading, afterTool, extraSection, faq, related, updated, dataBadge = "Official YouTube data", i18n }: ToolPageProps) {
   const hub = getHub(tool.hub);
   const L = i18n?.labels;
   const pagePath = i18n?.path ?? tool.path;
@@ -99,6 +107,8 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
               </li>
             ))}
           </ul>
+
+          {afterTool && <div className="prose-cp mx-auto mt-10 max-w-2xl text-lg">{afterTool}</div>}
         </div>
       </section>
 
@@ -112,14 +122,26 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, mea
             </li>
           ))}
         </ol>
+        {howToTip && (
+          <p className="mx-auto mt-8 max-w-3xl text-center leading-relaxed text-muted">
+            <strong className="text-foreground">Tip:</strong> {howToTip}
+          </p>
+        )}
       </section>
 
       <section className="border-y border-border bg-surface-2/50">
         <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
-          <SectionHeading eyebrow={L?.meaningEyebrow ?? "Understand your results"} title={L?.meaningHeading ?? "What the results mean"} />
+          <SectionHeading eyebrow={L?.meaningEyebrow ?? "Understand your results"} title={meaningHeading ?? L?.meaningHeading ?? "What the results mean"} />
           <div className="prose-cp mt-6">{meaning}</div>
         </div>
       </section>
+
+      {extraSection && (
+        <section className="mx-auto max-w-3xl px-4 pt-20 sm:px-6">
+          <SectionHeading eyebrow={extraSection.eyebrow} title={extraSection.title} />
+          <div className="prose-cp mt-6">{extraSection.content}</div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
         <SectionHeading eyebrow={L?.faqEyebrow ?? "FAQ"} title={L?.faqHeading ?? "Frequently asked questions"} align="center" />

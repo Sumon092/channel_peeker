@@ -7,6 +7,9 @@ import { fmt as tfmt } from "@/lib/widget-i18n";
 const inputCls = "w-full field-pill px-4 py-3";
 
 const THRESHOLD_HOURS = 4000;
+/** Expanded (fan-funding) YPP tier, available in some countries. */
+const EARLY_TIER_HOURS = 3000;
+const DAYS_IN_WINDOW = 365;
 
 function parseNum(v: string): number | null {
   // Strict: "50k" or "1e3" must error visibly, not silently become 50 or 1000.
@@ -33,7 +36,9 @@ export function WatchTimeCalculator() {
   const errs = { v: fieldErr(views, "100,000"), m: fieldErr(minutes, "3"), s: fieldErr(seconds, "30") };
 
   const watchHours = viewCount !== null && avgSeconds > 0 ? (viewCount * avgSeconds) / 3600 : null;
-  const viewsFor4000 = avgSeconds > 0 ? Math.ceil((THRESHOLD_HOURS * 3600) / avgSeconds) : null;
+  const viewsFor = (hours: number) => (avgSeconds > 0 ? Math.ceil((hours * 3600) / avgSeconds) : null);
+  const viewsFor4000 = viewsFor(THRESHOLD_HOURS);
+  const viewsFor3000 = viewsFor(EARLY_TIER_HOURS);
   const pctOfThreshold = watchHours !== null ? Math.min(100, (watchHours / THRESHOLD_HOURS) * 100) : null;
 
   const field = (key: "v" | "m" | "s", label: string, value: string, set: (v: string) => void) => (
@@ -107,6 +112,22 @@ export function WatchTimeCalculator() {
               </p>
             </div>
           )}
+
+          <dl className="grid gap-4 sm:grid-cols-2">
+            {[
+              { label: t.views3000Label, value: viewsFor3000 },
+              { label: t.views4000Label, value: viewsFor4000 },
+            ].map(({ label, value }) => (
+              <div key={label} className="rounded-xl bg-surface-2 px-4 py-4 text-center">
+                <dt className="text-xs text-muted">{label}</dt>
+                <dd className="mt-1 text-xl font-bold tabular-nums">{value !== null ? fmt(value) : "—"}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <p className="rounded-xl bg-surface-2 px-4 py-4 text-sm text-muted">
+            {tfmt(t.perDayLine, { perDay: fmt(watchHours / DAYS_IN_WINDOW, 1), target: fmt(THRESHOLD_HOURS / DAYS_IN_WINDOW, 0) })}
+          </p>
         </div>
       )}
 

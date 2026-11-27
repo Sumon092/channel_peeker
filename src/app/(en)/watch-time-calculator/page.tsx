@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ToolPage } from "@/components/tool-page";
 import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
@@ -7,56 +8,182 @@ import { WatchTimeCalculator } from "./watch-time-calculator";
 const tool = getTool("/watch-time-calculator");
 
 export const metadata = pageMetadata({
-  title: "YouTube Watch Time Calculator",
+  title: "YouTube Watch Time Calculator: Hours to 4,000", // layout template appends " | channelpeeker"
   description:
-    "Convert views and average view duration into total watch hours, and see how many views you need for YouTube's 4,000-hour monetization threshold.",
+    "Turn views and average view duration into watch hours. See how close you are to 4,000 (or 3,000) hours and how many views you still need. Free, no signup.",
   path: tool.path,
   languages: hreflangFor("/watch-time-calculator"),
 });
+
+/** Views needed at each average view duration. Values are ceil(hours × 3600 ÷ seconds), same as the widget. */
+const VIEWS_TABLE: [duration: string, for3000: string, for4000: string][] = [
+  ["2 minutes", "90,000", "120,000"],
+  ["3 minutes 30 seconds", "51,429", "68,572"],
+  ["5 minutes", "36,000", "48,000"],
+  ["8 minutes", "22,500", "30,000"],
+  ["10 minutes", "18,000", "24,000"],
+];
 
 export default function Page() {
   return (
     <ToolPage
       tool={tool}
       dataBadge="Math shown, nothing invented"
-      heading="Watch Time Calculator"
-      intro="Turn views and average view duration into watch hours — and see exactly how far that is from the 4,000 hours YouTube asks for."
-      updated="November 7, 2026"
+      heading="YouTube Watch Time Calculator"
+      highlight="Watch Time Calculator"
+      intro="Find out how many watch hours your videos have earned, and how far you are from the 4,000 hours YouTube asks for before it pays you from ads. Enter your views and average view duration. That's all it takes."
+      updated="November 27, 2026"
+      afterTool={
+        <p>
+          YouTube Studio shows your watch time, but it doesn&apos;t tell you what to do with it. Are 30,000 views enough? Would longer videos
+          get you there faster? This calculator does the math for you. It turns views and average view duration into hours, then shows how
+          many more views you&apos;d need at that same duration to cross the line.
+        </p>
+      }
       howTo={[
-        "Enter a view count — one video's, or your channel's recent total.",
-        "Enter the average view duration from YouTube Studio (Analytics → Engagement).",
-        "Read total watch hours, and the views needed to reach 4,000 hours at that duration.",
+        "Enter your views. Use the view count for a single video, or the total for your channel over the last 12 months if you want to check your progress toward monetization.",
+        "Enter your average view duration. Open YouTube Studio, go to Analytics, then the Engagement tab. You'll see it there in minutes and seconds, for example 4:12.",
+        "Read your result. You'll get your total watch time in hours and minutes, whether you've passed 4,000 hours, and how many more views you'd need at the same average duration.",
       ]}
+      howToTip="To check your monetization progress, set the date range in Studio to the last 365 days before you copy the numbers. That's the window YouTube looks at."
+      meaningHeading="What your watch time result means"
       meaning={
         <>
           <p>
-            Watch time is simply <strong>views × average view duration</strong>. YouTube&apos;s Partner Program requires 4,000 public watch
-            hours in the last 365 days (plus 1,000 subscribers) for full monetization — this calculator shows how your numbers translate
-            into that requirement.
+            Watch time is simple: <strong>views × average view duration</strong>. If a video has 100,000 views and people watch for 3 minutes
+            30 seconds on average, that&apos;s 350,000 minutes, or about 5,833 hours.
           </p>
           <p>
-            Only public, long-form watch time counts toward the 4,000 hours: time watched in the Shorts feed, private or deleted videos and
-            live streams later set to private are excluded. Shorts creators have a separate path (10 million Shorts views in 90 days). The
-            math here is exact; which hours YouTube counts is summarized from their published rules.
+            The number YouTube cares about is 4,000. To earn a share of ad revenue, you need 1,000 subscribers and 4,000 public watch hours on
+            long-form videos in the last 365 days. In some countries there&apos;s also an earlier tier: 500 subscribers, 3 public uploads in
+            the last 90 days, and 3,000 watch hours. That tier unlocks fan funding like channel memberships and Super Thanks, but not ad
+            revenue.
+          </p>
+
+          <h3>How many views you need for 4,000 hours</h3>
+          <p>Average view duration makes a huge difference. Here&apos;s how many views it takes at different durations:</p>
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Average view duration</th>
+                <th scope="col">Views for 3,000 hours</th>
+                <th scope="col">Views for 4,000 hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              {VIEWS_TABLE.map(([duration, for3000, for4000]) => (
+                <tr key={duration}>
+                  <th scope="row" className="font-normal">
+                    {duration}
+                  </th>
+                  <td className="tabular-nums">{for3000}</td>
+                  <td className="tabular-nums">{for4000}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p>
+            Going from a 2-minute to an 8-minute average cuts the views you need by three quarters. That&apos;s why keeping people watching
+            often matters more than getting more clicks.
+          </p>
+
+          <h3>What doesn&apos;t count toward 4,000 hours</h3>
+          <ul>
+            <li>Watch time from Shorts in the Shorts feed</li>
+            <li>Private, unlisted or deleted videos</li>
+            <li>Videos running as ads</li>
+            <li>Live streams once they&apos;re made private or deleted</li>
+          </ul>
+          <p>
+            Shorts creators have their own route instead: 10 million Shorts views in the last 90 days (or 3 million for the earlier tier).
+          </p>
+
+          <h3>Spread over a year, 4,000 hours is about 11 hours a day</h3>
+          <p>
+            The 365-day window is rolling. Watch time from 13 months ago drops off as new watch time comes in. So 4,000 hours works out to
+            about 11 hours of viewing every day across your channel. If your daily total in Studio is well below that, you know you need more
+            views, longer viewing, or both.
           </p>
         </>
       }
+      extraSection={{
+        eyebrow: "Grow your watch time",
+        title: "How to reach 4,000 watch hours faster",
+        content: (
+          <>
+            <p>
+              You can&apos;t change last year&apos;s numbers, but you can change what happens next. These are the things that move watch
+              time the most:
+            </p>
+            <ul>
+              <li>
+                <strong>Fix the first 30 seconds.</strong> Most viewers leave early. Open with what the video delivers, not a long intro or a
+                channel plug. Check the audience retention graph in Studio to see exactly where people drop off.
+              </li>
+              <li>
+                <strong>Make some longer videos.</strong> A 12-minute video that holds people for 6 minutes earns three times the watch time
+                of a 4-minute video people watch for 2. Tutorials, reviews and walkthroughs suit longer formats well.
+              </li>
+              <li>
+                <strong>Send viewers to your next video.</strong> Use end screens, cards and playlists so one view turns into two or three.
+                Series content works especially well here.
+              </li>
+              <li>
+                <strong>Go live.</strong> Live streams often pick up long watch sessions, and they count as long as you keep the replay
+                public.
+              </li>
+              <li>
+                <strong>Use Shorts as a doorway.</strong> Shorts feed watch time won&apos;t count, but a Short can send new viewers to a long
+                video that does.
+              </li>
+              <li>
+                <strong>Keep old videos public.</strong> Deleting or privating a video removes its watch hours from your total. Fix or update
+                an old video instead of taking it down.
+              </li>
+            </ul>
+            <p>
+              Once you&apos;re close, run your numbers again with the <Link href="/monetization-checker">Monetization Checker</Link> to see
+              which public requirements your channel already meets.
+            </p>
+          </>
+        ),
+      }}
       faq={[
         {
           q: "How is YouTube watch time calculated?",
-          a: "Views multiplied by average view duration. 100,000 views at an average of 3:30 is 350,000 minutes — about 5,833 hours.",
+          a: "Multiply views by average view duration. 50,000 views at a 4-minute average is 200,000 minutes, which is about 3,333 hours. YouTube Studio adds this up for you, but the calculator lets you test \"what if\" numbers before you upload.",
         },
         {
           q: "How many views do I need for 4,000 watch hours?",
-          a: "It depends on how long people watch. At a 2-minute average you need about 120,000 views; at 5 minutes, about 48,000. Enter your own average above for the exact figure.",
+          a: "It depends on how long people watch. At a 2-minute average you'd need 120,000 views. At 5 minutes it's 48,000, and at 10 minutes just 24,000. Enter your own average above to get your exact number.",
         },
         {
           q: "Where do I find my average view duration?",
-          a: "YouTube Studio → Analytics → Engagement shows average view duration per video and for the channel.",
+          a: "In YouTube Studio, open Analytics and go to the Engagement tab. For a single video, open that video's analytics instead. Set the date range to the last 365 days if you're tracking monetization.",
         },
         {
           q: "Do Shorts views count toward 4,000 watch hours?",
-          a: "No — watch time from the Shorts feed doesn't count. Shorts have their own monetization path: 10 million public Shorts views in 90 days.",
+          a: "No. Watch time from the Shorts feed doesn't count. Shorts have their own path: 10 million qualified Shorts views in 90 days, plus 1,000 subscribers.",
+        },
+        {
+          q: "Do live streams count toward watch hours?",
+          a: "Yes, as long as the stream is public and you keep the replay public. If you later make it private or delete it, those hours drop out of your total.",
+        },
+        {
+          q: "Do watch hours ever expire?",
+          a: "Yes. YouTube only counts the last 365 days, and the window moves every day. Hours from a video that went viral 14 months ago no longer count, even though the views are still on the video.",
+        },
+        {
+          q: "I have 4,000 hours. Why am I not monetized yet?",
+          a: "Hitting the numbers only makes you eligible. You still need 1,000 subscribers, then you apply in YouTube Studio under Earn and link an AdSense account. YouTube reviews your channel against its monetization policies before approving it.",
+        },
+        {
+          q: "Can I buy watch hours?",
+          a: "Don't. Bought views and watch time break YouTube's rules. They usually get filtered out, and they can get your application rejected or your channel removed.",
+        },
+        {
+          q: "Is this calculator free?",
+          a: "Yes. There's no signup and no usage limit.",
         },
       ]}
       related={["/monetization-checker", "/channel-analyzer", "/revenue-calculator"]}

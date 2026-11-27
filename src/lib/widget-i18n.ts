@@ -188,6 +188,10 @@ export interface WidgetStrings {
     passLine: string;
     /** {views} {hours} — rendered with the view count emphasized */
     needLine: string;
+    views3000Label: string;
+    views4000Label: string;
+    /** {perDay} {target} — total hours ÷ 365 vs. the ~11/day that 4,000 needs */
+    perDayLine: string;
     explainer: string;
   };
 
@@ -512,6 +516,9 @@ export const EN_WIDGETS: WidgetStrings = {
     minutesLinePast: "{m} minutes · past the 4,000-hour Partner Program threshold",
     passLine: "These views alone pass 4,000 public watch hours.",
     needLine: "At this average duration you'd need about {views} views for 4,000 watch hours — {hours} hours to go from here.",
+    views3000Label: "Views needed for 3,000 hours",
+    views4000Label: "Views needed for 4,000 hours",
+    perDayLine: "If these views are from the last 365 days, that's about {perDay} watch hours a day. 4,000 hours needs about {target} a day.",
     explainer:
       "Watch time = views × average view duration. YouTube's 4,000-hour requirement counts public watch hours in the last 365 days (Shorts feed views don't count toward it — Shorts have a separate 10M-views path). Your exact average view duration is in YouTube Studio under Analytics → Engagement.",
   },

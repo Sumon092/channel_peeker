@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ToolPage } from "@/components/tool-page";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
@@ -35,6 +36,10 @@ export default function Page() {
           <p>
             Why a range? Because real CPMs swing with seasonality, advertiser demand and video topic — anyone showing you one exact dollar
             figure is guessing with confidence. The range brackets reality; your YouTube Studio shows the truth.
+          </p>
+          <p>
+            Not earning yet? Ad revenue starts only after 1,000 subscribers and 4,000 public watch hours in the last 365 days. The{" "}
+            <Link href="/watch-time-calculator">watch time calculator</Link> shows how many views that takes at your average view duration.
           </p>
         </>
       }

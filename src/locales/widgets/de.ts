@@ -235,6 +235,9 @@ export const widgets: WidgetStrings = {
     minutesLinePast: "{m} Minuten · über der 4.000-Stunden-Schwelle des Partnerprogramms",
     passLine: "Diese Aufrufe allein überschreiten 4.000 öffentliche Wiedergabestunden.",
     needLine: "Bei dieser durchschnittlichen Dauer bräuchtest du etwa {views} Aufrufe für 4.000 Wiedergabestunden — von hier aus fehlen noch {hours} Stunden.",
+    views3000Label: "Benötigte Aufrufe für 3.000 Stunden",
+    views4000Label: "Benötigte Aufrufe für 4.000 Stunden",
+    perDayLine: "Wenn diese Aufrufe aus den letzten 365 Tagen stammen, sind das etwa {perDay} Wiedergabestunden pro Tag. Für 4.000 Stunden braucht es etwa {target} pro Tag.",
     explainer:
       "Wiedergabezeit = Aufrufe × durchschnittliche Wiedergabedauer. YouTubes 4.000-Stunden-Anforderung zählt öffentliche Wiedergabestunden der letzten 365 Tage (Aufrufe im Shorts-Feed zählen nicht — Shorts haben einen eigenen Weg über 10 Mio. Aufrufe). Deine genaue durchschnittliche Wiedergabedauer findest du in YouTube Studio unter Analytics → Interaktion.",
   },

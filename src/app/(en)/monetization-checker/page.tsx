@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ToolPage } from "@/components/tool-page";
 import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
@@ -40,7 +41,8 @@ export default function Page() {
           </p>
           <p>
             A green verdict means the channel clears every requirement visible in public data. Watch hours, Shorts views, strikes and the
-            final review are private, which is why we label them &quot;not public&quot; rather than pretending to know.
+            final review are private, which is why we label them &quot;not public&quot; rather than pretending to know. To work out your
+            own watch hours from views and average view duration, use the <Link href="/watch-time-calculator">watch time calculator</Link>.
           </p>
         </>
       }
