@@ -1,20 +1,34 @@
 import type { ChannelSummary } from "@/lib/youtube/types";
 
 /**
- * Monetization eligibility signals (analytics hub). YouTube does not publish
- * whether a channel is monetized, so we never output a yes/no. We check every public
- * YPP requirement and label the private ones as uncheckable (see /methodology).
+ * Monetization eligibility (analytics hub). YouTube does not publish whether a
+ * channel is monetized, so we never output a yes/no. We check every public YPP
+ * requirement per tier and mark the private ones as not public (see /methodology).
+ * Everything here is pure and browser-safe: the API returns statuses and raw
+ * data, and the widget renders the text in the page's language.
  *
- * YPP thresholds (support.google.com/youtube/answer/72851):
- * - Fan funding tier: 500 subscribers, 3 public uploads in the last 90 days,
- *   plus 3,000 watch hours in 12 months OR 3M Shorts views in 90 days (private).
- * - Full tier (ads): 1,000 subscribers, plus 4,000 watch hours OR 10M Shorts views (private).
+ * YPP thresholds (support.google.com/youtube/answer/72851, /12843009):
+ * - Fan funding tier (some countries only): 500 subscribers, 3 public uploads in
+ *   the last 90 days, plus 3,000 watch hours in 365 days OR 3M Shorts views in 90 days.
+ * - Ad revenue tier: 1,000 subscribers, plus 4,000 watch hours OR 10M Shorts views.
+ *   From Feb 1, 2027 new applicants need 8,000 watch hours OR 20M Shorts views.
+ * - From Feb 1, 2027 monetized channels must also stay active (shown as information).
  */
 
 export const YPP_FULL_SUBS = 1000;
 export const YPP_STARTER_SUBS = 500;
 export const ACTIVITY_WINDOW_DAYS = 90;
 export const ACTIVITY_MIN_UPLOADS = 3;
+/** The recent-uploads lookup reads at most this many uploads (one playlistItems page). */
+export const RECENT_UPLOADS_LIMIT = 50;
+
+/** Feb 1, 2027 00:00 UTC: new ad revenue thresholds and the stay-active rule take effect. */
+export const YPP_2027_CHANGE = Date.UTC(2027, 1, 1);
+
+const DAY_MS = 86_400_000;
+
+/** Anchor of the requirements section on the English page (the widget's countdown links to it). */
+export const REQUIREMENTS_2027_ID = "requirements-2027";
 
 /** ISO 3166-1 alpha-2 codes where the YouTube Partner Program is available (support.google.com/youtube/answer/7101720, checked November 2026). */
 export const YPP_COUNTRIES = new Set([
@@ -28,122 +42,156 @@ export const YPP_COUNTRIES = new Set([
 ]);
 
 export type SignalStatus = "pass" | "warn" | "fail" | "unknown";
-
-export interface Signal {
-  id: "subscribers" | "country" | "activity" | "made_for_kids" | "watch_time" | "policies";
-  label: string;
+export type CheckId = "subscribers" | "country" | "uploads" | "made_for_kids" | "watch_time";
+export interface Check {
+  id: CheckId;
   status: SignalStatus;
-  /** Short value shown next to the label, e.g. "≈ 1.2M" or "Not public". */
-  value: string;
-  detail: string;
+}
+export type TierVerdict = "met" | "partial" | "not_yet" | "unclear";
+export interface Tier {
+  verdict: TierVerdict;
+  checks: Check[];
 }
 
-export type Verdict = "strong" | "partial" | "not_yet" | "unclear";
-
-const countryNames = new Intl.DisplayNames("en", { type: "region" });
-
-function subscriberSignal(c: ChannelSummary): Signal {
-  const base = { id: "subscribers" as const, label: `At least ${YPP_FULL_SUBS.toLocaleString("en")} subscribers` };
-  if (c.subscribersHidden || c.subscribers === null) {
-    return { ...base, status: "unknown", value: "Hidden", detail: "The creator hides their subscriber count, so we can't check this requirement." };
-  }
-  const n = c.subscribers;
-  const shown = n >= 1000 ? `≈ ${Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(n)}` : n.toLocaleString("en");
-  if (n >= YPP_FULL_SUBS) {
-    return { ...base, status: "pass", value: shown, detail: `Meets the ${YPP_FULL_SUBS.toLocaleString("en")} needed for the full program, including ad revenue.` };
-  }
-  if (n >= YPP_STARTER_SUBS) {
-    return {
-      ...base,
-      status: "warn",
-      value: shown,
-      detail: `Meets the ${YPP_STARTER_SUBS} needed for the fan-funding tier (memberships, Supers), but not the ${YPP_FULL_SUBS.toLocaleString("en")} needed for ad revenue.`,
-    };
-  }
-  return { ...base, status: "fail", value: shown, detail: `Below the ${YPP_STARTER_SUBS} subscribers YouTube requires for even the first monetization tier.` };
+export interface Rules {
+  /** "current" until Jan 31, 2027; "2027" from Feb 1, 2027 00:00 UTC. */
+  era: "current" | "2027";
+  adWatchHours: number;
+  adShortsViews: number;
+  /** Whole days (rounded up) until Feb 1, 2027; null once it has passed. */
+  daysUntilChange: number | null;
 }
 
-function countrySignal(c: ChannelSummary): Signal {
-  const base = { id: "country" as const, label: "Lives in a Partner Program country" };
-  if (!c.country) {
-    return { ...base, status: "unknown", value: "Not set", detail: "The channel doesn't show a country, so we can't check availability. YPP requires one." };
-  }
-  const name = countryNames.of(c.country) ?? c.country;
-  return YPP_COUNTRIES.has(c.country)
-    ? { ...base, status: "pass", value: name, detail: `The Partner Program is available in ${name}.` }
-    : { ...base, status: "fail", value: name, detail: `YouTube doesn't list ${name} as a Partner Program country, so the channel can't join from there.` };
+export function rulesAt(now: Date): Rules {
+  const left = YPP_2027_CHANGE - now.getTime();
+  return left > 0
+    ? { era: "current", adWatchHours: 4000, adShortsViews: 10_000_000, daysUntilChange: Math.ceil(left / DAY_MS) }
+    : { era: "2027", adWatchHours: 8000, adShortsViews: 20_000_000, daysUntilChange: null };
 }
 
-function activitySignal(uploadDates: string[], videoCount: number, now: Date): Signal {
-  const base = { id: "activity" as const, label: `${ACTIVITY_MIN_UPLOADS} public uploads in the last ${ACTIVITY_WINDOW_DAYS} days` };
-  const cutoff = now.getTime() - ACTIVITY_WINDOW_DAYS * 86_400_000;
-  const recent = uploadDates.filter((d) => Date.parse(d) >= cutoff).length;
-  const value = `${recent} upload${recent === 1 ? "" : "s"}`;
-  if (videoCount === 0) {
-    return { ...base, status: "fail", value: "No public videos", detail: "The channel has no public uploads. The fan-funding tier requires recent public activity." };
-  }
-  if (recent >= ACTIVITY_MIN_UPLOADS) {
-    return { ...base, status: "pass", value, detail: "The channel is active enough for the fan-funding tier's recent-uploads requirement." };
-  }
-  if (recent > 0) {
-    return { ...base, status: "warn", value, detail: `Fewer than the ${ACTIVITY_MIN_UPLOADS} public uploads in ${ACTIVITY_WINDOW_DAYS} days the fan-funding tier asks for. (Not required for the 1,000-subscriber tier.)` };
-  }
-  return { ...base, status: "warn", value, detail: `No public uploads in the last ${ACTIVITY_WINDOW_DAYS} days. Inactive channels can also lose monetization. (Not required for the 1,000-subscriber tier.)` };
+function subscribersStatus(c: ChannelSummary, min: number): SignalStatus {
+  if (c.subscribersHidden || c.subscribers === null) return "unknown";
+  return c.subscribers >= min ? "pass" : "fail";
 }
 
-function madeForKidsSignal(c: ChannelSummary): Signal {
-  const base = { id: "made_for_kids" as const, label: "Not a made-for-kids channel" };
-  if (c.madeForKids === null) {
-    return { ...base, status: "unknown", value: "Not public", detail: "YouTube doesn't expose this channel's audience setting." };
-  }
-  return c.madeForKids
-    ? {
-        ...base,
-        status: "warn",
-        value: "Made for kids",
-        detail: "The whole channel is set as made for kids: no personalized ads, memberships, Supers or live chat, which sharply limits earnings.",
-      }
-    : { ...base, status: "pass", value: "No", detail: "The channel isn't set as made for kids, so no kids-content ad limits apply channel-wide." };
+function countryStatus(c: ChannelSummary): SignalStatus {
+  if (!c.country) return "unknown";
+  return YPP_COUNTRIES.has(c.country) ? "pass" : "fail";
 }
 
-const privateSignals: Signal[] = [
-  {
-    id: "watch_time",
-    label: "4,000 watch hours or 10M Shorts views",
-    status: "unknown",
-    value: "Not public",
-    detail: "Watch hours and 90-day Shorts views are visible only to the channel owner in YouTube Studio. No outside tool can check this, including ones that claim to.",
-  },
-  {
-    id: "policies",
-    label: "No active strikes, follows monetization policies",
-    status: "unknown",
-    value: "Not public",
-    detail: "Community-guidelines strikes and policy reviews are private. A channel meeting every public requirement can still be rejected or suspended.",
-  },
-];
+/** Made for kids: fan funding has nothing to unlock (no memberships, Supers or Shopping); ads still run, non-personalized. */
+function madeForKidsStatus(c: ChannelSummary, tier: "fan" | "ad"): SignalStatus {
+  if (c.madeForKids === null) return "unknown";
+  if (!c.madeForKids) return "pass";
+  return tier === "fan" ? "fail" : "warn";
+}
 
-function computeVerdict(signals: Signal[]): Verdict {
-  const byId = new Map(signals.map((s) => [s.id, s.status]));
-  const core = [byId.get("subscribers"), byId.get("country"), byId.get("activity")];
-  if (core.includes("fail")) return "not_yet";
-  if (byId.get("subscribers") === "unknown") return "unclear";
-  if (core.every((s) => s === "pass")) return "strong";
+/** A tier's verdict from its public checks; private ones (watch time) never count either way. */
+export function tierVerdict(checks: Check[]): TierVerdict {
+  const pub = checks.filter((c) => c.id !== "watch_time");
+  if (pub.some((c) => c.status === "fail")) return "not_yet";
+  if (pub.find((c) => c.id === "subscribers")?.status === "unknown") return "unclear";
+  if (pub.every((c) => c.status === "pass")) return "met";
   return "partial";
 }
 
 export interface MonetizationReport {
-  verdict: Verdict;
-  signals: Signal[];
+  tiers: { fan: Tier; ad: Tier };
+  rules: Rules;
+  /** Public uploads in the last 90 days (long videos and Shorts combined). */
+  recentUploads: number;
+  /** True when the lookup limit was hit inside the window, so the real count may be higher. */
+  recentUploadsCapped: boolean;
 }
 
-export function buildMonetizationReport(channel: ChannelSummary, uploadDates: string[], now = new Date()): MonetizationReport {
-  const signals = [
-    subscriberSignal(channel),
-    countrySignal(channel),
-    activitySignal(uploadDates, channel.videoCount, now),
-    madeForKidsSignal(channel),
-    ...privateSignals,
+export function buildMonetizationReport(c: ChannelSummary, uploadDates: string[], now = new Date()): MonetizationReport {
+  const cutoff = now.getTime() - ACTIVITY_WINDOW_DAYS * DAY_MS;
+  const inWindow = uploadDates.filter((d) => Date.parse(d) >= cutoff);
+  const recentUploads = c.videoCount === 0 ? 0 : inWindow.length;
+  const recentUploadsCapped = uploadDates.length >= RECENT_UPLOADS_LIMIT && inWindow.length === uploadDates.length;
+
+  const watchTime: Check = { id: "watch_time", status: "unknown" };
+  const fanChecks: Check[] = [
+    { id: "subscribers", status: subscribersStatus(c, YPP_STARTER_SUBS) },
+    { id: "uploads", status: recentUploads >= ACTIVITY_MIN_UPLOADS ? "pass" : "fail" },
+    { id: "country", status: countryStatus(c) },
+    { id: "made_for_kids", status: madeForKidsStatus(c, "fan") },
+    watchTime,
   ];
-  return { verdict: computeVerdict(signals), signals };
+  // Ad revenue tier: deliberately no recent-uploads requirement.
+  const adChecks: Check[] = [
+    { id: "subscribers", status: subscribersStatus(c, YPP_FULL_SUBS) },
+    { id: "country", status: countryStatus(c) },
+    { id: "made_for_kids", status: madeForKidsStatus(c, "ad") },
+    watchTime,
+  ];
+  return {
+    tiers: {
+      fan: { verdict: tierVerdict(fanChecks), checks: fanChecks },
+      ad: { verdict: tierVerdict(adChecks), checks: adChecks },
+    },
+    rules: rulesAt(now),
+    recentUploads,
+    recentUploadsCapped,
+  };
+}
+
+/**
+ * 2027 stay-active rule, upload path only (2 long videos or 5 Shorts per 90 days).
+ * Public data can't reliably split long videos from Shorts, so we judge the total:
+ * 5+ uploads cover it either way, 2–4 only if at least 2 are long videos.
+ */
+export type ActivityPath = "enough_any" | "enough_if_long" | "not_enough";
+export function activityPath(recentUploads: number): ActivityPath {
+  if (recentUploads >= 5) return "enough_any";
+  if (recentUploads >= 2) return "enough_if_long";
+  return "not_enough";
+}
+
+export interface SelfCheck {
+  join: boolean;
+  store: boolean;
+  supers: boolean;
+  ads: boolean;
+}
+
+export type Confidence = "very_likely" | "possibly" | "possibly_fan" | "unlikely" | "cant_tell";
+
+/**
+ * Combines what the visitor sees on YouTube with the public checks, in this order:
+ * - very likely: a Partner Program-only feature (Join, Store, Super Thanks) and the ad tier's public checks are met;
+ * - unlikely: under 500 subscribers (no feature can override that);
+ * - possibly (fan funding): a Partner Program-only feature at 500–999 subscribers, where only fan funding is open;
+ * - possibly: only ads ticked, or the ad tier's public checks met with nothing ticked;
+ * - can't tell: anything else, including made-for-kids channels with nothing ticked.
+ */
+export function confidence(
+  c: { subscribers: number | null; subscribersHidden: boolean },
+  adTier: TierVerdict,
+  s: SelfCheck,
+): Confidence {
+  const strong = s.join || s.store || s.supers;
+  const subs = c.subscribersHidden ? null : c.subscribers;
+  if (strong && adTier === "met") return "very_likely";
+  if (subs !== null && subs < YPP_STARTER_SUBS) return "unlikely";
+  if (strong && subs !== null && subs < YPP_FULL_SUBS) return "possibly_fan";
+  if ((s.ads && !strong) || (adTier === "met" && !strong && !s.ads)) return "possibly";
+  return "cant_tell";
+}
+
+/** Public subscriber count to three significant figures, the precision YouTube publishes (1,234 → "≈ 1.23K"). */
+export function formatSubscriberCount(n: number, intl = "en"): string {
+  return n >= 1000
+    ? `≈ ${new Intl.NumberFormat(intl, { notation: "compact", maximumSignificantDigits: 3 }).format(n)}`
+    : n.toLocaleString(intl);
+}
+
+/** Country names that take "the" in an English sentence (code list plus name patterns). */
+const THE_CODES = new Set(["BQ", "BS", "GM", "KM", "MV", "NL", "PH", "SC"]);
+const THE_NAME = /\b(Islands|Republic|States|Kingdom|Emirates|Territories|Territory)\b/;
+
+/** Region name for a sentence: "the United States", "the Netherlands", but "Germany". Non-English names pass through. */
+export function countryInSentence(code: string, name: string, lang: string): string {
+  if (lang !== "en" || name === code) return name;
+  return THE_CODES.has(code) || THE_NAME.test(name) ? `the ${name}` : name;
 }

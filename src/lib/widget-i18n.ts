@@ -155,21 +155,95 @@ export interface WidgetStrings {
     channelMeta: string;
     noHandle: string;
     hiddenByCreator: string;
-    verdicts: Record<"strong" | "partial" | "not_yet" | "unclear", { title: string; body: string }>;
+    tiers: Record<"fan" | "ad", { title: string; unlocks: string }>;
+    tierVerdicts: Record<"met" | "partial" | "not_yet" | "unclear", { title: string; body: string }>;
     statusSr: Record<"pass" | "warn" | "fail" | "unknown", string>;
     estimateNote: string;
-    signals: {
-      subscribers: { label: string; hiddenValue: string; hiddenDetail: string; passDetail: string; warnDetail: string; failDetail: string };
-      /** {name} in pass/fail details */
+    notPublic: string;
+    checks: {
+      subscribers: {
+        fanLabel: string;
+        adLabel: string;
+        hiddenValue: string;
+        hiddenDetail: string;
+        /** 500–999: meets the 500 level, where a country offers it */
+        fanPassStarterDetail: string;
+        /** 1,000+: clears fan funding everywhere */
+        fanPassFullDetail: string;
+        fanFailDetail: string;
+        adPassDetail: string;
+        adFailDetail: string;
+      };
+      /** {name} in pass/fail details (English adds "the" where needed) */
       country: { label: string; notSetValue: string; notSetDetail: string; passDetail: string; failDetail: string };
-      /** {n} in uploadsValue */
-      activity: { label: string; uploadsValue: string; noVideosValue: string; noVideosDetail: string; passDetail: string; warnFewDetail: string; warnNoneDetail: string };
-      madeForKids: { label: string; notPublicValue: string; notPublicDetail: string; yesValue: string; yesDetail: string; noValue: string; noDetail: string };
-      watchTime: { label: string; value: string; detail: string };
-      policies: { label: string; value: string; detail: string };
+      /** {n} in uploadsMany/uploadsCapped */
+      uploads: {
+        label: string;
+        uploadsOne: string;
+        uploadsMany: string;
+        uploadsCapped: string;
+        noVideosValue: string;
+        noVideosDetail: string;
+        passDetail: string;
+        failFewDetail: string;
+        failNoneDetail: string;
+      };
+      madeForKids: {
+        label: string;
+        notPublicValue: string;
+        notPublicDetail: string;
+        yesValue: string;
+        fanYesDetail: string;
+        adYesDetail: string;
+        noValue: string;
+        noDetail: string;
+      };
+      watchTime: {
+        fanLabel: string;
+        /** {hours} {shorts} — today's ad revenue thresholds */
+        adLabelNow: string;
+        /** {hours} {shorts} — from Feb 1, 2027 */
+        adLabel2027: string;
+        detail: string;
+        adNoteNow: string;
+        adNote2027: string;
+      };
+      policies: { label: string; detail: string };
     };
+    /** Shown below both tiers */
+    bothTiers: string;
+    countdownOne: string;
+    /** {n} */
+    countdownMany: string;
+    active: {
+      titleNow: string;
+      title2027: string;
+      ruleNow: string;
+      rule2027: string;
+      /** {n} */
+      uploadsLine: string;
+      uploadsLineOne: string;
+      /** {n} */
+      uploadsLineCapped: string;
+      splitNote: string;
+      enoughAny: string;
+      enoughIfLong: string;
+      notEnough: string;
+      infoOnly: string;
+    };
+    selfCheck: {
+      title: string;
+      intro: string;
+      openChannel: string;
+      clues: Record<"join" | "store" | "supers" | "ads", { label: string; strength: string }>;
+      confidenceLabel: string;
+      confidence: Record<"very_likely" | "possibly" | "possibly_fan" | "unlikely" | "cant_tell", { title: string; body: string }>;
+      tickHint: string;
+    };
+    estimateEarnings: string;
+    copyLink: string;
+    copyLinkAria: string;
   };
-
   watchTime: {
     views: string;
     minutesLabel: string;
@@ -442,34 +516,42 @@ export const EN_WIDGETS: WidgetStrings = {
     channelMeta: "{subs} subscribers · {videos} videos",
     noHandle: "No handle",
     hiddenByCreator: "Hidden by creator",
-    verdicts: {
-      strong: {
-        title: "Meets every public requirement we can check",
-        body: "Subscribers, country and activity all clear the Partner Program bar. Watch hours, Shorts views and policy standing are private, so only YouTube and the owner know if the channel is actually monetized.",
+    tiers: {
+      fan: { title: "Fan funding tier", unlocks: "Memberships, Supers and Shopping" },
+      ad: { title: "Ad revenue tier", unlocks: "Ad and YouTube Premium revenue, plus everything in fan funding" },
+    },
+    tierVerdicts: {
+      met: {
+        title: "Meets every public requirement",
+        body: "Watch hours, Shorts views and policy standing are private, so only YouTube and the owner know whether the channel is actually monetized.",
       },
       partial: {
         title: "Meets some public requirements",
-        body: "The channel clears part of the Partner Program bar. See which checks below hold it back, and remember the private requirements can't be verified by any outside tool.",
+        body: "See which checks hold it back below. The private requirements can't be verified by any outside tool.",
       },
       not_yet: {
-        title: "Doesn't yet meet the public requirements",
-        body: "At least one public Partner Program requirement isn't met, so the channel can't currently join YPP. Existing members in changed circumstances are reviewed by YouTube.",
+        title: "Doesn't meet the public requirements yet",
+        body: "At least one public requirement for this tier isn't met.",
       },
       unclear: {
         title: "Not enough public data to tell",
-        body: "Key public signals are hidden for this channel, so we can't assess eligibility either way.",
+        body: "The subscriber count is hidden, so we can't assess this tier either way.",
       },
     },
-    statusSr: { pass: "Met", warn: "Partly met", fail: "Not met", unknown: "Can't be checked" },
+    statusSr: { pass: "Met", warn: "Partly met", fail: "Not met", unknown: "Not public" },
     estimateNote: "Eligibility signals are channelpeeker estimates, not a statement from YouTube.",
-    signals: {
+    notPublic: "Not public",
+    checks: {
       subscribers: {
-        label: "At least 1,000 subscribers",
+        fanLabel: "At least 500 subscribers (where available)",
+        adLabel: "At least 1,000 subscribers",
         hiddenValue: "Hidden",
         hiddenDetail: "The creator hides their subscriber count, so we can't check this requirement.",
-        passDetail: "Meets the 1,000 needed for the full program, including ad revenue.",
-        warnDetail: "Meets the 500 needed for the fan-funding tier (memberships, Supers), but not the 1,000 needed for ad revenue.",
-        failDetail: "Below the 500 subscribers YouTube requires for even the first monetization tier.",
+        fanPassStarterDetail: "Meets the 500 needed in countries that offer this level. Everywhere else, fan funding starts at 1,000.",
+        fanPassFullDetail: "Clears the bar in every country, including those where fan funding starts at 1,000.",
+        fanFailDetail: "Below the 500 subscribers needed for even the first monetization level.",
+        adPassDetail: "Meets the 1,000 needed for ad revenue.",
+        adFailDetail: "Below the 1,000 subscribers needed for ad revenue.",
       },
       country: {
         label: "Lives in a Partner Program country",
@@ -478,37 +560,97 @@ export const EN_WIDGETS: WidgetStrings = {
         passDetail: "The Partner Program is available in {name}.",
         failDetail: "YouTube doesn't list {name} as a Partner Program country, so the channel can't join from there.",
       },
-      activity: {
+      uploads: {
         label: "3 public uploads in the last 90 days",
-        uploadsValue: "{n} uploads",
+        uploadsOne: "1 upload",
+        uploadsMany: "{n} uploads",
+        uploadsCapped: "{n}+ uploads",
         noVideosValue: "No public videos",
-        noVideosDetail: "The channel has no public uploads. The fan-funding tier requires recent public activity.",
-        passDetail: "The channel is active enough for the fan-funding tier's recent-uploads requirement.",
-        warnFewDetail: "Fewer than the 3 public uploads in 90 days the fan-funding tier asks for. (Not required for the 1,000-subscriber tier.)",
-        warnNoneDetail: "No public uploads in the last 90 days. Inactive channels can also lose monetization. (Not required for the 1,000-subscriber tier.)",
+        noVideosDetail: "The channel has no public uploads. Fan funding requires recent public activity.",
+        passDetail: "Active enough for the fan funding tier's recent-uploads requirement.",
+        failFewDetail: "Fewer than the 3 public uploads in 90 days that fan funding asks for.",
+        failNoneDetail: "No public uploads in the last 90 days, and fan funding asks for 3.",
       },
       madeForKids: {
         label: "Not a made-for-kids channel",
         notPublicValue: "Not public",
         notPublicDetail: "YouTube doesn't expose this channel's audience setting.",
         yesValue: "Made for kids",
-        yesDetail: "The whole channel is set as made for kids: no personalized ads, memberships, Supers or live chat, which sharply limits earnings.",
+        fanYesDetail: "Made-for-kids channels can't use memberships, Supers or Shopping, so this tier has nothing to unlock.",
+        adYesDetail: "The channel can still earn from ads, but only non-personalized ones, which usually pay much less.",
         noValue: "No",
-        noDetail: "The channel isn't set as made for kids, so no kids-content ad limits apply channel-wide.",
+        noDetail: "The channel isn't set as made for kids, so no kids-content limits apply channel-wide.",
       },
       watchTime: {
-        label: "4,000 watch hours or 10M Shorts views",
-        value: "Not public",
-        detail: "Watch hours and 90-day Shorts views are visible only to the channel owner in YouTube Studio. No outside tool can check this, including ones that claim to.",
+        fanLabel: "3,000 watch hours or 3M Shorts views",
+        adLabelNow: "{hours} watch hours or {shorts} Shorts views",
+        adLabel2027: "{hours} watch hours or {shorts} Shorts views (new applicants)",
+        detail: "Watch hours and 90-day Shorts views are visible only to the channel owner in YouTube Studio. No outside tool can check them.",
+        adNoteNow: "From Feb 1, 2027, new applicants need 8,000 watch hours or 20M Shorts views.",
+        adNote2027: "Channels already in the program before Feb 1, 2027 keep their status.",
       },
       policies: {
         label: "No active strikes, follows monetization policies",
-        value: "Not public",
-        detail: "Community-guidelines strikes and policy reviews are private. A channel meeting every public requirement can still be rejected or suspended.",
+        detail: "Community Guidelines strikes and policy reviews are private. A channel meeting every public requirement can still be rejected or suspended.",
       },
     },
+    bothTiers: "Both tiers",
+    countdownOne: "1 day until YouTube's new ad revenue requirements take effect",
+    countdownMany: "{n} days until YouTube's new ad revenue requirements take effect",
+    active: {
+      titleNow: "Staying active, from Feb 1, 2027",
+      title2027: "Staying active",
+      ruleNow:
+        "From Feb 1, 2027, monetized channels must stay active: 2 long videos or 5 Shorts every 90 days, or 1,000 watch hours in a year, or 1M Shorts views in 90 days.",
+      rule2027: "Monetized channels must stay active: 2 long videos or 5 Shorts every 90 days, or 1,000 watch hours in a year, or 1M Shorts views in 90 days.",
+      uploadsLine: "This channel: {n} public uploads in the last 90 days.",
+      uploadsLineOne: "This channel: 1 public upload in the last 90 days.",
+      uploadsLineCapped: "This channel: at least {n} public uploads in the last 90 days.",
+      splitNote: "That's long videos and Shorts together: YouTube's public data doesn't reliably tell them apart.",
+      enoughAny: "That's enough uploads, whichever kind they are.",
+      enoughIfLong: "That's enough if at least 2 of them are long videos.",
+      notEnough: "Uploads alone don't cover it, but watch hours or Shorts views can still count.",
+      infoOnly: "For information only. This doesn't affect the verdict.",
+    },
+    selfCheck: {
+      title: "Check it yourself",
+      intro: "Open the channel and tick what you see. Nothing is saved: it all stays in your browser.",
+      openChannel: "Open channel on YouTube",
+      clues: {
+        join: { label: "I see a Join button", strength: "Strongest clue. Memberships are only available to Partner Program channels." },
+        store: { label: "I see a Store tab or product shelf", strength: "Strong clue. Shopping needs the Partner Program." },
+        supers: { label: "I see Super Thanks / Super Chat on videos", strength: "Strong clue. Supers are Partner Program features." },
+        ads: { label: "I see ads on recent videos", strength: "Weakest clue. YouTube can show ads on any video, even when the creator gets nothing." },
+      },
+      confidenceLabel: "Our read",
+      confidence: {
+        very_likely: {
+          title: "Very likely monetized",
+          body: "You've seen a Partner Program-only feature, and the channel meets every public ad revenue requirement.",
+        },
+        possibly: {
+          title: "Possibly monetized",
+          body: "The public requirements or the ads you've seen fit a monetized channel, but neither proves it. A Join button, Store or Super Thanks would.",
+        },
+        possibly_fan: {
+          title: "Possibly monetized",
+          body: "You've seen a fan funding feature, which needs the Partner Program. With fewer than 1,000 subscribers, the channel can't earn ad revenue yet.",
+        },
+        unlikely: {
+          title: "Unlikely to be monetized yet",
+          body: "The channel has fewer than 500 subscribers, which is below every Partner Program level.",
+        },
+        cant_tell: {
+          title: "Can't tell",
+          body: "The public data and the clues you've ticked don't point clearly either way.",
+        },
+      },
+      tickHint: "Tick what you see on YouTube to sharpen this.",
+    },
+    estimateEarnings: "Estimate earnings",
+    copyLink: "Copy link",
+    copyLinkAria: "Copy link to this result",
   },
-
   watchTime: {
     views: "Views",
     minutesLabel: "Avg. view duration — minutes",

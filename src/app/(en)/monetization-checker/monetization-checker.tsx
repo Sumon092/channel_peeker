@@ -1,36 +1,61 @@
 "use client";
 
-import { CircleCheck, CircleHelp, CircleX, TriangleAlert } from "lucide-react";
+import { ArrowRight, CalendarClock, CircleCheck, CircleHelp, CircleX, ExternalLink, TriangleAlert } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
+import { CopyButton } from "@/components/ui/copy-button";
 import { ErrorBox, FetchedAt, Skeleton } from "@/components/ui/status";
 import { ToolInput } from "@/components/ui/tool-input";
 import { useToolRequest } from "@/components/ui/use-tool-request";
-import type { Signal, SignalStatus, Verdict } from "@/lib/monetization";
+import {
+  activityPath,
+  confidence,
+  countryInSentence,
+  formatSubscriberCount,
+  REQUIREMENTS_2027_ID,
+  type Check,
+  type Confidence,
+  type MonetizationReport,
+  type SelfCheck,
+  type SignalStatus,
+  type TierVerdict,
+} from "@/lib/monetization";
 import { fmt, type WidgetStrings } from "@/lib/widget-i18n";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
-interface Result {
-  channel: {
-    id: string;
-    title: string;
-    handle: string | null;
-    avatarUrl: string | null;
-    subscribers: number | null;
-    subscribersHidden: boolean;
-    videoCount: number;
-    country: string | null;
-    madeForKids: boolean | null;
-    recentUploads: number;
-  };
-  verdict: Verdict;
-  signals: Signal[];
+interface Channel {
+  id: string;
+  title: string;
+  handle: string | null;
+  avatarUrl: string | null;
+  subscribers: number | null;
+  subscribersHidden: boolean;
+  videoCount: number;
+  country: string | null;
+  madeForKids: boolean | null;
+}
+
+interface Result extends MonetizationReport {
+  channel: Channel;
   fetchedAt: string;
 }
+
+type M = WidgetStrings["monetization"];
+
+/** Handle when there is one (kept readable, "@" unescaped), else the channel ID. */
+const channelParam = (c: Channel) => encodeURIComponent(c.handle ?? c.id).replace(/^%40/, "@");
 
 export function MonetizationChecker() {
   const { w } = useI18n();
   const { state, run } = useToolRequest<Result>("/api/tools/monetization");
+
+  // Make every result shareable: put the channel in the URL without a navigation (canonical stays parameter-free).
+  const shared = state.status === "done" ? `?c=${channelParam(state.data.channel)}` : null;
+  useEffect(() => {
+    if (shared) history.replaceState(null, "", shared);
+  }, [shared]);
 
   return (
     <div className="space-y-4">
@@ -48,23 +73,33 @@ export function MonetizationChecker() {
           const r = parseYouTubeInput(v, "channel");
           return r.ok ? null : w.parseErrors[r.code];
         }}
+        queryParams={["c", "q"]}
         onSubmit={(input) => run({ input })}
       />
 
       <div aria-live="polite">
         {state.status === "loading" && <ResultSkeleton />}
         {state.status === "error" && <ErrorBox message={state.message} />}
-        {state.status === "done" && <ResultCard {...state.data} />}
+        {/* Keyed by channel so the self-check ticks reset for each new channel. */}
+        {state.status === "done" && <ResultCard key={state.data.channel.id} {...state.data} />}
       </div>
     </div>
   );
 }
 
-const verdictTone: Record<Verdict, string> = {
-  strong: "border-good/30 bg-good-soft",
+const verdictTone: Record<TierVerdict, string> = {
+  met: "border-good/30 bg-good-soft",
   partial: "border-warn/30 bg-warn-soft",
   not_yet: "border-bad/30 bg-bad-soft",
   unclear: "border-border bg-surface-2",
+};
+
+const confidenceTone: Record<Confidence, string> = {
+  very_likely: "border-good/30 bg-good-soft",
+  possibly: "border-warn/30 bg-warn-soft",
+  possibly_fan: "border-warn/30 bg-warn-soft",
+  unlikely: "border-bad/30 bg-bad-soft",
+  cant_tell: "border-border bg-surface-2",
 };
 
 const statusIcon: Record<SignalStatus, { Icon: typeof CircleCheck; cls: string }> = {
@@ -74,63 +109,210 @@ const statusIcon: Record<SignalStatus, { Icon: typeof CircleCheck; cls: string }
   unknown: { Icon: CircleHelp, cls: "text-muted" },
 };
 
-/**
- * On non-English pages, rebuild each signal's texts natively from the raw data
- * the API now sends (the status itself still comes from the server, so the
- * logic lives in one place). English pages show the server's own strings.
- */
-function localizeSignal(s: Signal, c: Result["channel"], m: WidgetStrings["monetization"], intl: string): { label: string; value: string; detail: string } {
-  const sig = m.signals;
-  switch (s.id) {
+interface Ctx {
+  c: Channel;
+  r: Result;
+  m: M;
+  lang: string;
+  intl: string;
+}
+
+function compact(n: number, intl: string) {
+  return new Intl.NumberFormat(intl, { notation: "compact", maximumSignificantDigits: 3 }).format(n);
+}
+
+function uploadsValue({ c, r, m, intl }: Ctx) {
+  const t = m.checks.uploads;
+  if (c.videoCount === 0) return t.noVideosValue;
+  const n = r.recentUploads.toLocaleString(intl);
+  if (r.recentUploadsCapped) return fmt(t.uploadsCapped, { n });
+  return r.recentUploads === 1 ? t.uploadsOne : fmt(t.uploadsMany, { n });
+}
+
+/** Label, value and detail of one check, in the page's language. */
+function checkText(tier: "fan" | "ad", check: Check, ctx: Ctx): { label: string; value: string; detail: string } {
+  const { c, r, m, lang, intl } = ctx;
+  const s = check.status;
+  switch (check.id) {
     case "subscribers": {
-      const t = sig.subscribers;
-      if (s.status === "unknown") return { label: t.label, value: t.hiddenValue, detail: t.hiddenDetail };
-      const n = c.subscribers ?? 0;
-      const value = n >= 1000 ? `≈ ${Intl.NumberFormat(intl, { notation: "compact", maximumFractionDigits: 1 }).format(n)}` : n.toLocaleString(intl);
-      return { label: t.label, value, detail: s.status === "pass" ? t.passDetail : s.status === "warn" ? t.warnDetail : t.failDetail };
+      const t = m.checks.subscribers;
+      const label = tier === "fan" ? t.fanLabel : t.adLabel;
+      if (s === "unknown" || c.subscribers === null) return { label, value: t.hiddenValue, detail: t.hiddenDetail };
+      const value = formatSubscriberCount(c.subscribers, intl);
+      if (tier === "ad") return { label, value, detail: s === "pass" ? t.adPassDetail : t.adFailDetail };
+      if (s === "fail") return { label, value, detail: t.fanFailDetail };
+      return { label, value, detail: c.subscribers >= 1000 ? t.fanPassFullDetail : t.fanPassStarterDetail };
     }
     case "country": {
-      const t = sig.country;
-      if (s.status === "unknown" || !c.country) return { label: t.label, value: t.notSetValue, detail: t.notSetDetail };
+      const t = m.checks.country;
+      if (s === "unknown" || !c.country) return { label: t.label, value: t.notSetValue, detail: t.notSetDetail };
       let name = c.country;
       try {
         name = new Intl.DisplayNames(intl, { type: "region" }).of(c.country) ?? c.country;
       } catch {
         // Unknown region code: fall back to the raw code.
       }
-      return { label: t.label, value: name, detail: fmt(s.status === "pass" ? t.passDetail : t.failDetail, { name }) };
+      const inSentence = countryInSentence(c.country, name, lang);
+      return { label: t.label, value: name, detail: fmt(s === "pass" ? t.passDetail : t.failDetail, { name: inSentence }) };
     }
-    case "activity": {
-      const t = sig.activity;
-      if (c.videoCount === 0) return { label: t.label, value: t.noVideosValue, detail: t.noVideosDetail };
-      const value = fmt(t.uploadsValue, { n: c.recentUploads.toLocaleString(intl) });
-      const detail = s.status === "pass" ? t.passDetail : c.recentUploads > 0 ? t.warnFewDetail : t.warnNoneDetail;
+    case "uploads": {
+      const t = m.checks.uploads;
+      const value = uploadsValue(ctx);
+      if (c.videoCount === 0) return { label: t.label, value, detail: t.noVideosDetail };
+      const detail = s === "pass" ? t.passDetail : r.recentUploads > 0 ? t.failFewDetail : t.failNoneDetail;
       return { label: t.label, value, detail };
     }
     case "made_for_kids": {
-      const t = sig.madeForKids;
+      const t = m.checks.madeForKids;
       if (c.madeForKids === null) return { label: t.label, value: t.notPublicValue, detail: t.notPublicDetail };
-      return c.madeForKids
-        ? { label: t.label, value: t.yesValue, detail: t.yesDetail }
-        : { label: t.label, value: t.noValue, detail: t.noDetail };
+      if (!c.madeForKids) return { label: t.label, value: t.noValue, detail: t.noDetail };
+      return { label: t.label, value: t.yesValue, detail: tier === "fan" ? t.fanYesDetail : t.adYesDetail };
     }
-    case "watch_time":
-      return sig.watchTime;
-    case "policies":
-      return sig.policies;
+    case "watch_time": {
+      const t = m.checks.watchTime;
+      if (tier === "fan") return { label: t.fanLabel, value: m.notPublic, detail: t.detail };
+      const now = r.rules.era === "current";
+      const vars = { hours: r.rules.adWatchHours.toLocaleString(intl), shorts: compact(r.rules.adShortsViews, intl) };
+      return {
+        label: fmt(now ? t.adLabelNow : t.adLabel2027, vars),
+        value: m.notPublic,
+        detail: `${t.detail} ${now ? t.adNoteNow : t.adNote2027}`,
+      };
+    }
   }
 }
 
-function ResultCard({ channel: c, verdict, signals, fetchedAt }: Result) {
+function CheckRow({ label, value, detail, status, sr }: { label: string; value: string; detail: string; status: SignalStatus; sr: string }) {
+  const { Icon, cls } = statusIcon[status];
+  return (
+    <li className="flex gap-3 px-4 py-3">
+      <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${cls}`} aria-hidden="true" />
+      <div className="min-w-0">
+        <p className="text-sm font-medium">
+          <span className="sr-only">{sr}: </span>
+          {label} <span className="font-normal text-muted">— {value}</span>
+        </p>
+        <p className="mt-0.5 text-sm leading-relaxed text-muted">{detail}</p>
+      </div>
+    </li>
+  );
+}
+
+function TierBlock({ tier, ctx }: { tier: "fan" | "ad"; ctx: Ctx }) {
+  const { r, m } = ctx;
+  const t = r.tiers[tier];
+  const v = m.tierVerdicts[t.verdict];
+  return (
+    <section className="rounded-2xl border border-border">
+      <div className="px-4 pt-4">
+        <h3 className="font-semibold">{m.tiers[tier].title}</h3>
+        <p className="text-sm text-muted">{m.tiers[tier].unlocks}</p>
+      </div>
+      <div className={`mx-4 mt-3 rounded-xl border px-4 py-3 ${verdictTone[t.verdict]}`}>
+        <p className="font-semibold">{v.title}</p>
+        <p className="mt-1 text-sm leading-relaxed text-muted">{v.body}</p>
+      </div>
+      <ul className="mt-2 divide-y divide-border">
+        {t.checks.map((check) => (
+          <CheckRow key={check.id} {...checkText(tier, check, ctx)} status={check.status} sr={m.statusSr[check.status]} />
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function ActiveChannel({ ctx }: { ctx: Ctx }) {
+  const { r, m, intl } = ctx;
+  const a = m.active;
+  const now = r.rules.era === "current";
+  const n = r.recentUploads;
+  const line = r.recentUploadsCapped
+    ? fmt(a.uploadsLineCapped, { n: n.toLocaleString(intl) })
+    : n === 1
+      ? a.uploadsLineOne
+      : fmt(a.uploadsLine, { n: n.toLocaleString(intl) });
+  const path = activityPath(n);
+  return (
+    <section className="rounded-2xl border border-border px-4 py-4">
+      <h3 className="font-semibold">{now ? a.titleNow : a.title2027}</h3>
+      <p className="mt-1 text-sm leading-relaxed text-muted">{now ? a.ruleNow : a.rule2027}</p>
+      <p className="mt-3 text-sm font-medium">{line}</p>
+      <p className="mt-0.5 text-sm leading-relaxed text-muted">
+        {path === "enough_any" ? a.enoughAny : path === "enough_if_long" ? a.enoughIfLong : a.notEnough} {a.splitNote}
+      </p>
+      <p className="mt-2 text-xs text-muted">{a.infoOnly}</p>
+    </section>
+  );
+}
+
+const CLUES = ["join", "store", "supers", "ads"] as const;
+
+function SelfCheckPanel({ ctx }: { ctx: Ctx }) {
+  const { w } = useI18n();
+  const { c, r, m } = ctx;
+  const t = m.selfCheck;
+  const [ticks, setTicks] = useState<SelfCheck>({ join: false, store: false, supers: false, ads: false });
+  const level = confidence(c, r.tiers.ad.verdict, ticks);
+  const anyTicked = CLUES.some((k) => ticks[k]);
+  const ytUrl = c.handle ? `https://www.youtube.com/${c.handle}` : `https://www.youtube.com/channel/${c.id}`;
+  return (
+    <section className="rounded-2xl border border-border px-4 py-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h3 className="font-semibold">{t.title}</h3>
+          <p className="mt-1 text-sm leading-relaxed text-muted">{t.intro}</p>
+        </div>
+        <a
+          href={ytUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${t.openChannel} ${w.opensInNewTab}`}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-border px-3.5 py-2 text-sm font-medium transition hover:border-accent"
+        >
+          {t.openChannel} <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+        </a>
+      </div>
+      <fieldset className="mt-3">
+        <legend className="sr-only">{t.title}</legend>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {CLUES.map((k) => (
+            <label key={k} className="flex cursor-pointer gap-3 rounded-xl border border-border px-3 py-2.5 transition hover:border-accent">
+              <input
+                type="checkbox"
+                className="mt-1 h-4 w-4 shrink-0 accent-[var(--accent)]"
+                checked={ticks[k]}
+                onChange={(e) => setTicks((prev) => ({ ...prev, [k]: e.target.checked }))}
+              />
+              <span className="min-w-0">
+                <span className="block text-sm font-medium">{t.clues[k].label}</span>
+                <span className="mt-0.5 block text-xs leading-relaxed text-muted">{t.clues[k].strength}</span>
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <div className={`mt-3 rounded-xl border px-4 py-3 ${confidenceTone[level]}`} aria-live="polite">
+        <p className="font-semibold">
+          <span className="text-sm font-medium text-muted">{t.confidenceLabel}: </span>
+          {t.confidence[level].title}
+        </p>
+        <p className="mt-1 text-sm leading-relaxed text-muted">{t.confidence[level].body}</p>
+        {!anyTicked && <p className="mt-1 text-xs text-muted">{t.tickHint}</p>}
+      </div>
+    </section>
+  );
+}
+
+function ResultCard(r: Result) {
   const { lang, intl, w } = useI18n();
   const m = w.monetization;
-  const v = m.verdicts[verdict];
-  const subs =
-    c.subscribersHidden || c.subscribers === null
-      ? m.hiddenByCreator
-      : c.subscribers >= 1000
-        ? `≈ ${Intl.NumberFormat(intl, { notation: "compact", maximumFractionDigits: 1 }).format(c.subscribers)}`
-        : c.subscribers.toLocaleString(intl);
+  const c = r.channel;
+  const ctx: Ctx = { c, r, m, lang, intl };
+  const subs = c.subscribersHidden || c.subscribers === null ? m.hiddenByCreator : formatSubscriberCount(c.subscribers, intl);
+  const days = r.rules.daysUntilChange;
+  const countdown = days === null ? null : days === 1 ? m.countdownOne : fmt(m.countdownMany, { n: days.toLocaleString(intl) });
+  const param = channelParam(c);
+  const shareUrl = `${location.origin}${location.pathname}?c=${param}`;
 
   return (
     <div className="result-enter rounded-3xl border border-border bg-surface p-5 shadow-panel sm:p-7">
@@ -148,34 +330,49 @@ function ResultCard({ channel: c, verdict, signals, fetchedAt }: Result) {
         </div>
       </div>
 
-      <div className={`mt-4 rounded-xl border px-4 py-3 ${verdictTone[verdict]}`}>
-        <p className="font-semibold">{v.title}</p>
-        <p className="mt-1 text-sm leading-relaxed text-muted">{v.body}</p>
-      </div>
+      {countdown && (
+        <p className="mt-4 flex items-center gap-2 rounded-xl bg-surface-2 px-4 py-2.5 text-sm font-medium">
+          <CalendarClock className="h-4 w-4 shrink-0 text-accent-strong" aria-hidden="true" />
+          {/* The section it points to exists on the English page; localized pages get it with their page copy. */}
+          {lang === "en" ? (
+            <a href={`#${REQUIREMENTS_2027_ID}`} className="text-accent-strong underline">
+              {countdown}
+            </a>
+          ) : (
+            <span>{countdown}</span>
+          )}
+        </p>
+      )}
 
-      <ul className="mt-4 divide-y divide-border rounded-xl border border-border">
-        {signals.map((s) => {
-          const { Icon, cls } = statusIcon[s.status];
-          const text = lang === "en" ? { label: s.label, value: s.value, detail: s.detail } : localizeSignal(s, c, m, intl);
-          return (
-            <li key={s.id} className="flex gap-3 px-4 py-3">
-              <Icon className={`mt-0.5 h-5 w-5 shrink-0 ${cls}`} aria-hidden="true" />
-              <div className="min-w-0">
-                <p className="text-sm font-medium">
-                  <span className="sr-only">{m.statusSr[s.status]}: </span>
-                  {text.label} <span className="font-normal text-muted">— {text.value}</span>
-                </p>
-                <p className="mt-0.5 text-sm leading-relaxed text-muted">{text.detail}</p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="mt-4 space-y-4">
+        <TierBlock tier="fan" ctx={ctx} />
+        <TierBlock tier="ad" ctx={ctx} />
+        <ul className="rounded-2xl border border-border">
+          <CheckRow
+            label={`${m.bothTiers}: ${m.checks.policies.label}`}
+            value={m.notPublic}
+            detail={m.checks.policies.detail}
+            status="unknown"
+            sr={m.statusSr.unknown}
+          />
+        </ul>
+        <ActiveChannel ctx={ctx} />
+        <SelfCheckPanel ctx={ctx} />
+      </div>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-xs text-muted">{m.estimateNote}</p>
-        <FetchedAt iso={fetchedAt} />
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href={`/revenue-calculator/channel-earnings-estimator?q=${param}`}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-accent-fill px-3.5 py-2 text-sm font-medium text-white transition hover:bg-accent-fill-strong"
+          >
+            {m.estimateEarnings} <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </Link>
+          <CopyButton text={shareUrl} label={m.copyLink} ariaLabel={m.copyLinkAria} />
+        </div>
+        <FetchedAt iso={r.fetchedAt} />
       </div>
+      <p className="mt-3 text-xs text-muted">{m.estimateNote}</p>
     </div>
   );
 }
@@ -190,8 +387,9 @@ function ResultSkeleton() {
           <Skeleton className="h-4 w-64" />
         </div>
       </div>
-      <Skeleton className="mt-4 h-20 w-full" />
-      <Skeleton className="mt-4 h-72 w-full" />
+      <Skeleton className="mt-4 h-10 w-full" />
+      <Skeleton className="mt-4 h-96 w-full" />
+      <Skeleton className="mt-4 h-80 w-full" />
     </div>
   );
 }

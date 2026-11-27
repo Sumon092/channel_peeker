@@ -1,6 +1,6 @@
 import { readYouTubeInput } from "@/lib/api";
 import { errorResponse } from "@/lib/errors";
-import { ACTIVITY_WINDOW_DAYS, buildMonetizationReport } from "@/lib/monetization";
+import { buildMonetizationReport } from "@/lib/monetization";
 import { enforceRateLimit } from "@/lib/rate-limit";
 import { getChannel } from "@/lib/youtube/channels";
 import { getRecentUploads } from "@/lib/youtube/uploads";
@@ -13,8 +13,8 @@ export async function POST(req: Request) {
     const uploadDates = c.uploadsPlaylistId
       ? (await getRecentUploads(c.uploadsPlaylistId, "monetization-checker")).data.map((u) => u.publishedAt)
       : [];
-    const { verdict, signals } = buildMonetizationReport(c, uploadDates);
-    const cutoff = Date.now() - ACTIVITY_WINDOW_DAYS * 86_400_000;
+    // Statuses and raw data only: the widget renders every text in the page's language.
+    const report = buildMonetizationReport(c, uploadDates);
     return Response.json({
       channel: {
         id: c.id,
@@ -24,13 +24,10 @@ export async function POST(req: Request) {
         subscribers: c.subscribers,
         subscribersHidden: c.subscribersHidden,
         videoCount: c.videoCount,
-        // Raw inputs so localized pages can rebuild the signal texts natively.
         country: c.country,
         madeForKids: c.madeForKids,
-        recentUploads: uploadDates.filter((d) => Date.parse(d) >= cutoff).length,
       },
-      verdict,
-      signals,
+      ...report,
       fetchedAt,
     });
   } catch (err) {

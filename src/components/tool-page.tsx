@@ -61,6 +61,8 @@ interface ToolPageProps {
   meaning: ReactNode;
   /** Overrides the "What the results mean" H2. */
   meaningHeading?: string;
+  /** Anchor id for the "what the results mean" section (e.g. for in-widget links). */
+  meaningId?: string;
   /** Prose shown just below the widget, before the how-to. */
   afterTool?: ReactNode;
   /** A prose section between the how-to and "what the results mean". */
@@ -92,7 +94,7 @@ function Highlighted({ text, part }: { text: string; part: string }) {
  * Shared layout for every tool page (plan section 9.2): H1 and the tool above the fold,
  * then how-to, what the results mean, FAQ, related tools and schema.
  */
-export function ToolPage({ tool, heading, highlight, intro, children, howTo, howToTip, meaning, meaningHeading, afterTool, resultSection, extraSection, faq, related, updated, dataBadge = "Official YouTube data", i18n }: ToolPageProps) {
+export function ToolPage({ tool, heading, highlight, intro, children, howTo, howToTip, meaning, meaningHeading, meaningId, afterTool, resultSection, extraSection, faq, related, updated, dataBadge = "Official YouTube data", i18n }: ToolPageProps) {
   const hub = getHub(tool.hub);
   const L = i18n?.labels;
   const pagePath = i18n?.path ?? tool.path;
@@ -167,7 +169,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, how
         </section>
       )}
 
-      <section className="border-y border-border bg-surface-2/50">
+      <section id={meaningId} className="scroll-mt-20 border-y border-border bg-surface-2/50">
         <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
           <SectionHeading eyebrow={L?.meaningEyebrow ?? "Understand your results"} title={meaningHeading ?? L?.meaningHeading ?? "What the results mean"} />
           <div className="prose-cp mt-6">{meaning}</div>
