@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ToolPage } from "@/components/tool-page";
+import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
 import { ChannelAgeChecker } from "./channel-age-checker";
@@ -11,6 +12,7 @@ export const metadata = pageMetadata({
   description:
     "Find out exactly when any YouTube channel was created and how old it is, with total views and video count. Free, instant, no signup.",
   path: tool.path,
+  languages: hreflangFor("/channel-age-checker"),
 });
 
 export default function Page() {

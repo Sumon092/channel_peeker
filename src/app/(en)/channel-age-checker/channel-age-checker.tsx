@@ -9,7 +9,7 @@ import { ToolInput } from "@/components/ui/tool-input";
 import { useToolRequest } from "@/components/ui/use-tool-request";
 import { useI18n } from "@/components/i18n-provider";
 import { averageViewsPerVideo, channelAge, formatAgeIn, isPlaceholderDate, pluralUnit, subscribersPerMonth, totalDays } from "@/lib/channel-age";
-import { EN_WIDGETS, fmt } from "@/lib/widget-i18n";
+import { fmt } from "@/lib/widget-i18n";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
 interface Result {
@@ -28,10 +28,10 @@ interface Result {
   fetchedAt: string;
 }
 
-/** The page language's channel-age strings (English until a language adds its own). */
+/** The page language's channel-age strings. */
 function useAgeStrings() {
   const { intl, w } = useI18n();
-  return { intl, w, a: w.channelAge ?? EN_WIDGETS.channelAge! };
+  return { intl, w, a: w.channelAge };
 }
 
 /** "95.9K" / "9.6万"; in languages that don't shorten thousands (German "95.884") a whole number, never "95.883,7". */

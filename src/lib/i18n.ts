@@ -19,6 +19,7 @@ export const LOCALIZED_TOOLS = [
   "/channel-analyzer",
   "/watch-time-calculator",
   "/video-upload-date-checker",
+  "/channel-age-checker",
 ] as const;
 
 export const localePath = (locale: Locale, enPath: string) => `/${locale}${enPath}`;
@@ -186,15 +187,6 @@ export const LABELS: Record<Locale, ToolPageLabels> = {
   },
 };
 
-/** A subsection under a localized page's meaning paragraphs: an h3, paragraphs, and an optional table. */
-export interface LocalizedSection {
-  heading: string;
-  paragraphs?: string[];
-  /** External link (new tab) on the first occurrence of `text` in the first paragraph. */
-  link?: { text: string; href: string };
-  /** First column of each row is rendered as the row header. */
-  table?: { columns: string[]; rows: string[][] };
-}
 
 /** Content for one localized tool page (meaning paragraphs are plain strings). */
 export interface LocalizedToolContent {
@@ -206,8 +198,6 @@ export interface LocalizedToolContent {
   intro: string;
   howTo: string[];
   meaning: string[];
-  /** Optional subsections rendered after `meaning` (see LocalizedSections). */
-  sections?: LocalizedSection[];
   faq: { q: string; a: string }[];
   /** Third trust badge, translated truthfully per tool type. */
   dataBadge: string;

@@ -326,8 +326,8 @@ export interface WidgetStrings {
     copy: { views: string; needed: string; pctViewed: string; perVideo: string; progress: string; reached: string; subs: string; retention: string; footer: string };
   };
 
-  /** Channel age checker. Optional so a language can be added on its own; the widget falls back to English. */
-  channelAge?: {
+  /** Channel age checker. */
+  channelAge: {
     submit: string;
     noHandle: string;
     notPublicTitle: string;

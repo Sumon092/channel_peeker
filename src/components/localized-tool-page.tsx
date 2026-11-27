@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ToolPage } from "@/components/tool-page";
-import { hreflangFor, isLocalizedTool, LABELS, localePath, type Locale } from "@/lib/i18n";
+import { hreflangFor, LABELS, localePath, type Locale } from "@/lib/i18n";
 import type { Block, LocalizedPageContent, PageSection } from "@/lib/localized-page";
 import { pageMetadata } from "@/lib/seo";
 import { getTool } from "@/lib/tools";
@@ -106,9 +106,7 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
 const section = (s: PageSection) => ({ eyebrow: s.eyebrow, title: s.title, id: s.id, content: <Blocks blocks={s.blocks} /> });
 
 export function localizedMetadata(locale: Locale, enPath: string, c: LocalizedPageContent) {
-  // hreflang only once the tool is in LOCALIZED_TOOLS (i.e. every language's page exists).
-  const languages = isLocalizedTool(enPath) ? hreflangFor(enPath) : undefined;
-  return pageMetadata({ title: c.title, description: c.description, path: localePath(locale, enPath), languages });
+  return pageMetadata({ title: c.title, description: c.description, path: localePath(locale, enPath), languages: hreflangFor(enPath) });
 }
 
 /** A translated tool page with the same layout as its English page. */
