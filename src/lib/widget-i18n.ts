@@ -269,7 +269,7 @@ export interface WidgetStrings {
     needLine: string;
     views3000Label: string;
     views4000Label: string;
-    /** 8,000 hours: YPP ad-revenue bar for new applicants from Feb 1, 2027 */
+    /** 8,000 hours: YPP ad-revenue bar for new applicants from February 1, 2027 */
     views8000Label: string;
     /** Shown under the 8,000-hour figure */
     views8000Note: string;
@@ -687,7 +687,7 @@ export const EN_WIDGETS: WidgetStrings = {
     views3000Label: "Views needed for 3,000 hours",
     views4000Label: "Views needed for 4,000 hours",
     views8000Label: "Views needed for 8,000 hours",
-    views8000Note: "from Feb 1, 2027",
+    views8000Note: "from February 1, 2027",
     perDayLine: "If these views are from the last 365 days, that's about {perDay} watch hours a day. 4,000 hours needs about {target} a day.",
     explainer:
       "Watch time = views × average view duration. YouTube's 4,000-hour requirement counts public watch hours in the last 365 days (Shorts feed views don't count toward it — Shorts have a separate 10M-views path). Your exact average view duration is in YouTube Studio under Analytics → Engagement.",

@@ -322,7 +322,7 @@ export const widgets: WidgetStrings = {
     views3000Label: "Visualizaciones necesarias para 3.000 horas",
     views4000Label: "Visualizaciones necesarias para 4.000 horas",
     views8000Label: "Visualizaciones necesarias para 8.000 horas",
-    views8000Note: "desde el 1 de feb. de 2027",
+    views8000Note: "desde el 1 de febrero de 2027",
     perDayLine: "Si estas visualizaciones son de los últimos 365 días, son unas {perDay} horas de visualización al día. Para 4.000 horas hacen falta unas {target} al día.",
     explainer:
       "Tiempo de visualización = vistas × duración media de visualización. El requisito de 4,000 horas de YouTube cuenta las horas de visualización públicas de los últimos 365 días (las vistas del feed de Shorts no cuentan — los Shorts tienen su propia vía de 10 M de vistas). Tu duración media exacta está en YouTube Studio, en Estadísticas → Interacción.",

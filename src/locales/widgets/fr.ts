@@ -322,7 +322,7 @@ export const widgets: WidgetStrings = {
     views3000Label: "Vues nécessaires pour 3 000 heures",
     views4000Label: "Vues nécessaires pour 4 000 heures",
     views8000Label: "Vues nécessaires pour 8 000 heures",
-    views8000Note: "à partir du 1er févr. 2027",
+    views8000Note: "à partir du 1er février 2027",
     perDayLine: "Si ces vues datent des 365 derniers jours, cela fait environ {perDay} heures de visionnage par jour. Pour 4 000 heures, il en faut environ {target} par jour.",
     explainer:
       "Temps de visionnage = vues × durée moyenne de visionnage. L'exigence des 4 000 heures de YouTube compte les heures de visionnage publiques des 365 derniers jours (les vues du flux Shorts ne comptent pas — les Shorts ont leur propre voie à 10 M de vues). Votre durée moyenne exacte se trouve dans YouTube Studio, sous Données d'analyse → Engagement.",
