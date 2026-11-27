@@ -9,6 +9,8 @@ const inputCls = "w-full field-pill px-4 py-3";
 const THRESHOLD_HOURS = 4000;
 /** Expanded (fan-funding) YPP tier, available in some countries. */
 const EARLY_TIER_HOURS = 3000;
+/** Ad-revenue threshold for new YPP applicants from February 1, 2027. */
+const NEW_THRESHOLD_HOURS = 8000;
 const DAYS_IN_WINDOW = 365;
 
 function parseNum(v: string): number | null {
@@ -39,6 +41,7 @@ export function WatchTimeCalculator() {
   const viewsFor = (hours: number) => (avgSeconds > 0 ? Math.ceil((hours * 3600) / avgSeconds) : null);
   const viewsFor4000 = viewsFor(THRESHOLD_HOURS);
   const viewsFor3000 = viewsFor(EARLY_TIER_HOURS);
+  const viewsFor8000 = viewsFor(NEW_THRESHOLD_HOURS);
   const pctOfThreshold = watchHours !== null ? Math.min(100, (watchHours / THRESHOLD_HOURS) * 100) : null;
 
   const field = (key: "v" | "m" | "s", label: string, value: string, set: (v: string) => void) => (
@@ -113,14 +116,16 @@ export function WatchTimeCalculator() {
             </div>
           )}
 
-          <dl className="grid gap-4 sm:grid-cols-2">
+          <dl className="grid gap-4 sm:grid-cols-3">
             {[
               { label: t.views3000Label, value: viewsFor3000 },
               { label: t.views4000Label, value: viewsFor4000 },
-            ].map(({ label, value }) => (
+              { label: t.views8000Label, value: viewsFor8000, note: t.views8000Note },
+            ].map(({ label, value, note }) => (
               <div key={label} className="rounded-xl bg-surface-2 px-4 py-4 text-center">
                 <dt className="text-xs text-muted">{label}</dt>
                 <dd className="mt-1 text-xl font-bold tabular-nums">{value !== null ? fmt(value) : "—"}</dd>
+                {note && <dd className="mt-1 text-xs text-muted">{note}</dd>}
               </div>
             ))}
           </dl>

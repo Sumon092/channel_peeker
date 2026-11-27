@@ -16,13 +16,16 @@ export const metadata = pageMetadata({
 });
 
 /** Views needed at each average view duration. Values are ceil(hours × 3600 ÷ seconds), same as the widget. */
-const VIEWS_TABLE: [duration: string, for3000: string, for4000: string][] = [
-  ["2 minutes", "90,000", "120,000"],
-  ["3 minutes 30 seconds", "51,429", "68,572"],
-  ["5 minutes", "36,000", "48,000"],
-  ["8 minutes", "22,500", "30,000"],
-  ["10 minutes", "18,000", "24,000"],
+const VIEWS_TABLE: [duration: string, for3000: string, for4000: string, for8000: string][] = [
+  ["2 minutes", "90,000", "120,000", "240,000"],
+  ["3 minutes 30 seconds", "51,429", "68,572", "137,143"],
+  ["5 minutes", "36,000", "48,000", "96,000"],
+  ["8 minutes", "22,500", "30,000", "60,000"],
+  ["10 minutes", "18,000", "24,000", "48,000"],
 ];
+
+/** YouTube's announcement of the February 1, 2027 Partner Program changes. */
+const YPP_CHANGES_URL = "https://support.google.com/youtube/answer/12843009";
 
 export default function Page() {
   return (
@@ -60,6 +63,18 @@ export default function Page() {
             revenue.
           </p>
 
+          <h3>Changing on February 1, 2027: 8,000 hours for new channels</h3>
+          <p>
+            From{" "}
+            <a href={YPP_CHANGES_URL} target="_blank" rel="noopener noreferrer">
+              February 1, 2027
+            </a>
+            , channels applying for ad revenue will need 8,000 watch hours in the last 365 days, or 20 million Shorts views in 90 days, plus
+            1,000 subscribers. That&apos;s double today&apos;s bar. Channels already in the Partner Program aren&apos;t affected, and the
+            3,000-hour fan funding level stays the same. If you&apos;re planning to apply after February 1, aim for 8,000. That works out to
+            about 22 hours of viewing every day.
+          </p>
+
           <h3>How many views you need for 4,000 hours</h3>
           <p>Average view duration makes a huge difference. Here&apos;s how many views it takes at different durations:</p>
           <table>
@@ -68,16 +83,18 @@ export default function Page() {
                 <th scope="col">Average view duration</th>
                 <th scope="col">Views for 3,000 hours</th>
                 <th scope="col">Views for 4,000 hours</th>
+                <th scope="col">Views for 8,000 hours</th>
               </tr>
             </thead>
             <tbody>
-              {VIEWS_TABLE.map(([duration, for3000, for4000]) => (
+              {VIEWS_TABLE.map(([duration, for3000, for4000, for8000]) => (
                 <tr key={duration}>
                   <th scope="row" className="font-normal">
                     {duration}
                   </th>
                   <td className="tabular-nums">{for3000}</td>
                   <td className="tabular-nums">{for4000}</td>
+                  <td className="tabular-nums">{for8000}</td>
                 </tr>
               ))}
             </tbody>
@@ -156,6 +173,10 @@ export default function Page() {
         {
           q: "How many views do I need for 4,000 watch hours?",
           a: "It depends on how long people watch. At a 2-minute average you'd need 120,000 views. At 5 minutes it's 48,000, and at 10 minutes just 24,000. Enter your own average above to get your exact number.",
+        },
+        {
+          q: "Is the 4,000-hour requirement changing?",
+          a: "Yes, for new channels. From February 1, 2027, new applicants need 8,000 watch hours in the last 365 days (or 20 million Shorts views in 90 days) plus 1,000 subscribers. If you're already monetized, nothing changes for you.",
         },
         {
           q: "Where do I find my average view duration?",
