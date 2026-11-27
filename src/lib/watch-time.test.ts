@@ -4,6 +4,7 @@ import {
   defaultGoal,
   durationSeconds,
   formatDuration,
+  formatInput,
   needs8000Warning,
   parseNumber,
   percentViewed,
@@ -64,6 +65,22 @@ describe("formulas", () => {
     expect(durationSeconds("", "45")).toBe(45);
     expect(durationSeconds("", "")).toBeNull();
     expect(durationSeconds("x", "1")).toBeNull();
+  });
+
+  it("parses numbers in the page language", () => {
+    expect(parseNumber("42.000", "pt-BR")).toBe(42_000);
+    expect(parseNumber("42.000", "de")).toBe(42_000);
+    expect(parseNumber("3,5", "de")).toBe(3.5);
+    expect(parseNumber("42\u202f000", "fr")).toBe(42_000);
+    expect(parseNumber("42 000", "fr")).toBe(42_000);
+    expect(parseNumber("42,000", "es-419")).toBe(42_000);
+    expect(parseNumber("42,000", "ja")).toBe(42_000);
+    expect(parseNumber("12.5", "en")).toBe(12.5);
+    expect(parseNumber("1.2.3", "en")).toBeNull();
+    expect(parseNumber("50k", "de")).toBeNull();
+    expect(formatInput(42_000, "pt-BR")).toBe("42.000");
+    expect(formatInput(42_000, "en")).toBe("42,000");
+    expect(formatInput(null)).toBe("");
   });
 
   it("formats durations", () => {
@@ -166,6 +183,13 @@ describe("share links", () => {
     expect(shareQuery("views", all)).toBe("?tab=views&views=42000&avd=5:20&len=12:00&videos=20");
     expect(shareQuery("progress", all)).toBe("?tab=progress&h12=2850&h28=310&subs=740&goal=4000");
     expect(shareQuery("retention", all)).toBe("?tab=retention&len=14:00&ret=38&views=60000");
+  });
+
+  it("writes plain numbers from a Portuguese or German page", () => {
+    const pt = { views: { ...views, views: "42.000" }, progress: { ...prog, h12: "2.850" }, retention: { ...ret, views: "60.000" } };
+    expect(shareQuery("views", pt, "pt-BR")).toBe("?tab=views&views=42000&avd=5:20&len=12:00&videos=20");
+    expect(shareQuery("progress", pt, "pt-BR")).toBe("?tab=progress&h12=2850&h28=310&subs=740&goal=4000");
+    expect(shareQuery("retention", pt, "de")).toBe("?tab=retention&len=14:00&ret=38&views=60000");
   });
 
   it("reads them back", () => {

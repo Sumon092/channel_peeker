@@ -23,18 +23,35 @@ export function defaultGoal(now = new Date()): Goal {
 
 export const isGoal = (n: number): n is Goal => (GOALS as readonly number[]).includes(n);
 
-/** Strict number parsing: "50k" or "1e3" must error visibly, not silently become 50 or 1000. Empty → null. */
-export function parseNumber(v: string): number | null {
-  if (!/^[\d,.\s]*$/.test(v) || !v.trim()) return null;
-  const n = Number.parseFloat(v.replace(/[,\s]/g, ""));
+/** The page language's thousands and decimal separators ("," and "." in English, "." and "," in German). */
+function separators(intl: string): { group: string; decimal: string } {
+  const parts = new Intl.NumberFormat(intl).formatToParts(12345.6);
+  return { group: parts.find((x) => x.type === "group")?.value ?? ",", decimal: parts.find((x) => x.type === "decimal")?.value ?? "." };
+}
+
+/**
+ * Strict number parsing in the page's language: "42,000" in English, "42.000" in German or Portuguese,
+ * "42 000" in French. "50k" or "1e3" must error visibly, not silently become 50 or 1000. Empty → null.
+ */
+export function parseNumber(v: string, intl = "en"): number | null {
+  if (!v.trim()) return null;
+  const { group, decimal } = separators(intl);
+  let t = v.replace(/[\s\u00a0\u202f]/g, "");
+  if (!/\s/.test(group)) t = t.split(group).join("");
+  t = t.replace(decimal, ".");
+  if (!/^(\d+\.?\d*|\.\d+)$/.test(t)) return null;
+  const n = Number.parseFloat(t);
   return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
+/** A number for an input field in the page's language (42000 → "42.000" in German); "" for null. */
+export const formatInput = (n: number | null, intl = "en") => (n === null ? "" : n.toLocaleString(intl, { maximumFractionDigits: 2 }));
+
 /** Seconds from separate minutes and seconds fields; null when both are empty or either is invalid. */
-export function durationSeconds(minutes: string, seconds: string): number | null {
+export function durationSeconds(minutes: string, seconds: string, intl = "en"): number | null {
   if (!minutes.trim() && !seconds.trim()) return null;
-  const m = minutes.trim() ? parseNumber(minutes) : 0;
-  const s = seconds.trim() ? parseNumber(seconds) : 0;
+  const m = minutes.trim() ? parseNumber(minutes, intl) : 0;
+  const s = seconds.trim() ? parseNumber(seconds, intl) : 0;
   if (m === null || s === null) return null;
   return m * 60 + s;
 }
@@ -166,12 +183,16 @@ export interface RetentionFields {
 /** Query parameter names used by share links (also the list for GA redaction). */
 export const SHARE_PARAMS = ["tab", "views", "avd", "len", "videos", "h12", "h28", "subs", "goal", "ret"] as const;
 
-const clean = (v: string) => v.replace(/[,\s]/g, "");
+/** A field as a plain number for links ("42.000" on a German page → "42000"); "" when empty or invalid. */
+const plainNum = (v: string, intl: string) => {
+  const n = parseNumber(v, intl);
+  return n === null ? "" : String(n);
+};
 
 /** "3" + "30" → "3:30"; empty when both are empty. */
-function joinMS(m: string, s: string): string {
+function joinMS(m: string, s: string, intl: string): string {
   if (!m.trim() && !s.trim()) return "";
-  return `${clean(m) || "0"}:${(clean(s) || "0").padStart(2, "0")}`;
+  return `${plainNum(m, intl) || "0"}:${(plainNum(s, intl) || "0").padStart(2, "0")}`;
 }
 
 /** "3:30" → ["3", "30"]; "4" → ["4", ""]; invalid → null. */
@@ -188,17 +209,19 @@ function query(pairs: [string, string][]): string {
   return "?" + p.map(([k, v]) => `${k}=${encodeURIComponent(v).replace(/%3A/g, ":")}`).join("&");
 }
 
-export function shareQuery(tab: Tab, f: { views: ViewsFields; progress: ProgressFields; retention: RetentionFields }): string {
+/** Share-link query with plain numbers, so a link opens with the same values in any language. */
+export function shareQuery(tab: Tab, f: { views: ViewsFields; progress: ProgressFields; retention: RetentionFields }, intl = "en"): string {
+  const c = (v: string) => plainNum(v, intl);
   if (tab === "views") {
     const v = f.views;
-    return query([["tab", "views"], ["views", clean(v.views)], ["avd", joinMS(v.avdM, v.avdS)], ["len", joinMS(v.lenM, v.lenS)], ["videos", clean(v.videos)]]);
+    return query([["tab", "views"], ["views", c(v.views)], ["avd", joinMS(v.avdM, v.avdS, intl)], ["len", joinMS(v.lenM, v.lenS, intl)], ["videos", c(v.videos)]]);
   }
   if (tab === "progress") {
     const p = f.progress;
-    return query([["tab", "progress"], ["h12", clean(p.h12)], ["h28", clean(p.h28)], ["subs", clean(p.subs)], ["goal", String(p.goal)]]);
+    return query([["tab", "progress"], ["h12", c(p.h12)], ["h28", c(p.h28)], ["subs", c(p.subs)], ["goal", String(p.goal)]]);
   }
   const r = f.retention;
-  return query([["tab", "retention"], ["len", joinMS(r.lenM, r.lenS)], ["ret", clean(r.ret)], ["views", clean(r.views)], ["videos", clean(r.videos)]]);
+  return query([["tab", "retention"], ["len", joinMS(r.lenM, r.lenS, intl)], ["ret", c(r.ret)], ["views", c(r.views)], ["videos", c(r.videos)]]);
 }
 
 export interface SharedState {

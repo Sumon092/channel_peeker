@@ -10,6 +10,7 @@ import {
   defaultGoal,
   durationSeconds,
   formatDuration,
+  formatInput,
   GOALS,
   needs8000Warning,
   parseNumber,
@@ -39,17 +40,18 @@ const boxCls = "rounded-xl bg-surface-2 px-4 py-4";
 const THRESHOLD_HOURS = 4000;
 const TAB_KEY = "cp:watch-time:tab";
 
-const VIEWS_START: ViewsFields = { views: "100,000", avdM: "3", avdS: "30", lenM: "", lenS: "", videos: "" };
-const VIEWS_EXAMPLE: ViewsFields = { views: "42,000", avdM: "5", avdS: "20", lenM: "12", lenS: "0", videos: "20" };
+// Example and starting values are numbers, written into the fields in the page language ("42,000" / "42.000").
+const viewsStart = (intl: string): ViewsFields => ({ views: formatInput(100_000, intl), avdM: "3", avdS: "30", lenM: "", lenS: "", videos: "" });
+const viewsExample = (intl: string): ViewsFields => ({ views: formatInput(42_000, intl), avdM: "5", avdS: "20", lenM: "12", lenS: "0", videos: "20" });
 const VIEWS_EMPTY: ViewsFields = { views: "", avdM: "", avdS: "", lenM: "", lenS: "", videos: "" };
-const progressExample = (): ProgressFields => ({ h12: "2,850", h28: "310", subs: "740", goal: defaultGoal() });
+const progressExample = (intl: string): ProgressFields => ({ h12: formatInput(2850, intl), h28: "310", subs: "740", goal: defaultGoal() });
 const progressEmpty = (): ProgressFields => ({ h12: "", h28: "", subs: "", goal: defaultGoal() });
-const RETENTION_EXAMPLE: RetentionFields = { lenM: "14", lenS: "0", ret: "38", views: "60,000", videos: "25" };
+const retentionExample = (intl: string): RetentionFields => ({ lenM: "14", lenS: "0", ret: "38", views: formatInput(60_000, intl), videos: "25" });
 const RETENTION_EMPTY: RetentionFields = { lenM: "", lenS: "", ret: "", views: "", videos: "" };
 
 /** A whole number of videos (2 or more makes a per-video split worth showing); null when empty or invalid. */
-function videoCount(v: string): number | null {
-  const n = parseNumber(v);
+function videoCount(v: string, intl: string): number | null {
+  const n = parseNumber(v, intl);
   return n !== null && Number.isInteger(n) && n >= 1 ? n : null;
 }
 
@@ -147,10 +149,11 @@ function DurationField(props: {
 
 /** Error text for a field that has text but isn't a number. */
 function useFieldError(t: T) {
-  return (v: string, example: string) => (v.trim() && parseNumber(v) === null ? tfmt(t.numberError, { example }) : null);
+  const { intl } = useI18n();
+  return (v: string, example: number) => (v.trim() && parseNumber(v, intl) === null ? tfmt(t.numberError, { example: formatInput(example, intl) }) : null);
 }
-function durationError(t: T, m: string, s: string, example: string) {
-  return (m.trim() || s.trim()) && durationSeconds(m, s) === null ? tfmt(t.numberError, { example }) : null;
+function durationError(t: T, m: string, s: string, example: string, intl: string) {
+  return (m.trim() || s.trim()) && durationSeconds(m, s, intl) === null ? tfmt(t.numberError, { example }) : null;
 }
 
 /* ---------- Shared result pieces ---------- */
@@ -203,18 +206,19 @@ function neededCopy(t: T, f: (n: number) => string, avd: number, videos: number 
 /* ---------- Tab 1: views to hours ---------- */
 
 function useViewsResult(fields: ViewsFields, t: T) {
+  const { intl } = useI18n();
   const f = useFormat();
   const err = useFieldError(t);
   const errors = {
-    views: err(fields.views, "100,000"),
-    avd: durationError(t, fields.avdM, fields.avdS, "3 : 30"),
-    len: durationError(t, fields.lenM, fields.lenS, "10 : 00"),
-    videos: fields.videos.trim() && videoCount(fields.videos) === null ? tfmt(t.numberError, { example: "20" }) : null,
+    views: err(fields.views, 100_000),
+    avd: durationError(t, fields.avdM, fields.avdS, "3 : 30", intl),
+    len: durationError(t, fields.lenM, fields.lenS, "10 : 00", intl),
+    videos: fields.videos.trim() && videoCount(fields.videos, intl) === null ? tfmt(t.numberError, { example: "20" }) : null,
   };
-  const views = parseNumber(fields.views);
-  const avd = durationSeconds(fields.avdM, fields.avdS);
-  const len = durationSeconds(fields.lenM, fields.lenS);
-  const videos = videoCount(fields.videos);
+  const views = parseNumber(fields.views, intl);
+  const avd = durationSeconds(fields.avdM, fields.avdS, intl);
+  const len = durationSeconds(fields.lenM, fields.lenS, intl);
+  const videos = videoCount(fields.videos, intl);
   const hours = views !== null && avd !== null && avd > 0 ? hoursOf(views, avd) : null;
   const pctViewed = avd !== null && avd > 0 && len !== null && len > 0 ? percentViewed(avd, len) : null;
   // Views still needed for 4,000 hours at this duration; null once these views already get there.
@@ -270,7 +274,7 @@ function ViewsPanel({ fields, set, t }: { fields: ViewsFields; set: (f: Partial<
         {r.hours !== null
           ? r.hours >= THRESHOLD_HOURS
             ? tfmt(t.statusPast, { hours: f(r.hours) })
-            : tfmt(t.statusAt, { hours: f(r.hours), pct: pct?.toFixed(1) ?? "0" })
+            : tfmt(t.statusAt, { hours: f(r.hours), pct: f(pct ?? 0, 1) })
           : ""}
       </p>
 
@@ -280,7 +284,7 @@ function ViewsPanel({ fields, set, t }: { fields: ViewsFields; set: (f: Partial<
             <p className="text-xs text-muted">{t.totalLabel}</p>
             <p className="mt-1 text-2xl font-black tabular-nums tracking-tight">{tfmt(t.hoursValue, { n: f(r.hours) })}</p>
             <p className="mt-1 text-sm text-muted">
-              {pct !== null && pct < 100 ? tfmt(t.minutesLinePct, { m: f(r.hours * 60), pct: pct.toFixed(1) }) : tfmt(t.minutesLinePast, { m: f(r.hours * 60) })}
+              {pct !== null && pct < 100 ? tfmt(t.minutesLinePct, { m: f(r.hours * 60), pct: f(pct, 1) }) : tfmt(t.minutesLinePast, { m: f(r.hours * 60) })}
             </p>
           </div>
 
@@ -347,10 +351,10 @@ function useProgressResult(fields: ProgressFields, t: T) {
   const { intl } = useI18n();
   const f = useFormat();
   const err = useFieldError(t);
-  const errors = { h12: err(fields.h12, "2,850"), h28: err(fields.h28, "310"), subs: err(fields.subs, "740") };
-  const h12 = parseNumber(fields.h12);
-  const h28 = fields.h28.trim() ? parseNumber(fields.h28) : null;
-  const subs = fields.subs.trim() ? parseNumber(fields.subs) : null;
+  const errors = { h12: err(fields.h12, 2850), h28: err(fields.h28, 310), subs: err(fields.subs, 740) };
+  const h12 = parseNumber(fields.h12, intl);
+  const h28 = fields.h28.trim() ? parseNumber(fields.h28, intl) : null;
+  const subs = fields.subs.trim() ? parseNumber(fields.subs, intl) : null;
   const p = h12 !== null && !errors.h28 && !errors.subs ? progressOf(h12, h28, subs, fields.goal) : null;
   const pace = p ? paceText(p, t, f, intl) : null;
   let copy: string | null = null;
@@ -457,18 +461,19 @@ function ProgressPanel({ fields, set, t }: { fields: ProgressFields; set: (f: Pa
 /* ---------- Tab 3: length × retention ---------- */
 
 function useRetentionResult(fields: RetentionFields, t: T) {
+  const { intl } = useI18n();
   const f = useFormat();
   const err = useFieldError(t);
-  const retNum = parseNumber(fields.ret);
+  const retNum = parseNumber(fields.ret, intl);
   const errors = {
-    len: durationError(t, fields.lenM, fields.lenS, "10 : 00"),
+    len: durationError(t, fields.lenM, fields.lenS, "10 : 00", intl),
     ret: fields.ret.trim() && (retNum === null || retNum <= 0) ? tfmt(t.numberError, { example: "40" }) : null,
-    views: err(fields.views, "60,000"),
-    videos: fields.videos.trim() && videoCount(fields.videos) === null ? tfmt(t.numberError, { example: "25" }) : null,
+    views: err(fields.views, 60_000),
+    videos: fields.videos.trim() && videoCount(fields.videos, intl) === null ? tfmt(t.numberError, { example: "25" }) : null,
   };
-  const len = durationSeconds(fields.lenM, fields.lenS);
-  const views = parseNumber(fields.views);
-  const videos = videoCount(fields.videos);
+  const len = durationSeconds(fields.lenM, fields.lenS, intl);
+  const views = parseNumber(fields.views, intl);
+  const videos = videoCount(fields.videos, intl);
   const avd = len !== null && len > 0 && retNum !== null && retNum > 0 ? avdFromRetention(len, retNum) : null;
   const hours = avd !== null && views !== null ? hoursOf(views, avd) : null;
   let copy: string | null = null;
@@ -583,10 +588,10 @@ function saveTab(tab: Tab) {
 
 export function WatchTimeCalculator() {
   const id = useId();
-  const { w } = useI18n();
+  const { w, intl } = useI18n();
   const t = w.watchTime;
   const [tab, setTab] = useState<Tab>("views");
-  const [views, setViews] = useState<ViewsFields>(VIEWS_START);
+  const [views, setViews] = useState<ViewsFields>(() => viewsStart(intl));
   const [prog, setProg] = useState<ProgressFields>(progressEmpty);
   const [ret, setRet] = useState<RetentionFields>(RETENTION_EMPTY);
 
@@ -596,15 +601,18 @@ export function WatchTimeCalculator() {
     /* eslint-disable react-hooks/set-state-in-effect -- syncing once from the URL / localStorage (external) on mount */
     if (shared) {
       setTab(shared.tab);
-      if (shared.views) setViews({ ...VIEWS_EMPTY, ...shared.views });
-      if (shared.progress) setProg({ ...progressEmpty(), ...shared.progress });
-      if (shared.retention) setRet({ ...RETENTION_EMPTY, ...shared.retention });
+      // Links carry plain numbers; show them in the page language.
+      const local = <F extends object>(o: F): F =>
+        Object.fromEntries(Object.entries(o).map(([k, v]) => [k, typeof v === "string" && /^\d+(\.\d+)?$/.test(v) ? formatInput(Number(v), intl) : v])) as F;
+      if (shared.views) setViews(local({ ...VIEWS_EMPTY, ...shared.views }));
+      if (shared.progress) setProg(local({ ...progressEmpty(), ...shared.progress }));
+      if (shared.retention) setRet(local({ ...RETENTION_EMPTY, ...shared.retention }));
     } else {
       const last = readTab();
       if (last) setTab(last);
     }
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
+  }, [intl]);
 
   function changeTab(next: Tab) {
     setTab(next);
@@ -617,14 +625,14 @@ export function WatchTimeCalculator() {
   const copyBody = tab === "views" ? viewsR.copy : tab === "progress" ? progR.copy : retR.copy;
   const copyText = copyBody ? `${copyBody}\n${t.copy.footer}` : null;
   const base = typeof window === "undefined" ? "" : `${window.location.origin}${window.location.pathname}`;
-  const shareUrl = `${base}${shareQuery(tab, { views, progress: prog, retention: ret })}`;
+  const shareUrl = `${base}${shareQuery(tab, { views, progress: prog, retention: ret }, intl)}`;
 
   const ids = Object.fromEntries(TABS.map((k) => [k, { tab: `${id}-tab-${k}`, panel: `${id}-panel-${k}` }])) as Record<Tab, { tab: string; panel: string }>;
 
   function example() {
-    if (tab === "views") setViews(VIEWS_EXAMPLE);
-    else if (tab === "progress") setProg(progressExample());
-    else setRet(RETENTION_EXAMPLE);
+    if (tab === "views") setViews(viewsExample(intl));
+    else if (tab === "progress") setProg(progressExample(intl));
+    else setRet(retentionExample(intl));
   }
   function clear() {
     if (tab === "views") setViews(VIEWS_EMPTY);
