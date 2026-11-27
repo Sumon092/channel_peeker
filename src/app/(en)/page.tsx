@@ -5,9 +5,8 @@ import { JsonLd } from "@/components/json-ld";
 import { ReportPreview } from "@/components/report-preview";
 import { SectionHeading } from "@/components/section-heading";
 import { SmartSearch, type SmartTool } from "@/components/smart-search";
-import { absoluteUrl } from "@/lib/site";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { getTool, toolsByInput, type InputKind } from "@/lib/tools";
-import { alt as ogAlt } from "../opengraph-image";
 
 const comparison: [string, boolean | "partial", boolean | "partial"][] = [
   ["Core tools free, with no signup", true, "partial"],
@@ -58,13 +57,11 @@ function Mark({ value }: { value: boolean | "partial" }) {
   return <Minus className="mx-auto h-5 w-5 text-surface-3" aria-label="No" strokeWidth={2.5} />;
 }
 
-// Explicit social image: the root opengraph-image.tsx sits above the per-language root
-// layouts, so Next can't resolve it against metadataBase on its own. Same image, same URL.
-const ogImage = { url: absoluteUrl("/opengraph-image"), width: 1200, height: 630, type: "image/png", alt: ogAlt };
+// Explicit social image (see DEFAULT_OG_IMAGE): same image and URL as every other page.
 export const metadata = {
   alternates: { canonical: "/" },
-  openGraph: { images: [ogImage] },
-  twitter: { card: "summary_large_image" as const, images: [ogImage] },
+  openGraph: { images: [DEFAULT_OG_IMAGE] },
+  twitter: { card: "summary_large_image" as const, images: [DEFAULT_OG_IMAGE] },
 };
 
 export default function Home() {
