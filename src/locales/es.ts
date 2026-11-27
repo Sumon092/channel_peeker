@@ -317,10 +317,37 @@ export const content: Record<string, LocalizedToolContent> = {
       "Las horas de visualización son simplemente vistas × duración media de visualización. El Programa de Socios de YouTube exige 4 000 horas de visualización pública en los últimos 365 días (más 1 000 suscriptores) — esta calculadora traduce tus números a ese requisito.",
       "Solo cuenta la visualización pública de videos largos: el tiempo en el feed de Shorts y los videos privados o eliminados quedan fuera. Los Shorts tienen su propia vía (10 M de vistas en 90 días). El cálculo es exacto; qué horas cuenta YouTube lo resumimos de sus reglas publicadas.",
     ],
+    sections: [
+      {
+        heading: "Cambia el 1 de febrero de 2027: 8 000 horas para canales nuevos",
+        paragraphs: [
+          "A partir del 1 de febrero de 2027, los canales que soliciten ingresos por publicidad necesitarán 8 000 horas de visualización en los últimos 365 días, o 20 millones de vistas de Shorts en 90 días, además de 1 000 suscriptores. Es el doble del requisito actual. Los canales que ya están en el Programa de Socios no se ven afectados, y el nivel de 3 000 horas para la financiación de fans se mantiene igual. Si piensas solicitarlo después del 1 de febrero, apunta a 8 000 horas. Eso equivale a unas 22 horas de visualización cada día.",
+        ],
+        link: { text: "1 de febrero de 2027", href: "https://support.google.com/youtube/answer/12843009" },
+      },
+      {
+        heading: "Cuántas vistas necesitas",
+        paragraphs: ["La duración media de visualización marca una gran diferencia. Estas son las vistas que necesitas según la duración:"],
+        table: {
+          columns: ["Duración media de visualización", "Vistas para 3 000 horas", "Vistas para 4 000 horas", "Vistas para 8 000 horas"],
+          rows: [
+            ["2 minutos", "90 000", "120 000", "240 000"],
+            ["3 minutos 30 segundos", "51 429", "68 572", "137 143"],
+            ["5 minutos", "36 000", "48 000", "96 000"],
+            ["8 minutos", "22 500", "30 000", "60 000"],
+            ["10 minutos", "18 000", "24 000", "48 000"],
+          ],
+        },
+      },
+    ],
     faq: [
       {
         q: "¿Cómo se calculan las horas de visualización de YouTube?",
         a: "Vistas multiplicadas por la duración media de visualización. 100 000 vistas con media de 3:30 son 350 000 minutos — unas 5 833 horas.",
+      },
+      {
+        q: "¿Va a cambiar el requisito de 4 000 horas?",
+        a: "Sí, para los canales nuevos. A partir del 1 de febrero de 2027, quienes soliciten unirse necesitarán 8 000 horas de visualización en los últimos 365 días (o 20 millones de vistas de Shorts en 90 días) más 1 000 suscriptores. Si ya estás monetizado, para ti no cambia nada.",
       },
       {
         q: "¿Cuántas vistas necesito para 4 000 horas?",
@@ -336,7 +363,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: "Cálculo transparente",
-    updated: UPDATED,
+    updated: "27 de noviembre de 2026",
   },
   "/video-upload-date-checker": {
     title: "Fecha de publicación de un video de YouTube",

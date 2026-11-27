@@ -313,10 +313,37 @@ export const content: Record<string, LocalizedToolContent> = {
       "Watchtime ist schlicht Aufrufe × durchschnittliche Wiedergabedauer. Das YouTube-Partnerprogramm verlangt 4.000 öffentliche Watchtime-Stunden in den letzten 365 Tagen (plus 1.000 Abonnenten) — dieser Rechner übersetzt deine Zahlen in genau diese Anforderung.",
       "Es zählt nur öffentliche Long-Form-Watchtime: Shorts-Feed-Zeit, private und gelöschte Videos zählen nicht. Shorts haben einen eigenen Weg (10 Mio. Aufrufe in 90 Tagen). Die Rechnung hier ist exakt; welche Stunden YouTube zählt, fassen wir aus den offiziellen Regeln zusammen.",
     ],
+    sections: [
+      {
+        heading: "Ab 1. Februar 2027: 8.000 Stunden für neue Kanäle",
+        paragraphs: [
+          "Ab dem 1. Februar 2027 brauchen Kanäle, die sich für Werbeeinnahmen bewerben, 8.000 Watchtime-Stunden in den letzten 365 Tagen oder 20 Mio. Shorts-Aufrufe in 90 Tagen, dazu 1.000 Abonnenten. Das ist doppelt so viel wie heute. Kanäle, die schon im Partnerprogramm sind, betrifft das nicht, und die 3.000-Stunden-Stufe für Fan-Finanzierung bleibt gleich. Wenn du dich nach dem 1. Februar bewerben willst, plane mit 8.000 Stunden. Das sind etwa 22 Stunden Wiedergabezeit pro Tag.",
+        ],
+        link: { text: "1. Februar 2027", href: "https://support.google.com/youtube/answer/12843009" },
+      },
+      {
+        heading: "Wie viele Aufrufe du brauchst",
+        paragraphs: ["Die durchschnittliche Wiedergabedauer macht einen großen Unterschied. So viele Aufrufe brauchst du bei verschiedenen Werten:"],
+        table: {
+          columns: ["Ø Wiedergabedauer", "Aufrufe für 3.000 Stunden", "Aufrufe für 4.000 Stunden", "Aufrufe für 8.000 Stunden"],
+          rows: [
+            ["2 Minuten", "90.000", "120.000", "240.000"],
+            ["3 Minuten 30 Sekunden", "51.429", "68.572", "137.143"],
+            ["5 Minuten", "36.000", "48.000", "96.000"],
+            ["8 Minuten", "22.500", "30.000", "60.000"],
+            ["10 Minuten", "18.000", "24.000", "48.000"],
+          ],
+        },
+      },
+    ],
     faq: [
       {
         q: "Wie wird YouTube-Watchtime berechnet?",
         a: "Aufrufe mal durchschnittliche Wiedergabedauer. 100.000 Aufrufe bei Ø 3:30 ergeben 350.000 Minuten — etwa 5.833 Stunden.",
+      },
+      {
+        q: "Ändert sich die 4.000-Stunden-Anforderung?",
+        a: "Ja, für neue Kanäle. Ab dem 1. Februar 2027 brauchen neue Bewerber 8.000 Watchtime-Stunden in den letzten 365 Tagen (oder 20 Mio. Shorts-Aufrufe in 90 Tagen) plus 1.000 Abonnenten. Bist du schon monetarisiert, ändert sich für dich nichts.",
       },
       {
         q: "Wie viele Aufrufe brauche ich für 4.000 Stunden?",
@@ -336,7 +363,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: "Nachvollziehbare Rechnung",
-    updated: UPDATED,
+    updated: "27. November 2026",
   },
   "/video-upload-date-checker": {
     title: "YouTube Upload-Datum herausfinden",

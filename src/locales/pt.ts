@@ -313,10 +313,37 @@ export const content: Record<string, LocalizedToolContent> = {
       "Horas de exibição são simplesmente visualizações × duração média de exibição. O Programa de Parcerias do YouTube exige 4.000 horas de exibição pública nos últimos 365 dias (mais 1.000 inscritos) — esta calculadora traduz seus números para esse requisito.",
       "Só conta a exibição pública de vídeos longos: o tempo no feed de Shorts e vídeos privados ou excluídos ficam de fora. Os Shorts têm caminho próprio (10 mi de visualizações em 90 dias). O cálculo é exato; quais horas o YouTube conta, resumimos das regras publicadas.",
     ],
+    sections: [
+      {
+        heading: "Muda em 1º de fevereiro de 2027: 8.000 horas para canais novos",
+        paragraphs: [
+          "A partir de 1º de fevereiro de 2027, os canais que se candidatarem à receita de anúncios vão precisar de 8.000 horas de exibição nos últimos 365 dias, ou 20 milhões de visualizações de Shorts em 90 dias, além de 1.000 inscritos. É o dobro da exigência atual. Canais que já estão no Programa de Parcerias não são afetados, e o nível de 3.000 horas para financiamento por fãs continua igual. Se você pretende se candidatar depois de 1º de fevereiro, mire em 8.000 horas. Isso dá cerca de 22 horas de exibição por dia.",
+        ],
+        link: { text: "1º de fevereiro de 2027", href: "https://support.google.com/youtube/answer/12843009" },
+      },
+      {
+        heading: "Quantas visualizações você precisa",
+        paragraphs: ["A duração média de visualização faz muita diferença. Veja quantas visualizações são necessárias em cada duração:"],
+        table: {
+          columns: ["Duração média de visualização", "Visualizações para 3.000 horas", "Visualizações para 4.000 horas", "Visualizações para 8.000 horas"],
+          rows: [
+            ["2 minutos", "90.000", "120.000", "240.000"],
+            ["3 minutos e 30 segundos", "51.429", "68.572", "137.143"],
+            ["5 minutos", "36.000", "48.000", "96.000"],
+            ["8 minutos", "22.500", "30.000", "60.000"],
+            ["10 minutos", "18.000", "24.000", "48.000"],
+          ],
+        },
+      },
+    ],
     faq: [
       {
         q: "Como as horas de exibição do YouTube são calculadas?",
         a: "Visualizações multiplicadas pela duração média de exibição. 100 mil visualizações com média de 3:30 dão 350 mil minutos — cerca de 5.833 horas.",
+      },
+      {
+        q: "A exigência de 4.000 horas vai mudar?",
+        a: "Sim, para canais novos. A partir de 1º de fevereiro de 2027, quem se candidatar vai precisar de 8.000 horas de exibição nos últimos 365 dias (ou 20 milhões de visualizações de Shorts em 90 dias) mais 1.000 inscritos. Se você já é monetizado, nada muda para você.",
       },
       {
         q: "Quantas visualizações preciso para 4.000 horas?",
@@ -336,7 +363,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: "Cálculo transparente",
-    updated: UPDATED,
+    updated: "27 de novembro de 2026",
   },
   "/video-upload-date-checker": {
     title: "Data de publicação de um vídeo do YouTube",

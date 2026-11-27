@@ -1,3 +1,4 @@
+import { LocalizedSections } from "@/components/localized-sections";
 import { ToolPage } from "@/components/tool-page";
 import { hreflangFor, LABELS, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
@@ -31,6 +32,7 @@ export default function Page() {
           {c.meaning.map((p) => (
             <p key={p.slice(0, 24)}>{p}</p>
           ))}
+          <LocalizedSections sections={c.sections} />
         </>
       }
       faq={c.faq}

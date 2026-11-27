@@ -309,10 +309,37 @@ export const content: Record<string, LocalizedToolContent> = {
       "Le temps de visionnage, c'est simplement vues × durée moyenne de visionnage. Le Programme Partenaire YouTube exige 4 000 heures de visionnage public sur les 365 derniers jours (plus 1 000 abonnés) — ce calculateur traduit vos chiffres dans cette exigence.",
       "Seul le visionnage public des vidéos longues compte : le temps passé dans le flux Shorts et les vidéos privées ou supprimées sont exclus. Les Shorts ont leur propre voie (10 M de vues en 90 jours). Le calcul est exact ; quelles heures YouTube compte, nous le résumons depuis ses règles publiées.",
     ],
+    sections: [
+      {
+        heading: "Changement au 1er février 2027 : 8 000 heures pour les nouvelles chaînes",
+        paragraphs: [
+          "À partir du 1er février 2027, les chaînes qui demandent à toucher des revenus publicitaires devront avoir 8 000 heures de visionnage sur les 365 derniers jours, ou 20 millions de vues de Shorts en 90 jours, plus 1 000 abonnés. C'est le double du seuil actuel. Les chaînes déjà membres du Programme Partenaire ne sont pas concernées, et le niveau de 3 000 heures pour le financement par les fans reste inchangé. Si vous prévoyez de postuler après le 1er février, visez 8 000 heures. Cela représente environ 22 heures de visionnage par jour.",
+        ],
+        link: { text: "1er février 2027", href: "https://support.google.com/youtube/answer/12843009" },
+      },
+      {
+        heading: "Combien de vues il vous faut",
+        paragraphs: ["La durée moyenne de visionnage change tout. Voici le nombre de vues nécessaire selon la durée :"],
+        table: {
+          columns: ["Durée moyenne de visionnage", "Vues pour 3 000 heures", "Vues pour 4 000 heures", "Vues pour 8 000 heures"],
+          rows: [
+            ["2 minutes", "90 000", "120 000", "240 000"],
+            ["3 minutes 30 secondes", "51 429", "68 572", "137 143"],
+            ["5 minutes", "36 000", "48 000", "96 000"],
+            ["8 minutes", "22 500", "30 000", "60 000"],
+            ["10 minutes", "18 000", "24 000", "48 000"],
+          ],
+        },
+      },
+    ],
     faq: [
       {
         q: "Comment se calcule le temps de visionnage YouTube ?",
         a: "Vues multipliées par la durée moyenne de visionnage. 100 000 vues à 3:30 de moyenne font 350 000 minutes — environ 5 833 heures.",
+      },
+      {
+        q: "L'exigence de 4 000 heures va-t-elle changer ?",
+        a: "Oui, pour les nouvelles chaînes. À partir du 1er février 2027, les nouveaux candidats devront avoir 8 000 heures de visionnage sur les 365 derniers jours (ou 20 millions de vues de Shorts en 90 jours) plus 1 000 abonnés. Si votre chaîne est déjà monétisée, rien ne change pour vous.",
       },
       {
         q: "Combien de vues pour 4 000 heures ?",
@@ -328,7 +355,7 @@ export const content: Record<string, LocalizedToolContent> = {
       },
     ],
     dataBadge: "Calcul transparent",
-    updated: UPDATED,
+    updated: "27 novembre 2026",
   },
   "/video-upload-date-checker": {
     title: "Date de publication d'une vidéo YouTube",
