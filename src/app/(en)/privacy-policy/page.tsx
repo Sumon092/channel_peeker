@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
 
 export default function Page() {
   return (
-    <ProsePage title="Privacy policy" path="/privacy-policy" updated={gaMeasurementId ? "November 7, 2026" : "September 29, 2026"}>
+    <ProsePage title="Privacy policy" path="/privacy-policy" updated="November 27, 2026">
       <p>
         This policy explains what information {site.name} collects when you use the site and what we do with it. You don&apos;t need an account
         to use our tools.
@@ -20,26 +20,41 @@ export default function Page() {
       <h2>What we collect</h2>
       <ul>
         <li>
-          <strong>What you type into a tool</strong>, such as a channel handle or video link, so we can fetch and show the result. Results are
-          cached as described in our <Link href="/data-policy">data policy</Link>.
+          <strong>What you type into a tool</strong>, such as a channel handle, video link or keyword, so we can fetch and show the result. We
+          don&apos;t keep a record of what you typed. The public YouTube data we fetch is cached as described in our{" "}
+          <Link href="/data-policy">data policy</Link>.
         </li>
         <li>
           <strong>Basic technical data</strong>, such as your IP address and browser type. We use it for rate limiting, abuse prevention and error
           monitoring, and keep it only as long as those purposes need.
         </li>
         <li>
+          <strong>Server logs.</strong> Like most websites, our web server keeps standard access logs (IP address, browser type and the page
+          address requested) for about 14 days, for security and troubleshooting. A page address can include what you checked or searched for:
+          share links from tools such as the monetization checker and channel age checker end in <code>?c=</code> and a channel handle or ID,
+          and links from our site search and some tools&apos; share links end in <code>?q=</code> and the channel, video link or keyword you
+          entered.
+        </li>
+        <li>
           <strong>Aggregate usage analytics</strong> to learn which tools are useful.{" "}
           {gaMeasurementId ? (
             <>
               If you accept analytics cookies, we use Google Analytics, a service from Google that records the pages you visit and your device
-              and approximate location data. Google may process this data outside your country. If you decline, Google Analytics does not load.
-              You can change your choice at any time on our <Link href="/cookie-policy">cookie policy</Link> page.
+              and approximate location data. We&apos;ve set Google Analytics to remove channel names and search terms from the page addresses it
+              records. Google may process this data outside your country. If you decline, Google Analytics does not load. You can change your
+              choice at any time on our <Link href="/cookie-policy">cookie policy</Link> page.
             </>
           ) : (
             "We use privacy-friendly analytics that do not track you across other websites."
           )}
         </li>
       </ul>
+
+      <h2>Stored in your browser</h2>
+      <p>
+        Some tools keep information only in your browser&apos;s local storage, such as the monetization checker&apos;s Recently checked list
+        and your cookie choice. It&apos;s never sent to us, and you can clear it with the tool&apos;s Clear button or in your browser settings.
+      </p>
 
       <h2>YouTube API Services</h2>
       <p>

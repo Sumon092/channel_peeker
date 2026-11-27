@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
 
 export default function Page() {
   return (
-    <ProsePage title="Cookie policy" path="/cookie-policy" updated={gaMeasurementId ? "November 7, 2026" : "September 29, 2026"}>
+    <ProsePage title="Cookie policy" path="/cookie-policy" updated="November 27, 2026">
       <p>{site.name} tries to use as few cookies as possible.</p>
 
       <h2>Strictly necessary</h2>
@@ -35,6 +35,13 @@ export default function Page() {
       ) : (
         <p>We use privacy-friendly analytics that do not use cookies to track you across websites.</p>
       )}
+
+      <h2>Local storage</h2>
+      <p>
+        Some tools save small amounts of information in your browser&apos;s local storage instead of cookies, such as the monetization
+        checker&apos;s Recently checked list. It stays on your device and is never sent to us. You can clear it with the tool&apos;s Clear
+        button or by clearing this site&apos;s data in your browser settings.
+      </p>
 
       <h2>Advertising</h2>
       <p>

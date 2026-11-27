@@ -535,7 +535,7 @@ export default function Page() {
         },
         {
           q: "Do you store the channels I check?",
-          a: "We don't save the channels you type into the checker. To keep the tool fast and stop abuse, the server briefly caches the public data it gets from YouTube and counts requests per IP address for an hour. If you open a share link (one ending in ?c=@handle), that address appears in our standard server logs for about two weeks, and in Google Analytics if you've accepted analytics cookies. Your checklist ticks and recently checked list never leave your browser, and you can clear the list any time.",
+          a: "We don't save the channels you type into the checker. To keep the tool fast and stop abuse, the server briefly caches the public data it gets from YouTube and counts requests per IP address for an hour. If you open a share link (one ending in ?c=@handle), that address appears in our standard server logs for about two weeks. We've set Google Analytics to remove channel names from page addresses. Your checklist ticks and recently checked list never leave your browser, and you can clear the list any time.",
         },
       ]}
       related={["/watch-time-calculator", "/channel-analyzer", "/revenue-calculator/channel-earnings-estimator"]}
