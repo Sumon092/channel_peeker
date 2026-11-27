@@ -15,6 +15,7 @@ export async function POST(req: Request) {
         handle: c.handle,
         avatarUrl: c.avatarUrl,
         publishedAt: c.publishedAt,
+        country: c.country,
         subscribers: c.subscribers,
         subscribersHidden: c.subscribersHidden,
         videoCount: c.videoCount,

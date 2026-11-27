@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ToolPage } from "@/components/tool-page";
 import { hreflangFor } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
@@ -41,6 +42,10 @@ export default function Page() {
           <p>
             Subscriber counts above 1,000 are rounded by YouTube, shown with a ≈ sign. Watch time, impressions and click-through rates are
             private to the channel owner, so no outside tool can show them.
+          </p>
+          <p>
+            To see when a channel was created and how old it is today, use the{" "}
+            <Link href="/channel-age-checker">channel age checker</Link>.
           </p>
         </>
       }

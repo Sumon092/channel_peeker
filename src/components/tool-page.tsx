@@ -15,6 +15,28 @@ import { ToolGrid } from "./tool-card";
 export interface Faq {
   q: string;
   a: string;
+  /** Turns the first occurrence of `text` in the answer into a link. Schema keeps the plain text. */
+  link?: { text: string; href: string };
+}
+
+function FaqAnswer({ a, link }: Faq) {
+  const i = link ? a.indexOf(link.text) : -1;
+  if (!link || i < 0) return <>{a}</>;
+  return (
+    <>
+      {a.slice(0, i)}
+      <Link href={link.href} className="font-medium text-accent-strong underline">
+        {link.text}
+      </Link>
+      {a.slice(i + link.text.length)}
+    </>
+  );
+}
+
+interface ExtraSection {
+  eyebrow: string;
+  title: string;
+  content: ReactNode;
 }
 
 interface ToolPageProps {
@@ -26,7 +48,8 @@ interface ToolPageProps {
   intro: string;
   /** The interactive widget. Keep it a small client component. */
   children: ReactNode;
-  howTo: string[];
+  /** Steps; plain strings or rich text (e.g. with links). */
+  howTo: ReactNode[];
   /** One-line tip under the how-to steps. */
   howToTip?: string;
   meaning: ReactNode;
@@ -34,8 +57,10 @@ interface ToolPageProps {
   meaningHeading?: string;
   /** Prose shown just below the widget, before the how-to. */
   afterTool?: ReactNode;
-  /** An extra prose section between "what the results mean" and the FAQ. */
-  extraSection?: { eyebrow: string; title: string; content: ReactNode };
+  /** A prose section between the how-to and "what the results mean". */
+  resultSection?: { eyebrow: string; title: string; content: ReactNode };
+  /** Extra prose section(s) between "what the results mean" and the FAQ. */
+  extraSection?: ExtraSection | ExtraSection[];
   faq: Faq[];
   related: string[];
   updated: string;
@@ -61,7 +86,7 @@ function Highlighted({ text, part }: { text: string; part: string }) {
  * Shared layout for every tool page (plan section 9.2): H1 and the tool above the fold,
  * then how-to, what the results mean, FAQ, related tools and schema.
  */
-export function ToolPage({ tool, heading, highlight, intro, children, howTo, howToTip, meaning, meaningHeading, afterTool, extraSection, faq, related, updated, dataBadge = "Official YouTube data", i18n }: ToolPageProps) {
+export function ToolPage({ tool, heading, highlight, intro, children, howTo, howToTip, meaning, meaningHeading, afterTool, resultSection, extraSection, faq, related, updated, dataBadge = "Official YouTube data", i18n }: ToolPageProps) {
   const hub = getHub(tool.hub);
   const L = i18n?.labels;
   const pagePath = i18n?.path ?? tool.path;
@@ -116,7 +141,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, how
         <SectionHeading eyebrow={L?.stepByStep ?? "Step by step"} title={L?.howToHeading(name) ?? `How to use the ${tool.name}`} align="center" />
         <ol className={`mt-12 grid gap-5 ${howTo.length >= 4 ? "md:grid-cols-4" : "md:grid-cols-3"}`}>
           {howTo.map((step, i) => (
-            <li key={step} className="rounded-2xl border border-border bg-surface p-6">
+            <li key={i} className="rounded-2xl border border-border bg-surface p-6">
               <p className="text-xs font-bold uppercase tracking-[0.14em] text-accent-strong">{`${L?.stepWord ?? "Step"} 0${i + 1}`}</p>
               <p className="mt-3 leading-relaxed">{step}</p>
             </li>
@@ -129,6 +154,13 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, how
         )}
       </section>
 
+      {resultSection && (
+        <section className="mx-auto max-w-3xl px-4 pb-20 sm:px-6">
+          <SectionHeading eyebrow={resultSection.eyebrow} title={resultSection.title} />
+          <div className="prose-cp mt-6">{resultSection.content}</div>
+        </section>
+      )}
+
       <section className="border-y border-border bg-surface-2/50">
         <div className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
           <SectionHeading eyebrow={L?.meaningEyebrow ?? "Understand your results"} title={meaningHeading ?? L?.meaningHeading ?? "What the results mean"} />
@@ -136,12 +168,12 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, how
         </div>
       </section>
 
-      {extraSection && (
-        <section className="mx-auto max-w-3xl px-4 pt-20 sm:px-6">
-          <SectionHeading eyebrow={extraSection.eyebrow} title={extraSection.title} />
-          <div className="prose-cp mt-6">{extraSection.content}</div>
+      {(extraSection ? [extraSection].flat() : []).map((x) => (
+        <section key={x.title} className="mx-auto max-w-3xl px-4 pt-20 sm:px-6">
+          <SectionHeading eyebrow={x.eyebrow} title={x.title} />
+          <div className="prose-cp mt-6">{x.content}</div>
         </section>
-      )}
+      ))}
 
       <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
         <SectionHeading eyebrow={L?.faqEyebrow ?? "FAQ"} title={L?.faqHeading ?? "Frequently asked questions"} align="center" />
@@ -152,7 +184,9 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, how
                 {item.q}
                 <ChevronDown className="h-5 w-5 shrink-0 text-muted transition group-open:rotate-180" aria-hidden="true" />
               </summary>
-              <p className="-mt-1 px-6 pb-5 leading-relaxed text-muted">{item.a}</p>
+              <p className="-mt-1 px-6 pb-5 leading-relaxed text-muted">
+                <FaqAnswer {...item} />
+              </p>
             </details>
           ))}
         </div>

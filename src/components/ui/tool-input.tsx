@@ -13,9 +13,11 @@ interface ToolInputProps {
   /** Optional instant validation; return an error message or null. */
   validate?: (value: string) => string | null;
   onSubmit: (value: string) => void;
+  /** URL parameters that pre-fill and run the tool on load, first match wins. Default: the home-page search's ?q=. */
+  queryParams?: string[];
 }
 
-export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go", loading, validate, onSubmit }: ToolInputProps) {
+export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go", loading, validate, onSubmit, queryParams = ["q"] }: ToolInputProps) {
   const id = useId();
   const { w } = useI18n();
   const [value, setValue] = useState("");
@@ -28,12 +30,13 @@ export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go
     if (!msg) onSubmit(v.trim());
   }
 
-  // Arriving from the home-page search (?q=...): pre-fill and run once.
+  // Arriving from the home-page search (?q=...) or a share link: pre-fill and run once.
   const ranFromQuery = useRef(false);
   useEffect(() => {
     if (ranFromQuery.current) return;
     ranFromQuery.current = true;
-    const q = new URLSearchParams(window.location.search).get("q");
+    const params = new URLSearchParams(window.location.search);
+    const q = queryParams.map((p) => params.get(p)).find(Boolean);
     if (q) {
       // Syncing once from the URL (an external source) on mount; the page itself is static.
       // eslint-disable-next-line react-hooks/set-state-in-effect
