@@ -6,7 +6,7 @@ import { ErrorBox, FetchedAt, Skeleton } from "@/components/ui/status";
 import { ToolInput } from "@/components/ui/tool-input";
 import { useToolRequest } from "@/components/ui/use-tool-request";
 import { formatCompact, formatSubscribers } from "@/lib/format";
-import { COUNTRY_TIERS, estimateLongFormEarnings, estimateShortsEarnings, formatRange, NICHES } from "@/lib/revenue-data";
+import { COUNTRY_TIERS, DEFAULT_NICHE_ID, DEFAULT_TIER_ID, estimateLongFormEarnings, estimateShortsEarnings, formatRange, NICHES } from "@/lib/revenue-data";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
 interface Result {
@@ -49,8 +49,8 @@ export function ChannelEarningsEstimator() {
 
 function ResultCard({ channel: c, views30dLong, views30dShorts, uploads30d, fetchedAt }: Result) {
   const id = useId();
-  const [nicheId, setNicheId] = useState("other");
-  const [tierId, setTierId] = useState("tier1");
+  const [nicheId, setNicheId] = useState(DEFAULT_NICHE_ID);
+  const [tierId, setTierId] = useState(DEFAULT_TIER_ID);
 
   const niche = NICHES.find((n) => n.id === nicheId) ?? NICHES[NICHES.length - 1];
   const tier = COUNTRY_TIERS.find((t) => t.id === tierId) ?? COUNTRY_TIERS[0];

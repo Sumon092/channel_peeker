@@ -27,6 +27,10 @@ export const NICHES: Niche[] = [
   { id: "other", name: "Other / mixed", cpmLow: 2, cpmHigh: 8 },
 ];
 
+/** The earnings estimator's starting choices (also used for the monetization checker's quick range). */
+export const DEFAULT_NICHE_ID = "other";
+export const DEFAULT_TIER_ID = "tier1";
+
 export interface CountryTier {
   id: string;
   name: string;
@@ -85,6 +89,32 @@ export function estimateShortsEarnings(monthlyViews: number, tier: CountryTier):
 /** One-off sponsorship fee range for a dedicated integration, from expected views. */
 export function estimateSponsorshipRate(expectedViews: number): MoneyRange {
   return { low: (expectedViews / 1000) * SPONSOR_CPM_LOW, high: (expectedViews / 1000) * SPONSOR_CPM_HIGH };
+}
+
+/**
+ * Monthly earnings range with the estimator's default niche and audience, from the views on the last
+ * 30 days' uploads; null when there were none. Same maths as the earnings estimator's first result.
+ */
+export function defaultMonthlyEarnings(views30dLong: number, views30dShorts: number): MoneyRange | null {
+  if (views30dLong <= 0 && views30dShorts <= 0) return null;
+  const niche = NICHES.find((n) => n.id === DEFAULT_NICHE_ID)!;
+  const tier = COUNTRY_TIERS.find((t) => t.id === DEFAULT_TIER_ID)!;
+  const long = views30dLong > 0 ? estimateLongFormEarnings(views30dLong, niche, tier) : { low: 0, high: 0 };
+  const shorts = views30dShorts > 0 ? estimateShortsEarnings(views30dShorts, tier) : { low: 0, high: 0 };
+  return { low: long.low + shorts.low, high: long.high + shorts.high };
+}
+
+/** Estimated RPM (creator US$ per 1,000 views) for a niche with a tier-1 audience: CPM × monetized share × creator share. */
+export function nicheRpm(niche: Niche): MoneyRange {
+  const f = DEFAULT_MONETIZED_SHARE * CREATOR_SHARE_LONG;
+  return { low: niche.cpmLow * f, high: niche.cpmHigh * f };
+}
+
+/** formatMoney in any locale (US dollars): "$1.2K", "$13", "$4.95"; "1,2 K $" in French. */
+export function formatUsd(n: number, intl = "en"): string {
+  const opts: Intl.NumberFormatOptions =
+    n >= 1000 ? { notation: "compact", maximumFractionDigits: 1 } : { minimumFractionDigits: n < 10 ? 2 : 0, maximumFractionDigits: n < 10 ? 2 : 0 };
+  return new Intl.NumberFormat(intl, { style: "currency", currency: "USD", currencyDisplay: "narrowSymbol", ...opts }).format(n);
 }
 
 export const formatMoney = (n: number) =>

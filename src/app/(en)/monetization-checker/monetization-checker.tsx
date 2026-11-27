@@ -1,9 +1,9 @@
 "use client";
 
-import { ArrowRight, CalendarClock, CircleCheck, CircleHelp, CircleX, ExternalLink, TriangleAlert } from "lucide-react";
+import { ArrowRight, CalendarClock, CircleCheck, CircleHelp, CircleX, ExternalLink, History, TriangleAlert, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useI18n } from "@/components/i18n-provider";
 import { CopyButton } from "@/components/ui/copy-button";
 import { ErrorBox, FetchedAt, Skeleton } from "@/components/ui/status";
@@ -22,6 +22,8 @@ import {
   type SignalStatus,
   type TierVerdict,
 } from "@/lib/monetization";
+import { addRecent, clearRecent, getRecent, getServerRecent, subscribeRecent } from "@/lib/recent-checks";
+import { defaultMonthlyEarnings, formatUsd } from "@/lib/revenue-data";
 import { fmt, type WidgetStrings } from "@/lib/widget-i18n";
 import { parseYouTubeInput } from "@/lib/youtube/parse-input";
 
@@ -39,8 +41,13 @@ interface Channel {
 
 interface Result extends MonetizationReport {
   channel: Channel;
+  /** Views on the last 30 days' uploads; only sent when the ad tier's public requirements are met. */
+  recentViews: { views30dLong: number; views30dShorts: number; uploads30d: number } | null;
   fetchedAt: string;
 }
+
+/** localStorage key of this tool's "Recently checked" list (browser only). */
+const RECENT_KEY = "cp:recent:monetization-checker";
 
 type M = WidgetStrings["monetization"];
 
@@ -50,12 +57,23 @@ const channelParam = (c: Channel) => encodeURIComponent(c.handle ?? c.id).replac
 export function MonetizationChecker() {
   const { w } = useI18n();
   const { state, run } = useToolRequest<Result>("/api/tools/monetization");
+  const recent = useSyncExternalStore(subscribeRecent, () => getRecent(RECENT_KEY), getServerRecent);
+  const [prefill, setPrefill] = useState<{ value: string; key: number }>();
 
   // Make every result shareable: put the channel in the URL without a navigation (canonical stays parameter-free).
-  const shared = state.status === "done" ? `?c=${channelParam(state.data.channel)}` : null;
+  // and remember it in this browser's "Recently checked" list. `done` is a new object for each finished check.
+  const done = state.status === "done" ? state.data.channel : null;
   useEffect(() => {
-    if (shared) history.replaceState(null, "", shared);
-  }, [shared]);
+    if (!done) return;
+    history.replaceState(null, "", `?c=${channelParam(done)}`);
+    addRecent(RECENT_KEY, { input: done.handle ?? done.id, title: done.title, avatarUrl: done.avatarUrl });
+  }, [done]);
+
+  function checkAgain(input: string) {
+    if (state.status === "loading") return;
+    setPrefill((p) => ({ value: input, key: (p?.key ?? 0) + 1 }));
+    run({ input });
+  }
 
   return (
     <div className="space-y-4">
@@ -67,15 +85,18 @@ export function MonetizationChecker() {
         examples={[
           { label: "@mkbhd", value: "@mkbhd" },
           { label: "@veritasium", value: "@veritasium" },
-          { label: w.exampleVideoLink, value: "https://youtu.be/dQw4w9WgXcQ" },
+          { label: w.monetization.exampleVideo, value: "https://youtu.be/dQw4w9WgXcQ" },
         ]}
         validate={(v) => {
           const r = parseYouTubeInput(v, "channel");
           return r.ok ? null : w.parseErrors[r.code];
         }}
         queryParams={["c", "q"]}
+        prefill={prefill}
         onSubmit={(input) => run({ input })}
       />
+
+      {recent.length > 0 && <RecentList items={recent} onPick={checkAgain} />}
 
       <div aria-live="polite">
         {state.status === "loading" && <ResultSkeleton />}
@@ -303,6 +324,73 @@ function SelfCheckPanel({ ctx }: { ctx: Ctx }) {
   );
 }
 
+function RecentList({ items, onPick }: { items: { input: string; title: string; avatarUrl: string | null }[]; onPick: (input: string) => void }) {
+  const { w } = useI18n();
+  const t = w.monetization.recent;
+  return (
+    <div className="flex flex-wrap items-center gap-2 text-sm">
+      <span className="inline-flex items-center gap-1.5 text-muted">
+        <History className="h-4 w-4" aria-hidden="true" /> {t.title}:
+      </span>
+      {items.map((x) => (
+        <button
+          key={x.input}
+          type="button"
+          onClick={() => onPick(x.input)}
+          aria-label={fmt(t.checkAgain, { title: x.title })}
+          className="inline-flex max-w-[14rem] items-center gap-1.5 rounded-lg bg-surface-2 py-1.5 pl-1.5 pr-3 font-medium transition hover:bg-surface-3"
+        >
+          {x.avatarUrl ? (
+            <Image src={x.avatarUrl} alt="" width={20} height={20} className="h-5 w-5 shrink-0 rounded-full" />
+          ) : (
+            <span className="h-5 w-5 shrink-0 rounded-full bg-surface-3" />
+          )}
+          <span className="truncate">{x.title}</span>
+        </button>
+      ))}
+      <button
+        type="button"
+        onClick={() => clearRecent(RECENT_KEY)}
+        aria-label={t.clearAria}
+        className="inline-flex items-center gap-1 rounded-lg px-2 py-1.5 text-muted transition hover:text-foreground"
+      >
+        <X className="h-3.5 w-3.5" aria-hidden="true" /> {t.clear}
+      </button>
+      <span className="text-xs text-muted">{t.note}</span>
+    </div>
+  );
+}
+
+function EarningsBox({ r, param, m, intl }: { r: Result; param: string; m: M; intl: string }) {
+  const t = m.earnings;
+  const met = r.tiers.ad.verdict === "met" && r.recentViews !== null;
+  const range = met ? defaultMonthlyEarnings(r.recentViews!.views30dLong, r.recentViews!.views30dShorts) : null;
+  return (
+    <section className="rounded-2xl border border-border px-4 py-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="font-semibold">{t.title}</h3>
+        {range && <span className="rounded-full bg-surface-2 px-2.5 py-1 text-xs font-medium text-muted">{t.badge}</span>}
+      </div>
+      {range ? (
+        <>
+          <p className="mt-2 text-2xl font-black tabular-nums tracking-tight">
+            {formatUsd(range.low, intl)} – {formatUsd(range.high, intl)}
+          </p>
+          <p className="mt-1 text-sm leading-relaxed text-muted">{t.basis}</p>
+        </>
+      ) : (
+        <p className="mt-1 text-sm leading-relaxed text-muted">{met ? t.noUploads : t.notShown}</p>
+      )}
+      <Link
+        href={`/revenue-calculator/channel-earnings-estimator?q=${param}`}
+        className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-accent-fill px-3.5 py-2 text-sm font-medium text-white transition hover:bg-accent-fill-strong"
+      >
+        {m.estimateEarnings} <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+      </Link>
+    </section>
+  );
+}
+
 function ResultCard(r: Result) {
   const { lang, intl, w } = useI18n();
   const m = w.monetization;
@@ -356,18 +444,13 @@ function ResultCard(r: Result) {
             sr={m.statusSr.unknown}
           />
         </ul>
+        <EarningsBox r={r} param={param} m={m} intl={intl} />
         <ActiveChannel ctx={ctx} />
         <SelfCheckPanel ctx={ctx} />
       </div>
 
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-2">
-          <Link
-            href={`/revenue-calculator/channel-earnings-estimator?q=${param}`}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-accent-fill px-3.5 py-2 text-sm font-medium text-white transition hover:bg-accent-fill-strong"
-          >
-            {m.estimateEarnings} <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-          </Link>
           <CopyButton text={shareUrl} label={m.copyLink} ariaLabel={m.copyLinkAria} />
         </div>
         <FetchedAt iso={r.fetchedAt} />

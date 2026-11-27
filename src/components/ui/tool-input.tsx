@@ -15,13 +15,22 @@ interface ToolInputProps {
   onSubmit: (value: string) => void;
   /** URL parameters that pre-fill and run the tool on load, first match wins. Default: the home-page search's ?q=. */
   queryParams?: string[];
+  /** Puts a value into the field from outside (e.g. a "recently checked" chip); a new `key` applies it again. */
+  prefill?: { value: string; key: number };
 }
 
-export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go", loading, validate, onSubmit, queryParams = ["q"] }: ToolInputProps) {
+export function ToolInput({ label, placeholder, examples = [], submitLabel = "Go", loading, validate, onSubmit, queryParams = ["q"], prefill }: ToolInputProps) {
   const id = useId();
   const { w } = useI18n();
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
+  // Adjust state while rendering when the prefill changes (React's recommended pattern, no effect).
+  const [appliedPrefill, setAppliedPrefill] = useState<number | null>(null);
+  if (prefill && prefill.key !== appliedPrefill) {
+    setAppliedPrefill(prefill.key);
+    setValue(prefill.value);
+    setError(null);
+  }
 
   function submit(v: string) {
     if (loading) return;

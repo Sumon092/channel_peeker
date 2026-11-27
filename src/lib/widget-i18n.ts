@@ -240,6 +240,11 @@ export interface WidgetStrings {
       confidence: Record<"very_likely" | "possibly" | "possibly_fan" | "unlikely" | "cant_tell", { title: string; body: string }>;
       tickHint: string;
     };
+    /** Example chip that runs a sample video link */
+    exampleVideo: string;
+    /** {title} in checkAgain (accessible name of a recent chip) */
+    recent: { title: string; clear: string; clearAria: string; note: string; checkAgain: string };
+    earnings: { title: string; badge: string; basis: string; noUploads: string; notShown: string };
     estimateEarnings: string;
     copyLink: string;
     copyLinkAria: string;
@@ -646,6 +651,21 @@ export const EN_WIDGETS: WidgetStrings = {
         },
       },
       tickHint: "Tick what you see on YouTube to sharpen this.",
+    },
+    exampleVideo: "or a video link",
+    recent: {
+      title: "Recently checked",
+      clear: "Clear",
+      clearAria: "Clear recently checked channels",
+      note: "Saved only in this browser.",
+      checkAgain: "Check {title} again",
+    },
+    earnings: {
+      title: "Estimated monthly earnings",
+      badge: "Estimate, not a payout",
+      basis: "From views on the last 30 days' uploads, assuming a mixed niche and a US, UK, Canadian or Australian audience. Pick the niche and audience in the full estimator.",
+      noUploads: "No uploads in the last 30 days, so there's nothing recent to base an estimate on.",
+      notShown: "Not shown: this channel doesn't meet the public ad revenue requirements.",
     },
     estimateEarnings: "Estimate earnings",
     copyLink: "Copy link",

@@ -43,6 +43,8 @@ interface ExtraSection {
   eyebrow: string;
   title: string;
   content: ReactNode;
+  /** Anchor id, e.g. for a FAQ answer that links to the section. */
+  id?: string;
 }
 
 interface ToolPageProps {
@@ -177,7 +179,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, how
       </section>
 
       {(extraSection ? [extraSection].flat() : []).map((x) => (
-        <section key={x.title} className="mx-auto max-w-3xl px-4 pt-20 sm:px-6">
+        <section key={x.title} id={x.id} className="mx-auto max-w-3xl scroll-mt-20 px-4 pt-20 sm:px-6">
           <SectionHeading eyebrow={x.eyebrow} title={x.title} />
           <div className="prose-cp mt-6">{x.content}</div>
         </section>
