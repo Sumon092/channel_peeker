@@ -202,7 +202,7 @@ export interface WidgetStrings {
         fanLabel: string;
         /** {hours} {shorts} — today's ad revenue thresholds */
         adLabelNow: string;
-        /** {hours} {shorts} — from Feb 1, 2027 */
+        /** {hours} {shorts} — from February 1, 2027 */
         adLabel2027: string;
         detail: string;
         adNoteNow: string;
@@ -591,8 +591,8 @@ export const EN_WIDGETS: WidgetStrings = {
         adLabelNow: "{hours} watch hours or {shorts} Shorts views",
         adLabel2027: "{hours} watch hours or {shorts} Shorts views (new applicants)",
         detail: "Watch hours and 90-day Shorts views are visible only to the channel owner in YouTube Studio. No outside tool can check them.",
-        adNoteNow: "From Feb 1, 2027, new applicants need 8,000 watch hours or 20M Shorts views.",
-        adNote2027: "Channels already in the program before Feb 1, 2027 keep their status.",
+        adNoteNow: "From February 1, 2027, new applicants need 8,000 watch hours or 20M Shorts views.",
+        adNote2027: "Channels already in the program before February 1, 2027 keep their status.",
       },
       policies: {
         label: "No active strikes, follows monetization policies",
@@ -603,10 +603,10 @@ export const EN_WIDGETS: WidgetStrings = {
     countdownOne: "1 day until YouTube's new ad revenue requirements take effect",
     countdownMany: "{n} days until YouTube's new ad revenue requirements take effect",
     active: {
-      titleNow: "Staying active, from Feb 1, 2027",
+      titleNow: "Staying active, from February 1, 2027",
       title2027: "Staying active",
       ruleNow:
-        "From Feb 1, 2027, monetized channels must stay active: 2 long videos or 5 Shorts every 90 days, or 1,000 watch hours in a year, or 1M Shorts views in 90 days.",
+        "From February 1, 2027, monetized channels must stay active: 2 long videos or 5 Shorts every 90 days, or 1,000 watch hours in a year, or 1M Shorts views in 90 days.",
       rule2027: "Monetized channels must stay active: 2 long videos or 5 Shorts every 90 days, or 1,000 watch hours in a year, or 1M Shorts views in 90 days.",
       uploadsLine: "This channel: {n} public uploads in the last 90 days.",
       uploadsLineOne: "This channel: 1 public upload in the last 90 days.",

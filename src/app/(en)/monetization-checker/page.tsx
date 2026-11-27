@@ -19,13 +19,13 @@ export const metadata = pageMetadata({
   languages: hreflangFor("/monetization-checker"),
 });
 
-/** Rows of the requirements table: [requirement, fan funding, ad revenue until Jan 31 2027, ad revenue from Feb 1 2027]. */
+/** Rows of the requirements table: [requirement, fan funding, ad revenue until January 31, 2027, ad revenue from February 1, 2027]. */
 const REQUIREMENTS: [string, string, string, string][] = [
   ["Subscribers", "500", "1,000", "1,000"],
   ["Public uploads", "3 in the last 90 days", "–", "–"],
   ["Watch hours (last 365 days)", "3,000", "4,000", "8,000"],
   ["Or Shorts views (last 90 days)", "3 million", "10 million", "20 million"],
-  ["What it unlocks", "Memberships, Supers, Shopping", "Everything above, plus ad and Premium revenue", "Same"],
+  ["What it unlocks", "Memberships, Supers, Shopping", "Everything above, plus ad and YouTube Premium revenue", "Same"],
 ];
 
 /** Niches shown in the RPM table: straight from the earnings estimator's CPM table, so the numbers always match it. */
@@ -125,21 +125,21 @@ export default function Page() {
           </>
         ),
       }}
-      meaningHeading="YouTube monetization requirements, now and from February 2027"
+      meaningHeading="YouTube monetization requirements, now and from February 1, 2027"
       meaningId={REQUIREMENTS_2027_ID}
       meaning={
         <>
           <p>
-            YouTube has two levels of monetization. The first unlocks fan funding. The second adds a share of ad and Premium revenue. On
-            February 1, 2027, the bar for the second level doubles for new channels.
+            YouTube has two levels of monetization. The first unlocks fan funding. The second adds a share of ad and Premium revenue. On February 1, 2027, the watch-hour and Shorts-view targets for the second level double for new channels. The subscriber
+            requirement stays at 1,000.
           </p>
           <table>
             <thead>
               <tr>
                 <td />
                 <th scope="col">Fan funding</th>
-                <th scope="col">Ad revenue, until Jan 31, 2027</th>
-                <th scope="col">Ad revenue, from Feb 1, 2027</th>
+                <th scope="col">Ad revenue, until January 31, 2027</th>
+                <th scope="col">Ad revenue, from February 1, 2027</th>
               </tr>
             </thead>
             <tbody>
@@ -153,6 +153,9 @@ export default function Page() {
               ))}
             </tbody>
           </table>
+          <p>
+            YouTube Premium revenue is a share of what Premium subscribers pay when they watch your videos.
+          </p>
           <p>A few things worth knowing:</p>
           <ul>
             <li>The 2027 change only applies to new applicants. Channels already in the Partner Program keep their status.</li>
@@ -209,8 +212,9 @@ export default function Page() {
                   Program.
                 </li>
                 <li>
-                  <strong>Ads on videos.</strong> This is the weakest clue. YouTube can show ads on any video, including on channels that
-                  aren&apos;t in the program and get nothing from those ads.
+                  <strong>Ads on videos.</strong> This is the weakest clue. <a href="https://support.google.com/youtube/answer/72851" target="_blank" rel="noopener noreferrer">
+                    YouTube can show ads on any video, including on channels that aren&apos;t in the program and get nothing from those ads.
+                  </a>
                 </li>
                 <li>
                   <strong>The subscriber count.</strong> A channel under 500 subscribers almost certainly hasn&apos;t qualified yet.
@@ -303,8 +307,8 @@ export default function Page() {
                   niche can pay.
                 </li>
                 <li>
-                  <strong>People buying or selling a channel.</strong> Never take &quot;monetized&quot; on trust. Ask the seller for a
-                  screenshot of the Earn page in YouTube Studio, or a screen share, because that&apos;s the only real proof.
+                  <strong>People buying or selling a channel.</strong> Never take &quot;monetized&quot; on trust. Ask the seller for a live
+                  screen share of the Earn page in YouTube Studio. It&apos;s the most reliable proof, because screenshots can be edited.
                 </li>
               </ul>
             </>
@@ -322,8 +326,8 @@ export default function Page() {
                 from the Shorts feed doesn&apos;t count toward the watch-hour target, so a channel can&apos;t mix the two.
               </p>
               <p>
-                Shorts earnings work differently too. Ad money from the Shorts feed goes into a shared pool, which is split between creators
-                based on their share of views. From February 2027, a monetized channel needs to keep 10 million Shorts views every 90 days to
+                Shorts earnings work differently too. Ad money from the Shorts feed goes into a shared pool, called the Shorts Creator Pool, which is split between creators
+                based on their share of views. From February 1, 2027, a monetized channel needs to keep 10 million Shorts views every 90 days to
                 keep earning from that pool. Missing it doesn&apos;t affect long-form earnings.
               </p>
               <p>
@@ -366,6 +370,10 @@ export default function Page() {
                 It depends far more on the topic than on the view count. Advertisers pay more to reach people who are about to spend money,
                 so a finance or software channel can earn several times more per view than a gaming or entertainment channel with the same
                 audience size.
+              </p>
+              <p>
+                Earnings are usually measured as RPM (revenue per mille): what a creator earns for every 1,000 views after YouTube&apos;s
+                share, across all their views, including ones with no ads.
               </p>
               <table>
                 <caption className="caption-bottom pt-2 text-left text-sm text-muted">
@@ -426,7 +434,7 @@ export default function Page() {
               <ul>
                 <li>
                   <strong>Going quiet.</strong> YouTube can turn off monetization for channels that haven&apos;t uploaded a video or posted
-                  for 6 months. From February 2027, monetized channels also need to stay active: 2 long videos or 5 Shorts every 90 days, or
+                  for 6 months. From February 1, 2027, monetized channels also need to stay active: 2 long videos or 5 Shorts every 90 days, or
                   1,000 watch hours in a year, or 1 million Shorts views in 90 days.
                 </li>
                 <li>
@@ -476,7 +484,7 @@ export default function Page() {
         },
         {
           q: "I'm already monetized. Do I need 8,000 hours now?",
-          a: "No. The higher bar is for new applicants only. You do need to accept YouTube's updated terms in Studio by January 31, 2027, and from February 2027 your channel needs to stay active to keep its place in the program.",
+          a: "No. The higher bar is for new applicants only. You do need to accept YouTube's updated terms in Studio by January 31, 2027, and from February 1, 2027 your channel needs to stay active to keep its place in the program.",
         },
         {
           q: "Can a channel be monetized with 500 subscribers?",
@@ -501,7 +509,7 @@ export default function Page() {
         },
         {
           q: "How do Shorts get monetized?",
-          a: "There are two separate numbers. To join the Partner Program through Shorts, a channel needs 1,000 subscribers and 10 million Shorts views in 90 days, rising to 20 million for new applicants from February 1, 2027. Once a channel is in, from February 2027 it needs to keep 10 million Shorts views every 90 days to keep earning from the Shorts Creator Pool. See the Shorts section above for more.",
+          a: "There are two separate numbers. To join the Partner Program through Shorts, a channel needs 1,000 subscribers and 10 million Shorts views in 90 days, rising to 20 million for new applicants from February 1, 2027. Once a channel is in, from February 1, 2027 it needs to keep 10 million Shorts views every 90 days to keep earning from the Shorts Creator Pool. See the Shorts section above for more.",
           link: { text: "Shorts section", href: "#shorts-and-live" },
         },
         {
@@ -527,7 +535,7 @@ export default function Page() {
         },
         {
           q: "Can a monetized channel lose monetization?",
-          a: "Yes. YouTube can switch it off if a channel stops uploading for months, breaks its monetization policies, or (from February 2027) doesn't accept the updated terms or stay active.",
+          a: "Yes. YouTube can switch it off if a channel stops uploading for months, breaks its monetization policies, or (from February 1, 2027) doesn't accept the updated terms or stay active.",
         },
         {
           q: "Can I check if a channel is monetized on my phone?",
