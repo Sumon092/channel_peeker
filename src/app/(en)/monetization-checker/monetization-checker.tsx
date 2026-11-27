@@ -421,14 +421,10 @@ function ResultCard(r: Result) {
       {countdown && (
         <p className="mt-4 flex items-center gap-2 rounded-xl bg-surface-2 px-4 py-2.5 text-sm font-medium">
           <CalendarClock className="h-4 w-4 shrink-0 text-accent-strong" aria-hidden="true" />
-          {/* The section it points to exists on the English page; localized pages get it with their page copy. */}
-          {lang === "en" ? (
-            <a href={`#${REQUIREMENTS_2027_ID}`} className="text-accent-strong underline">
-              {countdown}
-            </a>
-          ) : (
-            <span>{countdown}</span>
-          )}
+          {/* Every language's page has the 2027 requirements section with this anchor. */}
+          <a href={`#${REQUIREMENTS_2027_ID}`} className="text-accent-strong underline">
+            {countdown}
+          </a>
         </p>
       )}
 

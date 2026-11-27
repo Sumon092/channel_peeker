@@ -110,11 +110,11 @@ export function nicheRpm(niche: Niche): MoneyRange {
   return { low: niche.cpmLow * f, high: niche.cpmHigh * f };
 }
 
-/** formatMoney in any locale (US dollars): "$1.2K", "$13", "$4.95"; "1,2 K $" in French. */
+/** formatMoney in any locale (US dollars): "$1.2K", "$13", "$4.95"; "US$ 22,9 mil" in Portuguese. */
 export function formatUsd(n: number, intl = "en"): string {
   const opts: Intl.NumberFormatOptions =
     n >= 1000 ? { notation: "compact", maximumFractionDigits: 1 } : { minimumFractionDigits: n < 10 ? 2 : 0, maximumFractionDigits: n < 10 ? 2 : 0 };
-  return new Intl.NumberFormat(intl, { style: "currency", currency: "USD", currencyDisplay: "narrowSymbol", ...opts }).format(n);
+  return new Intl.NumberFormat(intl, { style: "currency", currency: "USD", currencyDisplay: "symbol", ...opts }).format(n);
 }
 
 export const formatMoney = (n: number) =>

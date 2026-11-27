@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  formatAgeIn,
+  pluralUnit,
   averageViewsPerVideo,
   channelAge,
   creationYear,
@@ -178,5 +180,36 @@ describe("formatCreatedMonth (Channel Comparison)", () => {
     expect(formatCreatedMonth("1970-01-01T00:00:00Z")).toBeNull();
     expect(formatCreatedMonth("2004-06-01T00:00:00Z")).toBeNull();
     expect(formatCreatedMonth("not a date")).toBeNull();
+  });
+});
+
+describe("formatAgeIn (translated age line)", () => {
+  const en = { year: { one: "{n} year", other: "{n} years" }, month: { one: "{n} month", other: "{n} months" }, day: { one: "{n} day", other: "{n} days" } };
+  const de = { year: { one: "{n} Jahr", other: "{n} Jahre" }, month: { one: "{n} Monat", other: "{n} Monate" }, day: { one: "{n} Tag", other: "{n} Tage" } };
+  const fr = { year: { one: "{n} an", other: "{n} ans" }, month: { other: "{n} mois" }, day: { one: "{n} jour", other: "{n} jours" } };
+  const ja = { year: { other: "{n}年" }, month: { other: "{n}か月" }, day: { other: "{n}日" } };
+
+  it("matches the English formatAge exactly", () => {
+    for (const age of [
+      { years: 18, months: 8, days: 6 },
+      { years: 1, months: 1, days: 1 },
+      { years: 0, months: 0, days: 0 },
+      { years: 2, months: 0, days: 1 },
+      { years: 0, months: 3, days: 0 },
+    ])
+      expect(formatAgeIn(age, en, "en")).toBe(formatAge(age));
+  });
+
+  it("uses each language's singular and plural forms and list style", () => {
+    expect(formatAgeIn({ years: 18, months: 8, days: 6 }, de, "de")).toBe("18 Jahre, 8 Monate und 6 Tage");
+    expect(formatAgeIn({ years: 1, months: 1, days: 1 }, de, "de")).toBe("1 Jahr, 1 Monat und 1 Tag");
+    expect(formatAgeIn({ years: 1, months: 0, days: 0 }, fr, "fr")).toBe("1 an");
+    expect(formatAgeIn({ years: 0, months: 0, days: 0 }, fr, "fr")).toBe("0 jour"); // French: 0 takes the singular
+    expect(formatAgeIn({ years: 2, months: 1, days: 0 }, fr, "fr")).toBe("2 ans et 1 mois");
+    expect(formatAgeIn({ years: 18, months: 8, days: 6 }, ja, "ja")).toBe("18年 8か月 6日");
+  });
+
+  it("formats large numbers in the locale", () => {
+    expect(pluralUnit(6825, de.day, "de")).toBe("6.825 Tage");
   });
 });

@@ -43,9 +43,9 @@ function englishLastMod(path: string): Date | undefined {
   return lastCommitDate([`:(glob)src/app/(en)${path}/*`, `:(glob)src/app${path}/*`]);
 }
 
-/** Localized page: its copy lives in locales/{locale}.ts; the page.tsx files are wiring only. */
+/** Localized page: its copy lives in locales/{locale}.ts and locales/pages/{locale}/; the page.tsx files are wiring only. */
 function localizedLastMod(locale: Locale): Date | undefined {
-  return lastCommitDate([`src/locales/${locale}.ts`]);
+  return lastCommitDate([`src/locales/${locale}.ts`, `:(glob)src/locales/pages/${locale}/*`]);
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -159,7 +159,7 @@ export function ToolPage({ tool, heading, highlight, intro, children, howTo, how
         </ol>
         {howToTip && (
           <p className="mx-auto mt-8 max-w-3xl text-center leading-relaxed text-muted">
-            <strong className="text-foreground">Tip:</strong> {howToTip}
+            <strong className="text-foreground">{L?.tipLabel ?? "Tip:"}</strong> {howToTip}
           </p>
         )}
       </section>

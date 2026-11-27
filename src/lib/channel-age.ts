@@ -42,6 +42,32 @@ export function formatAge({ years, months, days }: Age): string {
   return parts.length ? parts.join(", ") : "0 days";
 }
 
+/** One unit's wording per plural category ("one", "other", and "few"/"many" where a language has them). */
+export type UnitWords = Partial<Record<Intl.LDMLPluralRule, string>> & { other: string };
+export interface AgeUnits {
+  year: UnitWords;
+  month: UnitWords;
+  day: UnitWords;
+}
+
+/** Fills "{n}" in the right plural form for the locale ("1 year" / "2 years", "1 Jahr" / "2 Jahre", "1年"). */
+export function pluralUnit(n: number, words: UnitWords, intl: string): string {
+  const form = words[new Intl.PluralRules(intl).select(n)] ?? words.other;
+  return form.replace("{n}", n.toLocaleString(intl));
+}
+
+/**
+ * formatAge in any language: plural-correct units joined the way the language lists them
+ * ("18 years, 8 months, 6 days", "18 Jahre, 8 Monate und 6 Tage", "18年 8か月 6日"). Zero parts are left out.
+ */
+export function formatAgeIn({ years, months, days }: Age, units: AgeUnits, intl: string): string {
+  const parts = [years && pluralUnit(years, units.year, intl), months && pluralUnit(months, units.month, intl), days && pluralUnit(days, units.day, intl)].filter(
+    (x): x is string => Boolean(x),
+  );
+  if (!parts.length) return pluralUnit(0, units.day, intl);
+  return new Intl.ListFormat(intl, { type: "unit", style: "long" }).format(parts);
+}
+
 /** Whole UTC days from creation to now (0 for today or a future date). */
 export function totalDays(created: Date, now: Date): number {
   return Math.max(0, Math.round((utcMidnight(now) - utcMidnight(created)) / DAY_MS));

@@ -71,6 +71,8 @@ export interface ToolPageLabels {
   allTools: string;
   badges: [string, string];
   breadcrumbTools: string;
+  /** Label before the how-to tip, e.g. "Tip:" */
+  tipLabel: string;
 }
 
 export const LABELS: Record<Locale, ToolPageLabels> = {
@@ -90,6 +92,7 @@ export const LABELS: Record<Locale, ToolPageLabels> = {
     allTools: "Alle Tools",
     badges: ["100 % kostenlos", "Keine Anmeldung"],
     breadcrumbTools: "Tools",
+    tipLabel: "Tipp:",
   },
   ja: {
     freeBadge: "無料ツール · 登録不要",
@@ -107,6 +110,7 @@ export const LABELS: Record<Locale, ToolPageLabels> = {
     allTools: "すべてのツール",
     badges: ["完全無料", "登録不要"],
     breadcrumbTools: "ツール",
+    tipLabel: "ヒント:",
   },
   fr: {
     freeBadge: "Outil gratuit · Sans inscription",
@@ -124,6 +128,7 @@ export const LABELS: Record<Locale, ToolPageLabels> = {
     allTools: "Tous les outils",
     badges: ["100 % gratuit", "Sans inscription"],
     breadcrumbTools: "Outils",
+    tipLabel: "Astuce :",
   },
   es: {
     freeBadge: "Herramienta gratis · Sin registro",
@@ -141,6 +146,7 @@ export const LABELS: Record<Locale, ToolPageLabels> = {
     allTools: "Todas las herramientas",
     badges: ["100 % gratis", "Sin registro"],
     breadcrumbTools: "Herramientas",
+    tipLabel: "Consejo:",
   },
   pt: {
     freeBadge: "Ferramenta grátis · Sem cadastro",
@@ -158,6 +164,7 @@ export const LABELS: Record<Locale, ToolPageLabels> = {
     allTools: "Todas as ferramentas",
     badges: ["100% grátis", "Sem cadastro"],
     breadcrumbTools: "Ferramentas",
+    tipLabel: "Dica:",
   },
   ko: {
     freeBadge: "무료 도구 · 가입 불필요",
@@ -175,6 +182,7 @@ export const LABELS: Record<Locale, ToolPageLabels> = {
     allTools: "모든 도구",
     badges: ["100% 무료", "가입 불필요"],
     breadcrumbTools: "도구",
+    tipLabel: "팁:",
   },
 };
 

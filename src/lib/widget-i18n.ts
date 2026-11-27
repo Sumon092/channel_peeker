@@ -1,3 +1,4 @@
+import type { UnitWords } from "@/lib/channel-age";
 import type { ParseErrorCode } from "@/lib/youtube/parse-input";
 
 /**
@@ -323,6 +324,43 @@ export interface WidgetStrings {
     actions: { example: string; clear: string; copyResult: string; copyLink: string; copyLinkAria: string; estimateEarnings: string };
     /** Plain-text "Copy result" lines */
     copy: { views: string; needed: string; pctViewed: string; perVideo: string; progress: string; reached: string; subs: string; retention: string; footer: string };
+  };
+
+  /** Channel age checker. Optional so a language can be added on its own; the widget falls back to English. */
+  channelAge?: {
+    submit: string;
+    noHandle: string;
+    notPublicTitle: string;
+    notPublicBody: string;
+    thisChannelIs: string;
+    /** {age} */
+    ageOld: string;
+    /** {days} */
+    daysInTotal: string;
+    /** {date} {time} */
+    createdOn: string;
+    units: { year: UnitWords; month: UnitWords; day: UnitWords };
+    statSubscribers: string;
+    statViews: string;
+    statVideos: string;
+    perMonth: string;
+    perVideo: string;
+    notAvailable: string;
+    hiddenByCreator: string;
+    noVideos: string;
+    country: string;
+    notSet: string;
+    channelId: string;
+    copyId: string;
+    copyIdAria: string;
+    copyResult: string;
+    copyLink: string;
+    copyLinkAria: string;
+    openOnYouTube: string;
+    /** {title} {date} {time} {age} {days} */
+    resultText: string;
+    /** {title} */
+    resultTextNotPublic: string;
   };
 
   uploadDate: {
@@ -802,6 +840,37 @@ export const EN_WIDGETS: WidgetStrings = {
       retention: "A {len} video with {ret}% average retention = a {avd} average view duration.",
       footer: "Worked out with the channelpeeker Watch Time Calculator",
     },
+  },
+
+  channelAge: {
+    submit: "Check age",
+    noHandle: "No handle",
+    notPublicTitle: "Creation date not public",
+    notPublicBody: "YouTube doesn't give a real creation date for this channel, so its age can't be worked out.",
+    thisChannelIs: "This channel is",
+    ageOld: "{age} old",
+    daysInTotal: "{days} in total",
+    createdOn: "Created on {date} at {time}",
+    units: { year: { one: "{n} year", other: "{n} years" }, month: { one: "{n} month", other: "{n} months" }, day: { one: "{n} day", other: "{n} days" } },
+    statSubscribers: "Subscribers",
+    statViews: "Total views since creation",
+    statVideos: "Public videos",
+    perMonth: "Subscribers per month",
+    perVideo: "Average views per video",
+    notAvailable: "Not available",
+    hiddenByCreator: "Hidden by creator",
+    noVideos: "No public videos",
+    country: "Country",
+    notSet: "Not set",
+    channelId: "Channel ID",
+    copyId: "Copy ID",
+    copyIdAria: "Copy ID of this channel",
+    copyResult: "Copy result",
+    copyLink: "Copy link",
+    copyLinkAria: "Copy link to this result",
+    openOnYouTube: "Open on YouTube",
+    resultText: "{title} was created on {date} at {time} ({age} ago, or {days}).",
+    resultTextNotPublic: "{title}: creation date not public.",
   },
 
   uploadDate: {
