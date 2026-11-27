@@ -1,5 +1,8 @@
 import type { Locale } from "@/lib/i18n";
 import type { LocalizedPageContent } from "@/lib/localized-page";
+import { content as jaMonetization } from "./ja/monetization-checker";
+import { content as jaWatchTime } from "./ja/watch-time-calculator";
+import { content as jaChannelAge } from "./ja/channel-age-checker";
 import { content as esMonetization } from "./es/monetization-checker";
 import { content as esWatchTime } from "./es/watch-time-calculator";
 import { content as esChannelAge } from "./es/channel-age-checker";
@@ -15,6 +18,7 @@ import { content as ptChannelAge } from "./pt/channel-age-checker";
 
 /** Every translated page's content, for tests (pages import their own file directly). */
 export const PAGES: Partial<Record<Locale, Record<string, LocalizedPageContent>>> = {
+  ja: { "/monetization-checker": jaMonetization, "/watch-time-calculator": jaWatchTime, "/channel-age-checker": jaChannelAge },
   es: { "/monetization-checker": esMonetization, "/watch-time-calculator": esWatchTime, "/channel-age-checker": esChannelAge },
   fr: { "/monetization-checker": frMonetization, "/watch-time-calculator": frWatchTime, "/channel-age-checker": frChannelAge },
   de: { "/monetization-checker": deMonetization, "/watch-time-calculator": deWatchTime, "/channel-age-checker": deChannelAge },
